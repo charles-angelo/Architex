@@ -66,7 +66,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('lots', LotsController::class);
     Route::resource('lotCategories', LotCategoriesController::class);
     Route::resource('lotTypes', LotTypesController::class);
-
+    Route::resource('payments', PaymentController::class);
 
     Route::get('newsletter-export', [NewsletterController::class, 'export'])->name('newsletter.export');
     Route::get('contacts-export', [ContactUsController::class, 'export'])->name('contacts.export');

@@ -210,6 +210,24 @@
                         </ul>
                     </li>
 
+                    <!-- 💳 Payments -->
+                    <li>
+                        <a href="{{ route('admin.payments.index') }}"
+                            class="flex items-center px-3 py-2 rounded-lg transition
+        {{ request()->routeIs('admin.payments.*') ? 'bg-white text-[#1E4D2B] font-semibold' : 'hover:bg-white/10' }}"
+                            :class="{ 'justify-center': !sidebarOpen, 'justify-start': sidebarOpen }">
+
+                            <!-- 💳 Credit Card Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 8.25h19.5M2.25 6A1.5 1.5 0 013.75 4.5h16.5A1.5 1.5 0 0121.75 6v12a1.5 1.5 0 01-1.5 1.5H3.75A1.5 1.5 0 012.25 18V6zM5.25 13.5h3m4.5 0h6" />
+                            </svg>
+
+                            <span x-show="sidebarOpen" x-transition class="ml-3">Payments</span>
+                        </a>
+                    </li>
+
                     <!-- Newsletters -->
                     <li>
                         <a href="{{ route('admin.newsletters.index') }}"

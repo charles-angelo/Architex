@@ -56,6 +56,6 @@ class Lots extends Model
     // A lot has one payment
     public function payment()
     {
-        return $this->hasOne(Payments::class, 'lot_id');
+        return $this->hasOne(Payment::class, 'lot_id');
     }
 }

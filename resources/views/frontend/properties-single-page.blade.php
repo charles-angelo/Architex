@@ -70,7 +70,6 @@ $tabs = ['Overview', 'Sitemap', 'Amenities'];
 
                         <!-- Right Gallery -->
                         <x-image-gallery :images="$property->images->map(fn($img) => asset($img->image))" />
-
                     </div>
                 </div>
             </div>
@@ -84,7 +83,7 @@ $tabs = ['Overview', 'Sitemap', 'Amenities'];
 
             <!-- 🟢 Amenities Tab -->
             <div x-show="activeTab === 'Amenities'" x-transition>
-                <x-image-gallery :images="$allAmenities" flag="Amenities" />
+                <x-amenities-image :images="$allAmenities" flag="Amenities" />
             </div>
         </div>
     </section>

@@ -275,7 +275,6 @@
                     class="object-contain w-full h-auto">
 
                 <!-- Dynamic Lot Markers -->
-                <!-- Dynamic Lot Markers -->
                 <template x-for="(lot, index) in lots" :key="index">
                     <button
                         @click="selectLot(lot)"
@@ -290,7 +289,6 @@
                         x-text="lot.id">
                     </button>
                 </template>
-
 
             </div>
 

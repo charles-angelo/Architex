@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lots;
-use App\Models\Payments;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -14,14 +14,25 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $payments = Payments::with('lot')->get();
-        return view('payments.index', compact('payments'));
+        $payments = Payment::with([
+            'lot.block',
+            'lot.category',
+            'lot.images'
+        ])->latest()->paginate(10);
+
+        return view('admin.payments.index', compact('payments'));
+    }
+
+    public function show($id)
+    {
+        $payment = Payment::with('lot')->findOrFail($id);
+        return view('admin.payments.show', compact('payment'));
     }
 
     public function create()
     {
         $lots = Lots::doesntHave('payment')->get();
-        return view('payments.create', compact('lots'));
+        return view('admin.payments.create', compact('lots'));
     }
 
     public function store(Request $request)
@@ -38,6 +49,31 @@ class PaymentController extends Controller
 
         $lot = Lots::findOrFail($request->lot_id);
         $amount = $lot->price ?? 0;
+        $paymentAmount = $request->payment_type === 'partial' ? 50000 : $amount;
+
+        $payment = Payment::create([
+            'lot_id' => $lot->id,
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'contact_number' => $request->contact_number,
+            'telephone_number' => $request->telephone_number,
+            'total' => $amount,
+            'amount_paid' => 0,
+            'payment_method' => $request->payment_method,
+            'status' => 'unpaid',
+        ]);
+
+        if ($paymentAmount <= 0) {
+            $payment->update([
+                'amount_paid' => $amount,
+                'payment_method' => 'free',
+                'status' => 'paid',
+            ]);
+            $lot->update(['status' => 'sold']);
+
+            return redirect()->route('payments.success', ['lot_id' => $lot->id])
+                ->with('success', 'Payment not required. Lot marked as sold.');
+        }
 
         $userData = [
             'name'  => $request->full_name,
@@ -48,28 +84,6 @@ class PaymentController extends Controller
         $successUrl = route('payments.success', ['lot_id' => $lot->id]);
         $cancelUrl  = route('payments.cancel', ['lot_id' => $lot->id]);
 
-        // Determine payment amount
-        $paymentAmount = $request->payment_type === 'partial' ? 50000 : $amount;
-
-        // If payment is zero, save directly
-        if ($paymentAmount <= 0) {
-            Payments::create([
-                'lot_id' => $lot->id,
-                'full_name' => $request->full_name,
-                'email' => $request->email,
-                'contact_number' => $request->contact_number,
-                'telephone_number' => $request->telephone_number,
-                'total' => $amount,
-                'amount_paid' => $amount,
-                'payment_method' => 'free',
-                'status' => 'paid',
-            ]);
-            $lot->update(['status' => 'sold']);
-
-            return redirect($successUrl)->with('success', 'Payment not required. Lot marked as sold.');
-        }
-
-        // Create PayMongo checkout session
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
@@ -85,6 +99,7 @@ class PaymentController extends Controller
                         'currency' => 'PHP',
                         'quantity' => 1,
                         'metadata' => [
+                            'payment_id' => $payment->id,
                             'lot_id' => $lot->id,
                             'payment_type' => $request->payment_type,
                         ],
@@ -100,17 +115,14 @@ class PaymentController extends Controller
 
         if (!$response->successful()) {
             Log::error('PayMongo Error:', $response->json());
-            $data = $response->json();
             return back()->withErrors([
-                'payment' => $data['errors'][0]['detail'] ?? 'Failed to create checkout session.',
+                'payment' => $response->json()['errors'][0]['detail'] ?? 'Failed to create checkout session.',
             ]);
         }
 
-        $checkout = $response->json();
-        $attributes = $checkout['data']['attributes'];
+        $checkoutUrl = $response->json()['data']['attributes']['checkout_url'] ?? null;
 
-        // Redirect to PayMongo checkout
-        return redirect($attributes['checkout_url']);
+        return redirect($checkoutUrl);
     }
 
     public function webhook(Request $request)
@@ -122,57 +134,41 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Invalid webhook payload'], 400);
         }
 
-        $status = $payload['data']['attributes']['status']; // 'paid', 'failed', etc.
+        $status = $payload['data']['attributes']['status'];
         $checkoutId = $payload['data']['id'];
-
-        // Only save if status is 'paid'
-        if ($status !== 'paid') {
-            return response()->json(['message' => 'Payment not completed, nothing saved']);
-        }
-
-        // Extract customer info and metadata
-        $billing = $payload['data']['attributes']['billing'] ?? [];
         $lineItem = $payload['data']['attributes']['line_items'][0] ?? [];
         $metadata = $lineItem['metadata'] ?? [];
-        $lotId = $metadata['lot_id'] ?? null;
-        $paymentType = $metadata['payment_type'] ?? 'full';
-        $amountPaid = ($payload['data']['attributes']['amount'] ?? 0) / 100;
+        $paymentId = $metadata['payment_id'] ?? null;
 
-        if (!$lotId) {
-            return response()->json(['message' => 'Lot not found'], 404);
+        if (!$paymentId) {
+            return response()->json(['message' => 'Payment not found'], 404);
         }
 
-        $lot = Lots::find($lotId);
+        $payment = Payment::find($paymentId);
+        if (!$payment) {
+            return response()->json(['message' => 'Payment record not found'], 404);
+        }
+
+        $lot = Lots::find($metadata['lot_id'] ?? null);
         if (!$lot) {
             return response()->json(['message' => 'Lot not found'], 404);
         }
 
-        // Determine status
-        if ($paymentType === 'partial') {
-            $statusToSave = 'partial';
-            $lotStatus = 'reserved';
-        } else {
-            $statusToSave = 'paid';
-            $lotStatus = 'sold';
-        }
+        $amountPaid = ($payload['data']['attributes']['amount'] ?? 0) / 100;
+        $paymentType = $metadata['payment_type'] ?? 'full';
 
-        // Save payment
-        Payments::create([
-            'lot_id' => $lot->id,
-            'full_name' => $billing['name'] ?? 'Unknown',
-            'email' => $billing['email'] ?? 'Unknown',
-            'contact_number' => $billing['phone'] ?? null,
-            'telephone_number' => null,
-            'total' => $lot->price,
+        $statusToSave = $paymentType === 'partial' ? 'partial' : 'paid';
+        $lotStatus = $paymentType === 'partial' ? 'reserved' : 'sold';
+
+        $payment->update([
             'amount_paid' => $amountPaid,
-            'payment_method' => $lineItem['payment_method'] ?? 'gcash',
             'status' => $statusToSave,
             'checkout_id' => $checkoutId,
         ]);
 
         $lot->update(['status' => $lotStatus]);
 
-        return response()->json(['message' => 'Payment saved successfully']);
+        return response()->json(['message' => 'Payment updated successfully']);
     }
 
     public function success()
@@ -183,5 +179,64 @@ class PaymentController extends Controller
     public function cancel()
     {
         return view('payments.cancel');
+    }
+
+    public function edit(Payment $payment)
+    {
+        // Eager load related models for display in the form
+        $payment->load('lot.block', 'lot.category');
+
+        return view('admin.payments.edit', compact('payment'));
+    }
+
+
+    /**
+     * 🟩 ADMIN: Update payment manually
+     */
+    public function update(Request $request, $id)
+    {
+        $payment = Payment::with('lot')->findOrFail($id);
+
+        $request->validate([
+            'status' => 'required|in:paid,unpaid,partial',
+            'amount_paid' => 'nullable|numeric|min:0',
+        ]);
+
+        $payment->update([
+            'amount_paid' => $request->amount_paid ?? $payment->amount_paid,
+            'status' => $request->status,
+        ]);
+
+        // Sync lot status with payment
+        if ($payment->lot) {
+            $lotStatus = match ($request->status) {
+                'paid' => 'sold',
+                'partial' => 'reserved',
+                default => 'available',
+            };
+
+            $payment->lot->update(['status' => $lotStatus]);
+        }
+
+        return redirect()->route('admin.payments.index')->with('success', 'Payment updated successfully.');
+    }
+
+
+    /**
+     * 🟥 ADMIN: Delete payment manually
+     */
+    public function destroy($id)
+    {
+        $payment = Payment::findOrFail($id);
+        $lot = $payment->lot;
+
+        $payment->delete();
+
+        // Revert lot to available
+        if ($lot) {
+            $lot->update(['status' => 'available']);
+        }
+
+        return response()->json(['message' => 'Payment deleted successfully.']);
     }
 }
