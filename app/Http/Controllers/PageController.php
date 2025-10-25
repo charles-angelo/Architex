@@ -11,32 +11,14 @@ class PageController extends Controller
 {
     public function homepage()
     {
-        $blogs = [
-            (object) [
-                'id' => 1,
-                'image' => 'img/blogs-img1.png',
-                'category' => 'Materials',
-                'date' => '2025-01-10',
-                'title' => 'Steel Fabrication: Strength Behind Every Structure',
-            ],
-            (object) [
-                'id' => 2,
-                'image' => 'img/blogs-img2.png',
-                'category' => 'Architect',
-                'date' => '2025-01-10',
-                'title' => 'Smart Spaces: The Future of Modern Living',
-            ],
-            (object) [
-                'id' => 3,
-                'image' => 'img/blogs-img3.png',
-                'category' => 'Design',
-                'date' => '2025-01-10',
-                'title' => 'Designing Exteriors that Inspire Productivity',
-            ],
-        ];
+        $blogs = Blog::with('category')
+            ->orderBy('blog_date', 'desc')
+            ->take(3) // only show latest 3 blogs
+            ->get();
 
         return view('frontend.homepage', compact('blogs'));
     }
+
     public function aboutUs()
     {
         return view('frontend.about-us');
