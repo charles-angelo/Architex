@@ -37,6 +37,7 @@
                 <th class="px-6 py-3 w-1/5 text-center">Images</th>
                 <th class="px-6 py-3 w-1/5 text-center">Floor Plans</th>
                 <th class="px-6 py-3 w-1/5 text-center">Status</th>
+                <th class="px-6 py-3 w-1/5 text-center">Type</th>
                 <th class="px-6 py-3 rounded-tr-lg text-center whitespace-nowrap w-40">Actions</th>
             </tr>
         </thead>
@@ -97,6 +98,24 @@
                         {{ ucfirst($lot->status) }}
                     </span>
                 </td>
+
+                <!-- 🟣 Listing Type Column -->
+                <td class="px-6 py-3">
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold
+        @if($lot->listing_type == 'for_sale') bg-blue-100 text-blue-800
+        @elseif($lot->listing_type == 'for_rent') bg-purple-100 text-purple-800
+        @endif">
+                        @if($lot->listing_type == 'for_sale')
+                        FOR SALE
+                        @elseif($lot->listing_type == 'for_rent')
+                        FOR RENT
+                        @else
+                        N/A
+                        @endif
+                    </span>
+                </td>
+
+
 
                 <!-- ⚙️ Actions -->
                 <td class="px-6 py-3 whitespace-nowrap">

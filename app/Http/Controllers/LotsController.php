@@ -43,23 +43,25 @@ class LotsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'block_id'    => 'required|exists:blocks,id',
-            'category_id' => 'required|exists:lots_categories,id',
-            'type_id'     => 'required|exists:lots_types,id',
-            'lot_name'    => 'required|string|max:255',
-            'area'        => 'required|numeric|min:0',
-            'price'       => 'required|numeric|min:0',
-            'status'      => 'required|in:available,sold,reserved',
-            'description' => 'nullable|string',
-            'x'           => 'nullable|numeric',
-            'y'           => 'nullable|numeric',
-            'images.*'    => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
-            'floor_plan.*' => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:2048',
+            'block_id'      => 'required|exists:blocks,id',
+            'category_id'   => 'required|exists:lots_categories,id',
+            'type_id'       => 'required|exists:lots_types,id',
+            'lot_name'      => 'required|string|max:255',
+            'listing_type'  => 'required|in:sale,rent', // ✅ added
+            'area'          => 'required|numeric|min:0',
+            'price'         => 'required|numeric|min:0',
+            'status'        => 'required|in:available,sold,reserved',
+            'description'   => 'nullable|string',
+            'x'             => 'nullable|numeric',
+            'y'             => 'nullable|numeric',
+            'images.*'      => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'floor_plan.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:2048',
         ]);
 
+        // ✅ Create the lot
         $lot = Lots::create($validated);
 
-        // Save images
+        // ✅ Save images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -72,7 +74,7 @@ class LotsController extends Controller
             }
         }
 
-        // Save floor plans
+        // ✅ Save floor plans
         if ($request->hasFile('floor_plan')) {
             foreach ($request->file('floor_plan') as $file) {
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -80,13 +82,16 @@ class LotsController extends Controller
 
                 LotsFloorPlan::create([
                     'lots_id' => $lot->id,
-                    'floor_plan'   => 'storage/floorplan/' . $filename,
+                    'floor_plan' => 'storage/floorplan/' . $filename,
                 ]);
             }
         }
 
-        return redirect()->route('admin.lots.index')->with('success', 'Lot created successfully.');
+        return redirect()
+            ->route('admin.lots.index')
+            ->with('success', 'Lot created successfully.');
     }
+
 
 
     /**
@@ -113,28 +118,27 @@ class LotsController extends Controller
 
         try {
             $validated = $request->validate([
-                'block_id'      => 'required|exists:blocks,id',
-                'category_id'   => 'required|exists:lots_categories,id',
-                'type_id'       => 'required|exists:lots_types,id',
-                'lot_name'      => 'required|string|max:255',
-                'area'          => 'required|numeric|min:0',
-                'price'         => 'required|numeric|min:0',
-                'status'        => 'required|in:available,sold,reserved',
-                'description'   => 'nullable|string',
-                'x'             => 'nullable|numeric',
-                'y'             => 'nullable|numeric',
-                'images.*'      => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
-                'floor_plan.*'  => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:2048',
-                'remove_images' => 'nullable|array',
+                'block_id'          => 'required|exists:blocks,id',
+                'category_id'       => 'required|exists:lots_categories,id',
+                'type_id'           => 'required|exists:lots_types,id',
+                'lot_name'          => 'required|string|max:255',
+                'area'              => 'required|numeric|min:0',
+                'price'             => 'required|numeric|min:0',
+                'status'            => 'required|in:available,sold,reserved',
+                'listing_type'      => 'required|in:sale,rent', // 👈 Added validation
+                'description'       => 'nullable|string',
+                'x'                 => 'nullable|numeric',
+                'y'                 => 'nullable|numeric',
+                'images.*'          => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+                'floor_plan.*'      => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:2048',
+                'remove_images'     => 'nullable|array',
                 'remove_floorplans' => 'nullable|array',
             ]);
 
             // Update lot details
             $lot->update($validated);
 
-            /** ----------------------------------------
-             *  REMOVE SELECTED IMAGES
-             * ---------------------------------------- */
+            /** 🗑️ Remove selected images */
             if ($request->filled('remove_images')) {
                 foreach ($request->remove_images as $imgId) {
                     $img = LotsImage::find($imgId);
@@ -148,9 +152,7 @@ class LotsController extends Controller
                 Log::info('Removed selected images', ['lot_id' => $lot->id]);
             }
 
-            /** ----------------------------------------
-             *  REMOVE SELECTED FLOOR PLANS
-             * ---------------------------------------- */
+            /** 🗑️ Remove selected floor plans */
             if ($request->filled('remove_floorplans')) {
                 foreach ($request->remove_floorplans as $fpId) {
                     $fp = LotsFloorPlan::find($fpId);
@@ -164,9 +166,7 @@ class LotsController extends Controller
                 Log::info('Removed selected floor plans', ['lot_id' => $lot->id]);
             }
 
-            /** ----------------------------------------
-             *  ADD NEW IMAGES
-             * ---------------------------------------- */
+            /** 📸 Add new images */
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $file) {
                     $filename = time() . '_' . $file->getClientOriginalName();
@@ -177,12 +177,10 @@ class LotsController extends Controller
                         'image'   => 'storage/lots/' . $filename,
                     ]);
                 }
-                Log::info('New images added to lot', ['lot_id' => $lot->id]);
+                Log::info('New images added', ['lot_id' => $lot->id]);
             }
 
-            /** ----------------------------------------
-             *  ADD NEW FLOOR PLANS
-             * ---------------------------------------- */
+            /** 📐 Add new floor plans */
             if ($request->hasFile('floor_plan')) {
                 foreach ($request->file('floor_plan') as $file) {
                     $filename = time() . '_' . $file->getClientOriginalName();
@@ -207,6 +205,7 @@ class LotsController extends Controller
             return back()->with('error', 'Something went wrong during update.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

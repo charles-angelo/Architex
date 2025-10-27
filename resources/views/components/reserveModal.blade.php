@@ -54,9 +54,10 @@
                                 <p>Lot Area: <span x-text="`${activeLot.size ?? 0}`"></span></p>
                                 <p>Type: <span x-text="activeLot.type ?? 'N/A'"></span></p>
                                 <p class="font-semibold">
-                                    <span x-text="activeLot.price && !isNaN(Number(activeLot.price))
-                                        ? `Price: ₱${Number(activeLot.price).toLocaleString()}` 
-                                        : 'Price: N/A'"></span>
+                                    <span x-text="activeLot?.price 
+                            ? `Price: ${activeLot.price.toLocaleString()}` 
+                            : 'Price: N/A'"></span>
+
                                 </p>
                                 <p>Status:
                                     <span :class="{
@@ -135,8 +136,11 @@
                 </div>
 
                 <!-- STEP 2 -->
-                <form x-show="step === 2 && !paymentSuccess" x-transition
-                    action="{{ route('payments.store') }}" method="POST"
+                <form
+                    x-show="step === 2 && !paymentSuccess"
+                    x-transition
+                    action="{{ route('payments.store') }}"
+                    method="POST"
                     class="p-6 space-y-6 overflow-y-auto max-h-[80vh]">
                     @csrf
                     <input type="hidden" name="lot_id" :value="activeLot?.id ?? ''">
@@ -146,6 +150,12 @@
                     <input type="hidden" name="telephone_number" x-model="telephoneNumber">
                     <input type="hidden" name="total" :value="activeLot?.price ?? 0">
 
+                    <!-- 👇 New hidden field for STATUS -->
+                    <input
+                        type="hidden"
+                        name="status"
+                        :value="paymentType === 'full' ? 'paid' : 'partial'">
+
                     <div class="bg-[#d3e3d5] text-[#1E4D2B] px-4 py-2 font-semibold rounded-md">
                         Select Payment Amount:
                     </div>
@@ -153,16 +163,18 @@
                     <div class="flex gap-4 mt-2">
                         <label class="flex-1 cursor-pointer border rounded-md p-4 text-center"
                             :class="paymentType === 'partial' ? 'border-[#1E4D2B] bg-[#e2f1e6]' : ''">
-                            <input type="radio" name="payment_type" value="partial" x-model="paymentType" class="hidden">
+                            <input type="radio" value="partial" x-model="paymentType" class="hidden">
                             <div class="font-semibold">Partial Down Payment</div>
                             <div class="text-sm text-gray-600">₱50,000</div>
                         </label>
 
                         <label class="flex-1 cursor-pointer border rounded-md p-4 text-center"
                             :class="paymentType === 'full' ? 'border-[#1E4D2B] bg-[#e2f1e6]' : ''">
-                            <input type="radio" name="payment_type" value="full" x-model="paymentType" class="hidden">
+                            <input type="radio" value="full" x-model="paymentType" class="hidden">
                             <div class="font-semibold">Full Payment</div>
-                            <div class="text-sm text-gray-600" x-text="`₱${activeLot?.price?.toLocaleString() ?? 0}`"></div>
+                            <div class="text-sm text-gray-600"
+                                x-text="`${activeLot?.price?.toLocaleString() ?? 0}`">
+                            </div>
                         </label>
                     </div>
 
@@ -184,6 +196,17 @@
                                     <p class="text-sm text-gray-600">Use your PayMaya account to complete payment.</p>
                                 </div>
                             </label>
+
+                            <!-- 🟣 NEW: Pay Later option -->
+                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer bg-yellow-50 border-yellow-300">
+                                <input type="radio" name="payment_method" class="mt-1 text-yellow-600" value="pay_later">
+                                <div>
+                                    <p class="font-semibold text-yellow-700">Pay Later</p>
+                                    <p class="text-sm text-gray-600">
+                                        Reserve now and pay within 3 days to keep your lot. Unpaid reservations will be automatically canceled.
+                                    </p>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
@@ -200,6 +223,7 @@
                         </button>
                     </div>
                 </form>
+
             </div>
         </div>
     </template>

@@ -83,6 +83,16 @@
             </select>
         </div>
 
+        {{-- 🏷️ Listing Type --}}
+        <div>
+            <label for="listing_type" class="block text-sm font-medium text-gray-700">Listing Type</label>
+            <select name="listing_type" id="listing_type" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+                <option value="sale" {{ old('listing_type', $lot->listing_type) == 'sale' ? 'selected' : '' }}>For Sale</option>
+                <option value="rent" {{ old('listing_type', $lot->listing_type) == 'rent' ? 'selected' : '' }}>For Rent</option>
+            </select>
+            @error('listing_type') <div class="text-red-600 text-sm">{{ $message }}</div> @enderror
+        </div>
+
         {{-- Description --}}
         <div>
             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>

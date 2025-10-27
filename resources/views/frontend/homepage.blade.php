@@ -282,9 +282,9 @@ $heroes = [
                 <div
                     class="group bg-white rounded-sm shadow-sm hover:shadow-md transition overflow-visible border-b-4 border-transparent hover:border-[#253e16] duration-300">
 
-                    <!-- Image Wrapper -->
+                    <!-- Image -->
                     <div class="relative w-full h-64 overflow-hidden">
-                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}"
+                        <img src="{{ asset($item->blog_image) }}" alt="{{ $item->blog_title }}"
                             class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105">
                     </div>
 
@@ -298,7 +298,7 @@ $heroes = [
                             <div
                                 class="flex items-center justify-center w-1/2 gap-2 text-center border-r border-gray-400 group-hover:border-gray-500">
                                 <span class="text-base mingcute--pencil-ruler-line"></span>
-                                <span>{{ $item->category->name ?? 'Uncategorized' }}</span>
+                                <span>{{ $item->category->category_name ?? 'Uncategorized' }}</span>
                             </div>
 
                             <!-- Date -->

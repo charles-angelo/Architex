@@ -15,10 +15,11 @@
                 id: lot.id ?? null,
                 name: lot.name ?? 'Unnamed Lot',
                 address: lot.block && lot.name 
-                 ? `Block ${lot.block}, Lot ${lot.name}` 
+                 ? `Block ${lot.block}, ${lot.name}` 
                  : 'Address not available',
                 type: lot.type ?? 'N/A',
                 category: lot.category ?? 'N/A',
+                 listing_type: lot.listing_type ?? 'N/A',
                 description: lot.description ?? 'No description available.',
                 highlights: lot.highlights ?? '',
                 house_details: lot.images ?? [],
@@ -78,7 +79,23 @@
                             <!-- Header -->
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <h2 class="text-3xl font-bold text-[#1E4D2B]" x-text="activeLot.name"></h2>
+                                    <h2 class="text-3xl font-bold text-[#1E4D2B] flex items-center gap-3">
+                                        <span x-text="activeLot.name"></span>
+                                        <span
+                                            class="text-sm font-semibold px-3 py-1 rounded-full"
+                                            :class="{
+                                                'bg-green-100 text-green-700': activeLot.listing_type === 'for_sale',
+                                                'bg-blue-100 text-blue-700': activeLot.listing_type === 'for_rent'
+                                            }"
+                                            x-text="
+                                                activeLot.listing_type === 'for_sale'
+                                                    ? 'FOR SALE'
+                                                    : (activeLot.listing_type === 'for_rent'
+                                                        ? 'FOR RENT'
+                                                        : '')
+                                            ">
+                                        </span>
+                                    </h2>
                                     <div class="flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" class="text-[#1E4D2B]">
                                             <path fill="currentColor" d="M6 .5A4.5 4.5 0 0 1 10.5 5c0 1.863-1.42 3.815-4.2 5.9a.5.5 0 0 1-.6 0C2.92 8.815 1.5 6.863 1.5 5A4.5 4.5 0 0 1 6 .5m0 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3" />

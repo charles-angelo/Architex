@@ -50,7 +50,10 @@ Route::post('/contact-us', [ContactUsController::class, 'store'])->name('contact
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
 Route::get('/payments/success', [PaymentController::class, 'success'])->name('payments.success');
 Route::get('/payments/cancel', [PaymentController::class, 'cancel'])->name('payments.cancel');
-Route::post('/payments/webhook', [PaymentController::class, 'webhook'])->name('payments.webhook');
+
+Route::get('/properties/property-details/{id}/for-rent', [PageController::class, 'propertyForRent'])
+    ->name('properties.for-rent');
+Route::get('/properties/{id}/for-sale', [PageController::class, 'propertyForSale'])->name('properties.for_sale');
 
 
 

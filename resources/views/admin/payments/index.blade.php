@@ -17,9 +17,10 @@
                 <th class="px-6 py-3 text-center">Email</th>
                 <th class="px-6 py-3 text-center">Contact</th>
                 <th class="px-6 py-3 text-center">Method</th>
+                <th class="px-6 py-3 text-center">Total Amount</th>
                 <th class="px-6 py-3 text-center">Amount Paid</th>
                 <th class="px-6 py-3 text-center">Status</th>
-                <th class="px-6 py-3 text-center rounded-tr-lg">Actions</th>
+                <th class="px-6 py-3 text-center rounded-tr-lg w-80">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@
                 <td class="px-6 py-3 text-center text-gray-600">{{ $payment->email }}</td>
                 <td class="px-6 py-3 text-center">{{ $payment->contact_number }}</td>
                 <td class="px-6 py-3 text-center capitalize">{{ $payment->payment_method }}</td>
+                <td class="px-6 py-3 text-center font-semibold">₱{{ number_format($payment->total, 2) }}</td>
                 <td class="px-6 py-3 text-center font-semibold">₱{{ number_format($payment->amount_paid, 2) }}</td>
                 <td class="px-6 py-3 text-center">
                     @switch($payment->status)
@@ -70,7 +72,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="9" class="text-center py-6 text-gray-500">No payments found.</td>
+                <td colspan="10" class="text-center py-6 text-gray-500">No payments found.</td>
             </tr>
             @endforelse
         </tbody>

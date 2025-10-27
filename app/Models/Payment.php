@@ -18,6 +18,7 @@ class Payment extends Model
     public const STATUS_UNPAID = 'unpaid';
     public const STATUS_PARTIAL = 'partial';
 
+
     /**
      * The attributes that are mass assignable.
      */
@@ -27,6 +28,8 @@ class Payment extends Model
         'email',
         'contact_number',
         'telephone_number',
+        'amount_paid',
+        'total',
         'payment_method',
         'status',
     ];

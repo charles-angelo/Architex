@@ -16,6 +16,7 @@ class Lots extends Model
         'lot_name',
         'area',
         'price',
+        'listing_type',
         'status',
         'description',
         'position',

@@ -29,6 +29,6 @@ class Block extends Model
     // A block has many lots
     public function lots()
     {
-        return $this->hasMany(Lot::class, 'block_id');
+        return $this->hasMany(Lots::class, 'block_id');
     }
 }

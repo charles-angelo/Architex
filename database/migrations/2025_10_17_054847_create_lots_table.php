@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('area', 10, 2);
             $table->decimal('price', 15, 2);
             $table->enum('status', ['available', 'sold', 'reserved'])->default('available');
+            $table->enum('listing_type', ['for_sale', 'for_rent'])->default('for_sale');
             $table->text('description')->nullable();
             $table->text('position')->nullable();
             $table->timestamps();
