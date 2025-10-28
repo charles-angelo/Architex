@@ -80,7 +80,7 @@
                     </li>
 
                     <!-- Services -->
-                    <li>
+                    <!-- <li>
                         <a href="{{ route('admin.services.index') }}"
                             class="flex items-center px-3 py-2 rounded-lg transition
                             {{ request()->routeIs('admin.services.*') ? 'bg-white text-[#1E4D2B] font-semibold' : 'hover:bg-white/10' }}"
@@ -91,7 +91,7 @@
                             </svg>
                             <span x-show="sidebarOpen" x-transition class="ml-3">Services</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <!-- Content Management Dropdown -->
                     <li

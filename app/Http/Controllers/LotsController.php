@@ -18,7 +18,10 @@ class LotsController extends Controller
      */
     public function index()
     {
-        $lots = Lots::with(['block', 'category', 'type', 'images'])->latest()->paginate(10);
+        $lots = Lots::with(['block', 'category', 'type', 'images'])
+            ->orderBy('id', 'asc')
+            ->get();
+
         $blocks = Block::all();
         $types = LotsType::all();
 
@@ -47,7 +50,7 @@ class LotsController extends Controller
             'category_id'   => 'required|exists:lots_categories,id',
             'type_id'       => 'required|exists:lots_types,id',
             'lot_name'      => 'required|string|max:255',
-            'listing_type'  => 'required|in:sale,rent', // ✅ added
+            'listing_type'  => 'required|in:for_sale,for_rent', // ✅ added
             'area'          => 'required|numeric|min:0',
             'price'         => 'required|numeric|min:0',
             'status'        => 'required|in:available,sold,reserved',
@@ -118,14 +121,14 @@ class LotsController extends Controller
 
         try {
             $validated = $request->validate([
-                'block_id'          => 'required|exists:blocks,id',
-                'category_id'       => 'required|exists:lots_categories,id',
-                'type_id'           => 'required|exists:lots_types,id',
+                'block_id'          => 'nullable|exists:blocks,id',
+                'category_id'       => 'nullable|exists:lots_categories,id',
+                'type_id'           => 'nullable|exists:lots_types,id',
                 'lot_name'          => 'required|string|max:255',
                 'area'              => 'required|numeric|min:0',
                 'price'             => 'required|numeric|min:0',
                 'status'            => 'required|in:available,sold,reserved',
-                'listing_type'      => 'required|in:sale,rent', // 👈 Added validation
+                'listing_type'      => 'required|in:for_sale,for_rent', // 👈 Added validation
                 'description'       => 'nullable|string',
                 'x'                 => 'nullable|numeric',
                 'y'                 => 'nullable|numeric',

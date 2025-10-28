@@ -98,4 +98,12 @@
         height: 600px;
         position: relative;
     }
+
+    .dataTables_filter input {
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        padding: 6px 10px;
+        outline: none;
+        font-size: 0.875rem;
+    }
 </style>

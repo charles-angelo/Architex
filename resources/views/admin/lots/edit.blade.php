@@ -13,7 +13,7 @@
         {{-- Block --}}
         <div>
             <label for="block_id" class="block text-sm font-medium text-gray-700">Block</label>
-            <select name="block_id" id="block_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+            <select name="block_id" id="block_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 <option value="">Select Block</option>
                 @foreach($blocks as $block)
                 <option value="{{ $block->id }}" {{ old('block_id', $lot->block_id) == $block->id ? 'selected' : '' }}>
@@ -27,7 +27,7 @@
         {{-- Category --}}
         <div>
             <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-            <select name="category_id" id="category_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+            <select name="category_id" id="category_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 <option value="">Select Category</option>
                 @foreach($categories as $cat)
                 <option value="{{ $cat->id }}" {{ old('category_id', $lot->category_id) == $cat->id ? 'selected' : '' }}>
@@ -41,7 +41,7 @@
         {{-- Type --}}
         <div>
             <label for="type_id" class="block text-sm font-medium text-gray-700">Type</label>
-            <select name="type_id" id="type_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+            <select name="type_id" id="type_id" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 <option value="">Select Type</option>
                 @foreach($types as $type)
                 <option value="{{ $type->id }}" {{ old('type_id', $lot->type_id) == $type->id ? 'selected' : '' }}>
@@ -63,8 +63,17 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label for="area" class="block text-sm font-medium text-gray-700">Area (sqm)</label>
-                <input type="number" name="area" id="area" value="{{ old('area', $lot->area) }}" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+                <input
+                    type="number"
+                    name="area"
+                    id="area"
+                    step="0.01"
+                    min="0"
+                    value="{{ old('area', $lot->area) }}"
+                    class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                    required>
             </div>
+
             <div>
                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                 <input type="number" name="price" id="price" value="{{ old('price', $lot->price) }}" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
@@ -87,8 +96,8 @@
         <div>
             <label for="listing_type" class="block text-sm font-medium text-gray-700">Listing Type</label>
             <select name="listing_type" id="listing_type" class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
-                <option value="sale" {{ old('listing_type', $lot->listing_type) == 'sale' ? 'selected' : '' }}>For Sale</option>
-                <option value="rent" {{ old('listing_type', $lot->listing_type) == 'rent' ? 'selected' : '' }}>For Rent</option>
+                <option value="for_sale" {{ old('listing_type', $lot->listing_type) == 'for_sale' ? 'selected' : '' }}>For Sale</option>
+                <option value="for_rent" {{ old('listing_type', $lot->listing_type) == 'for_rent' ? 'selected' : '' }}>For Rent</option>
             </select>
             @error('listing_type') <div class="text-red-600 text-sm">{{ $message }}</div> @enderror
         </div>

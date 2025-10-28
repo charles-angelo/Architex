@@ -147,11 +147,6 @@
         </tbody>
     </table>
 </div>
-
-<!-- Pagination -->
-<div class="mt-6">
-    {{ $lots->links() }}
-</div>
 @endsection
 
 @push('scripts')

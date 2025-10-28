@@ -8,36 +8,39 @@
     x-data="{
         activeTab: 'Sitemap',
         activeLot: null,
+        hoveredLot: null,
         lots: @js($lots),
+
+        // Mapplic-like coordinate handling
+        mapWidth: 0,
+        mapHeight: 0,
 
         selectLot(lot) {
             this.activeLot = {
                 id: lot.id ?? null,
                 name: lot.name ?? 'Unnamed Lot',
                 address: lot.block && lot.name 
-                 ? `Block ${lot.block}, ${lot.name}` 
-                 : 'Address not available',
+                    ? `Block ${lot.block}, ${lot.name}`
+                    : 'Address not available',
                 type: lot.type ?? 'N/A',
                 category: lot.category ?? 'N/A',
-                 listing_type: lot.listing_type ?? 'N/A',
+                listing_type: lot.listing_type ?? 'N/A',
                 description: lot.description ?? 'No description available.',
                 highlights: lot.highlights ?? '',
                 house_details: lot.images ?? [],
-                floor_plans: lot.floorPlans ?? [], // ✅ add this
-                position: lot.position ?? '',
+                floor_plans: lot.floorPlans ?? [],
+                position: lot.position ?? { x: 0, y: 0 },
                 size: lot.size ?? 'N/A',
                 price: lot.price ?? 'N/A',
                 status: lot.status ?? 'N/A',
             };
 
             this.$nextTick(() => {
-                // Update house gallery
                 if (typeof galleryComponent !== 'undefined' && this.activeLot.house_details?.length) {
                     galleryComponent.house_details = this.activeLot.house_details;
                     galleryComponent.current = 0;
                 }
 
-                // Update floor plan gallery
                 if (typeof floorPlanGalleryComponent !== 'undefined' && this.activeLot.floor_plans?.length) {
                     floorPlanGalleryComponent.plans = this.activeLot.floor_plans;
                     floorPlanGalleryComponent.current = 0;
@@ -46,8 +49,21 @@
         },
 
         resetLot() { this.activeLot = null; },
+
+        getLotStyle(lot) {
+            if (!lot.position) return '';
+            const x = lot.position.x;
+            const y = lot.position.y;
+            return `left:${x}px;top:${y}px;transform:translate(-50%,-50%);`;
+        }
     }"
-    class="w-full">
+    x-init="
+        const img = $el.querySelector('.sitemap-image');
+        if (img.complete) { mapWidth = img.clientWidth; mapHeight = img.clientHeight; }
+        img.onload = () => { mapWidth = img.clientWidth; mapHeight = img.clientHeight; };
+    "
+    class="w-full relative">
+
 
     <!-- Sitemap Section -->
     <div x-show="activeTab === 'Sitemap'" x-transition>
@@ -284,33 +300,71 @@
                 </div>
             </div>
 
-            <!-- 🗺️ Right Panel: Sitemap -->
             <div class="relative overflow-hidden">
-                <!-- Background Map -->
-                <img src="{{ asset('img/properties/sitemap.svg') }}"
+                <img
+                    src="{{ asset('img/properties/sitemap.svg') }}"
                     alt="Sitemap"
-                    class="object-contain w-full h-auto">
+                    class="object-contain w-full h-auto sitemap-image pointer-events-none select-none">
 
-                <!-- Dynamic Lot Markers -->
+                @php
+                // Detect which route the page is on
+                $isForSaleOrRent =
+                str_contains(request()->path(), '/for-sale') ||
+                str_contains(request()->path(), '/for-rent');
+                @endphp
+
+                <!-- 🗺️ Clickable Lots -->
                 <template x-for="(lot, index) in lots" :key="index">
+
+                    @if ($isForSaleOrRent)
+                    <!-- 🟢 For-Sale / For-Rent Lot Buttons -->
                     <button
                         @click="selectLot(lot)"
                         class="absolute flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
                         :style="`left: ${lot.position.x}px; top: ${lot.position.y}px; transform: translate(-50%, -50%);`"
                         :class="{
-            'bg-green-700': lot.status === 'Available',
-            'bg-yellow-400': lot.status === 'Reserved',
-            'bg-red-500': lot.status === 'Sold',
-            'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
-        }"
+                'bg-green-700': lot.status === 'Available',
+                'bg-yellow-400': lot.status === 'Reserved',
+                'bg-red-500': lot.status === 'Sold',
+                'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
+            }"
                         x-text="lot.id">
                     </button>
+                    @else
+                    <!-- 🟤 Hidden / Transparent Lots with Tooltip -->
+                    <div class="absolute" :style="getLotStyle(lot)">
+                        <!-- Invisible Clickable Area -->
+                        <button
+                            @click="selectLot(lot)"
+                            class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
+                            :style="`
+                    width: 32px;
+                    height: 32px;
+                    background: transparent;
+                    border: none;
+                    pointer-events: auto;
+                    box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
+                    transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
+                    z-index: ${hoveredLot === lot.id ? 50 : 1};
+                `"
+                            @mouseenter="hoveredLot = lot.id"
+                            @mouseleave="hoveredLot = null">
+                        </button>
+
+                        <!-- Tooltip -->
+                        <div
+                            x-show="hoveredLot === lot.id"
+                            class="absolute -translate-x-1/2 left-1/2 -top-7 bg-[#1E4D2B] text-white text-xs px-2 py-1 rounded-md pointer-events-none whitespace-nowrap z-50"
+                            x-text="lot.name">
+                        </div>
+                    </div>
+                    @endif
+
                 </template>
-
             </div>
-
         </div>
     </div>
+</div>
 </div>
 
 <script>
