@@ -8,6 +8,19 @@
 
 <!-- Top Bar -->
 <div class="flex justify-between items-center mb-6">
+
+    <!-- 🔍 Block Filter -->
+    <div class="flex items-center gap-3">
+        <label for="blockFilter" class="font-medium text-gray-700">Filter by Block:</label>
+        <select id="blockFilter"
+            class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+            <option value="">All Blocks</option>
+            @foreach($blocks as $block)
+            <option value="{{ $block->block_number }}">{{ $block->block_number }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <!-- Create Button -->
     <a href="{{ route('admin.lots.create') }}"
         class="ml-auto inline-flex items-center gap-2 text-sm bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200">
@@ -152,8 +165,19 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#lots-table').DataTable({
+        let table = $('#lots-table').DataTable({
             ordering: false
+        });
+
+        // ✅ Filter by Block
+        $('#blockFilter').on('change', function() {
+            let selectedBlock = $(this).val();
+            if (selectedBlock) {
+                // Filter by the Block column (3rd column, index starts at 0)
+                table.column(2).search('^' + selectedBlock + '$', true, false).draw();
+            } else {
+                table.column(2).search('').draw();
+            }
         });
 
         // ✅ SweetAlert Delete

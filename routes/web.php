@@ -55,6 +55,9 @@ Route::get('/properties/property-details/{id}/for-rent', [PageController::class,
     ->name('properties.for-rent');
 Route::get('/properties/{id}/for-sale', [PageController::class, 'propertyForSale'])->name('properties.for_sale');
 
+Route::view('/terms-and-conditions', 'frontend.terms')->name('terms');
+Route::view('/privacy-policy', 'frontend.privacy')->name('privacy');
+
 
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {

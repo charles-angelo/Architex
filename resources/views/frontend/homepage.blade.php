@@ -2,20 +2,7 @@
 
 
 @section('content')
-@php
-// Example heroes data (you can make this dynamic too)
-$heroes = [
-[
-'title' => 'Innovation in <br> Every Design',
-'description' =>
-'We create architectural solutions that blend functionality, sustainability, and aesthetics—shaping modern environments that inspire and endure.',
-'button_text' => 'Explore Properties',
-'button_link' => '/properties',
-'video' => 'img/homepage/family1.mp4',
-'fallback_image' => 'assets/images/banners/BANNER_1.png',
-],
-];
-@endphp
+
 
 <section>
     @include('components.banner', [
@@ -190,15 +177,24 @@ $heroes = [
         </h2>
 
         <div class="space-y-10">
-            <x-service-card title="Property for Sale"
+            @foreach($properties as $property)
+            {{-- 🏠 Property for Sale --}}
+            <x-service-card
+                title="Property for Sale"
                 description="Invest in a property built to last. Our homes and spaces are crafted with durability, style, and value in mind, giving you the opportunity to own a place that matches both your lifestyle and future goals."
-                button-text="See All For Sale" button-link="{{ route('properties.show') }}"
+                button-text="See All For Sale"
+                :button-link="route('properties.for_sale', ['id' => $property->id])"
                 image="img/homepage/sale.png" />
 
-            <x-service-card title="Property for Rent"
-                description="Flexible housing and property options designed for modern living. Our rental units offer comfort, convenience, and functionality—perfect for families, professionals, and businesses seeking quality spaces without long-term commitment."
-                button-text="See All For Rent" button-link="{{ route('properties.show') }}"
-                image="img/homepage/rent.png" :reverse="true" />
+            {{-- 🏘️ Property for Rent --}}
+            <x-service-card
+                title="Property for Rent"
+                description="Flexible housing and property options designed for modern living. Find your perfect space with comfort, convenience, and security in mind."
+                button-text="See All For Rent"
+                :button-link="route('properties.for-rent', ['id' => $property->id])"
+                image="img/homepage/rent.png"
+                :reverse="true" />
+            @endforeach
         </div>
     </div>
 </section>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Lots;
 use App\Models\Properties;
@@ -13,11 +14,34 @@ class PageController extends Controller
     {
         $blogs = Blog::with('category')
             ->orderBy('blog_date', 'desc')
-            ->take(3) // only show latest 3 blogs
+            ->take(3)
             ->get();
 
-        return view('frontend.homepage', compact('blogs'));
+        $properties = Properties::all();
+
+        // ✅ Fetch banners dynamically
+        $banners = Banner::latest()->get();
+
+        // ✅ Transform banners for <x-banner2>
+        $heroes = $banners->map(function ($banner) {
+            $extension = pathinfo($banner->image, PATHINFO_EXTENSION);
+            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi']);
+            $isGif = strtolower($extension) === 'gif';
+
+            return [
+                'title' => $banner->title,
+                'description' => $banner->subtitle ?? '',
+                'video' => $isVideo ? $banner->image : null,
+                'fallback_image' => !$isVideo ? $banner->image : null,
+                'is_gif' => $isGif,
+                'button_text' => 'Learn More', // optional
+                'button_link' => '#', // optional
+            ];
+        });
+
+        return view('frontend.homepage', compact('blogs', 'heroes', 'properties'));
     }
+
 
     public function aboutUs()
     {

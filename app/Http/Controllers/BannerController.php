@@ -33,24 +33,24 @@ class BannerController extends Controller
         Log::info('Banner store method called', ['request_data' => $request->all()]);
 
         try {
-            // ✅ First basic validation (title + subtitle)
+            // ✅ Validation (supports images, GIFs, and videos)
             $request->validate([
                 'title'    => 'required|string|max:255',
                 'subtitle' => 'nullable|string|max:255',
-                'image'    => 'required|file|mimes:jpg,jpeg,png,webp,mp4,mov,avi', // check type only
+                'media'    => 'required|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi',
             ]);
 
-            $file = $request->file('image');
+            $file = $request->file('media');
             $mimeType = $file->getMimeType();
 
-            // ✅ Determine size limit based on type
+            // ✅ Determine file size limit (GIF included with images)
             $maxSize = str_starts_with($mimeType, 'image/')
-                ? 2 * 1024 * 1024  // 2 MB for images
+                ? 5 * 1024 * 1024 // 5 MB for images and GIFs
                 : 25 * 1024 * 1024; // 25 MB for videos
 
             if ($file->getSize() > $maxSize) {
                 return back()->withErrors([
-                    'image' => 'File too large! Maximum is ' . ($maxSize / 1024 / 1024) . ' MB.'
+                    'media' => 'File too large! Max size is ' . ($maxSize / 1024 / 1024) . ' MB.'
                 ])->withInput();
             }
 
@@ -59,11 +59,11 @@ class BannerController extends Controller
             $file->move(public_path('storage/banners'), $filename);
             $filePath = 'storage/banners/' . $filename;
 
-            // ✅ Create record
+            // ✅ Save to database
             Banner::create([
                 'title'    => $request->title,
                 'subtitle' => $request->subtitle,
-                'image'    => $filePath,
+                'image'    => $filePath, // keep column name 'image' for backward compatibility
             ]);
 
             Log::info('Banner created successfully', ['file_path' => $filePath]);
@@ -84,7 +84,6 @@ class BannerController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -104,36 +103,49 @@ class BannerController extends Controller
         ]);
 
         try {
+            // ✅ Validation (GIF now allowed)
             $validated = $request->validate([
                 'title'    => 'required|string|max:255',
                 'subtitle' => 'nullable|string|max:255',
-                'image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2000',
+                'media'    => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi',
             ]);
 
-            Log::info('Validation passed for banner update', ['validated' => $validated]);
+            if ($request->hasFile('media')) {
+                $file = $request->file('media');
+                $mimeType = $file->getMimeType();
 
-            if ($request->hasFile('image')) {
-                // Upload new file
-                $filename = time() . '_' . $request->file('image')->getClientOriginalName();
-                $request->file('image')->move(public_path('storage/banners'), $filename);
+                // ✅ Determine limit (GIF included)
+                $maxSize = str_starts_with($mimeType, 'image/')
+                    ? 5 * 1024 * 1024
+                    : 25 * 1024 * 1024;
 
-                // Delete old file if exists
-                if ($banner->image && file_exists(public_path($banner->image))) {
-                    unlink(public_path($banner->image));
-                    Log::info('Old image deleted', ['old_image' => $banner->image]);
+                if ($file->getSize() > $maxSize) {
+                    return back()->withErrors([
+                        'media' => 'File too large! Max size is ' . ($maxSize / 1024 / 1024) . ' MB.'
+                    ])->withInput();
                 }
 
-                $validated['image'] = 'storage/banners/' . $filename;
-                Log::info('New image stored successfully', ['new_image' => $validated['image']]);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('storage/banners'), $filename);
+                $filePath = 'storage/banners/' . $filename;
+
+                // ✅ Delete old file
+                if ($banner->image && file_exists(public_path($banner->image))) {
+                    unlink(public_path($banner->image));
+                    Log::info('Old media deleted', ['old_file' => $banner->image]);
+                }
+
+                $validated['image'] = $filePath;
+                Log::info('New media stored successfully', ['new_file' => $validated['image']]);
             } else {
                 $validated['image'] = $banner->image;
-                Log::info('No new image uploaded, keeping old one', ['existing_image' => $banner->image]);
+                Log::info('No new media uploaded, keeping old one', ['existing_file' => $banner->image]);
             }
 
             $banner->update($validated);
 
-            Log::info('Banner updated successfully in database', [
-                'banner_id'    => $banner->id,
+            Log::info('Banner updated successfully', [
+                'banner_id' => $banner->id,
                 'updated_data' => $validated
             ]);
 
@@ -156,13 +168,11 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        // Delete image file if exists
         if ($banner->image && file_exists(public_path($banner->image))) {
             unlink(public_path($banner->image));
-            Log::info('Banner image deleted', ['image' => $banner->image]);
+            Log::info('Banner file deleted', ['file' => $banner->image]);
         }
 
-        // Delete record
         $banner->delete();
 
         return redirect()->route('admin.banners.index')->with('success', 'Banner deleted successfully.');

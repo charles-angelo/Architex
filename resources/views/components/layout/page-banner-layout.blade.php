@@ -6,7 +6,7 @@
                 alt="Background">
         </div>
         <div class="absolute inset-0">
-            <section class="flex py-8 text-white lg:px-10 2xl:ml-[15rem] gap-20 2xl:gap-52">
+            <section class="flex py-8 text-white lg:px-10 2xl:ml-[10rem] gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
                     <div>(082) 299 2390</div>
@@ -32,14 +32,14 @@
                     class="flex items-center justify-center w-10 h-10 text-[#00C52F] hover:text-green-800 hover:bg-yellow-400 bg-green-800 rounded-full transition duration-300">
                     <i class="p-3 ri--facebook-fill"></i>
                 </a>
-                <a href="#"
+                <!-- <a href="#"
                     class="flex items-center justify-center w-10 h-10 bg-green-800 text-[#00C52F] rounded-full hover:text-green-800 hover:bg-yellow-400 transition duration-300">
                     <i class="p-3 mingcute--instagram-fill "></i>
                 </a>
                 <a href="#"
                     class="flex items-center justify-center w-10 h-10 bg-green-900 text-[#00C52F] rounded-full hover:text-green-800 hover:bg-yellow-400 transition duration-300">
                     <i class="p-3 ic--baseline-tiktok "></i>
-                </a>
+                </a> -->
                 <span class="w-px h-6 bg-white"></span>
             </div>
         </div>

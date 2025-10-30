@@ -43,9 +43,19 @@
                 <td class="px-10 py-3 text-center">{!! $banner->subtitle !!}</td>
                 <td class="px-10 py-3 text-center">
                     <div class="flex justify-center items-center">
-                        <img src="{{ asset($banner->image) }}"
-                            class="w-20 h-12 object-cover rounded shadow"
-                            alt="Banner">
+                        @php
+                        $extension = pathinfo($banner->image, PATHINFO_EXTENSION);
+                        $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi']);
+                        @endphp
+
+                        @if ($isVideo)
+                        <video autoplay muted loop class="w-20 h-12 object-cover rounded shadow">
+                            <source src="{{ asset($banner->image) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        @else
+                        <img src="{{ asset($banner->image) }}" class="w-20 h-12 object-cover rounded shadow" alt="Banner">
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-3 whitespace-nowrap">

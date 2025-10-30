@@ -119,8 +119,8 @@
     <div class="bg-[#253e16] text-gray-200 py-4 font-semibold">
         <div class="flex flex-col items-center justify-between px-6 mx-auto text-sm max-w-7xl md:flex-row">
             <div class="flex mt-2 space-x-4 md:mt-0">
-                <a href="#" class="hover:underline">Terms & Conditions</a>
-                <a href="#" class="hover:underline">Privacy Policy</a>
+                <a href="{{ route('terms') }}" class="hover:underline">Terms & Conditions</a>
+                <a href="{{ route('privacy') }}" class="hover:underline">Privacy Policy</a>
             </div>
             <a href="https://rwebsolutions.com.ph/" class="mt-2 md:mt-0">
                 © Architex Phil, Inc. 2025. Designed and Developed by
@@ -135,43 +135,47 @@
 
 <!-- ✅ AJAX Script -->
 <script>
-document.getElementById('newsletterForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    const email = document.getElementById('newsletterEmail').value;
-    const csrfToken = document.querySelector('input[name="_token"]').value;
+        const email = document.getElementById('newsletterEmail').value;
+        const csrfToken = document.querySelector('input[name="_token"]').value;
 
-    fetch("{{ route('newsletter.store') }}", {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ email: email })
-    })
-    .then(response => {
-        if (response.ok) return response.json();
-        return response.text().then(text => { throw new Error(text) });
-    })
-    .then(data => {
-        Swal.fire({
-            title: 'Subscribed!',
-            text: 'Your email has been successfully added to our newsletter!',
-            icon: 'success',
-            confirmButtonColor: '#253e16',
-            confirmButtonText: 'OK'
-        });
-        document.getElementById('newsletterForm').reset();
-    })
-    .catch(error => {
-        Swal.fire({
-            title: 'Oops!',
-            text: 'Please enter a valid email address or try again later.',
-            icon: 'error',
-            confirmButtonColor: '#253e16',
-            confirmButtonText: 'Try Again'
-        });
+        fetch("{{ route('newsletter.store') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            })
+            .then(response => {
+                if (response.ok) return response.json();
+                return response.text().then(text => {
+                    throw new Error(text)
+                });
+            })
+            .then(data => {
+                Swal.fire({
+                    title: 'Subscribed!',
+                    text: 'Your email has been successfully added to our newsletter!',
+                    icon: 'success',
+                    confirmButtonColor: '#253e16',
+                    confirmButtonText: 'OK'
+                });
+                document.getElementById('newsletterForm').reset();
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Please enter a valid email address or try again later.',
+                    icon: 'error',
+                    confirmButtonColor: '#253e16',
+                    confirmButtonText: 'Try Again'
+                });
+            });
     });
-});
 </script>
