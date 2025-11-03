@@ -28,9 +28,8 @@ $pageTitle = 'Contact Us';
 <section class="bg-gray-100 pt-20 pb-[20rem] px-4 sm:px-6 lg:px-8 relative">
     <div class="max-w-screen-xl mx-auto">
 
-        {{-- SECTION HEADING BLOCK (Relative positioning is set on the parent section) --}}
+        {{-- SECTION HEADING --}}
         <div class="relative mb-12 text-left">
-            {{-- This is the element using the custom text-outline class --}}
             <span
                 class="absolute -top-1 left-0 text-[5rem] md:text-[4rem] opacity-20 leading-none select-none text-outline z-0">
                 Get in Touch
@@ -41,15 +40,15 @@ $pageTitle = 'Contact Us';
 
         <div class="relative z-10 flex flex-col gap-12 lg:flex-row lg:gap-16">
 
-            {{-- ✅ LEFT COLUMN: Contact Form (w-2/3) --}}
+            {{-- ✅ LEFT COLUMN: Contact Form --}}
             <div class="p-8 rounded-lg lg:w-2/3">
-                <form action="{{ route('contacts.store') }}" method="POST" class="space-y-6">
+                <form id="contactForm" action="{{ route('contacts.store') }}" method="POST" class="space-y-6">
                     @csrf
 
                     {{-- Success Message --}}
-                    @if(session('Success'))
+                    @if(session('success'))
                     <div class="p-4 mb-4 text-green-700 bg-green-100 border border-green-300 rounded-lg">
-                        {{ session('Success') }}
+                        {{ session('success') }}
                     </div>
                     @endif
 
@@ -101,6 +100,14 @@ $pageTitle = 'Contact Us';
                             placeholder="Message*">{{ old('message') }}</textarea>
                     </div>
 
+                    {{-- ✅ Google reCAPTCHA --}}
+                    <div class="mb-6">
+                        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
+                        @error('g-recaptcha-response')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div>
                         <button type="submit"
                             class="inline-flex justify-center py-3 px-8 border border-transparent shadow-sm text-base text-black bg-[#ffd601] hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition">
@@ -110,12 +117,9 @@ $pageTitle = 'Contact Us';
                 </form>
             </div>
 
-            {{-- ✅ RIGHT COLUMN: Contact Details (w-1/3) --}}
+            {{-- ✅ RIGHT COLUMN: Contact Details --}}
             <div class="p-6 rounded-lg lg:w-1/2 lg:p-10">
                 <div class="space-y-8">
-                    {{-- Note: Ensure your asset paths and image sizes (w-10 h-10) are correct --}}
-                    {{-- ... (Contact details content with <img> tags) ... --}}
-
                     <div class="flex items-start gap-4">
                         <span class="flex-shrink-0">
                             <img src="{{ asset('img/contact-us/location-icon.png') }}" alt="Location icon"
@@ -129,6 +133,7 @@ $pageTitle = 'Contact Us';
                             </p>
                         </div>
                     </div>
+
                     <div class="flex items-start gap-4">
                         <span class="flex-shrink-0">
                             <img src="{{ asset('img/contact-us/phone-icon.png') }}" alt="Phone icon"
@@ -139,6 +144,7 @@ $pageTitle = 'Contact Us';
                             <p class="mt-1 text-gray-700">0927 725 7326</p>
                         </div>
                     </div>
+
                     <div class="flex items-start gap-4">
                         <span class="flex-shrink-0">
                             <img src="{{ asset('img/contact-us/email-icon.png') }}" alt="Email icon"
@@ -149,7 +155,6 @@ $pageTitle = 'Contact Us';
                             <p class="mt-1 text-gray-700">info@architexphil.com</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -171,10 +176,13 @@ $pageTitle = 'Contact Us';
 </section>
 
 @push('scripts')
+{{-- ✅ Google reCAPTCHA script --}}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <script>
     $(document).ready(function() {
         $('#contactForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent normal form submit
+            e.preventDefault();
 
             let form = $(this);
             let submitButton = form.find('button[type="submit"]');
@@ -195,9 +203,8 @@ $pageTitle = 'Contact Us';
                         confirmButtonColor: '#16a34a',
                         timer: 2500
                     });
-
-                    // Reset form
                     form.trigger('reset');
+                    grecaptcha.reset();
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON?.errors;
@@ -213,6 +220,7 @@ $pageTitle = 'Contact Us';
                         text: errorMessage,
                         confirmButtonColor: '#EF4444'
                     });
+                    grecaptcha.reset();
                 },
                 complete: function() {
                     submitButton.prop('disabled', false).text('Send Message');

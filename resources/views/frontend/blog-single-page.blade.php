@@ -15,9 +15,46 @@
 
             <!-- Left Content -->
             <div class="lg:col-span-2">
-                <!-- Featured Image -->
-                <img src="{{ asset($blog->blog_image) }}" alt="{{ $blog->blog_title }}"
-                    class="w-full max-h-[40rem] mb-6 shadow-md">
+                <!-- Featured Image or Video -->
+                <div class="w-full mb-6 shadow-md max-h-[40rem] overflow-hidden rounded-xl">
+                    @php
+                    $image = $blog->blog_image;
+                    $isVideo = false;
+                    $videoId = null;
+
+                    if ($image) {
+                    // Detect if it's a YouTube URL
+                    if (Str::contains($image, ['youtube.com/watch?v=', 'youtu.be/'])) {
+                    $isVideo = true;
+                    // Extract the video ID
+                    if (preg_match('/(?:v=|be\/)([^&]+)/', $image, $matches)) {
+                    $videoId = $matches[1];
+                    }
+                    }
+                    }
+                    @endphp
+
+                    @if ($isVideo && $videoId)
+                    <!-- YouTube Video Embed -->
+                    <iframe
+                        class="w-full aspect-video rounded-xl"
+                        src="https://www.youtube.com/embed/{{ $videoId }}"
+                        title="{{ $blog->blog_title }}"
+                        frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                    @elseif ($image)
+                    <!-- Normal Image -->
+                    <img src="{{ Str::startsWith($image, ['http://', 'https://']) ? $image : asset($image) }}"
+                        alt="{{ $blog->blog_title }}"
+                        class="w-full h-auto object-cover max-h-[40rem] transition-transform duration-500 hover:scale-105 rounded-xl">
+                    @else
+                    <!-- Placeholder -->
+                    <div class="flex items-center justify-center h-64 bg-gray-100 text-gray-400 rounded-xl">
+                        No image available
+                    </div>
+                    @endif
+                </div>
 
                 <!-- Meta Info -->
                 <div class="flex items-center gap-6 pb-5 mb-4 text-sm text-gray-600 border-b">
@@ -44,6 +81,7 @@
                     {!! $blog->description !!}
                 </div>
             </div>
+
 
             <!-- Right Sidebar -->
             <div class="grid grid-cols-2 space-y-14 md:grid-cols-1">

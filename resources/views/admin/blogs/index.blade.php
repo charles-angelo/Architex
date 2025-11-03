@@ -32,6 +32,7 @@
                 <th class="px-6 py-3">Blog Title</th>
                 <th class="px-6 py-3">Description</th>
                 <th class="px-6 py-3">Blog Image</th>
+                <th class="px-6 py-3">Blog Thumbnail</th>
                 <th class="px-6 py-3">Date</th>
                 <th class="px-6 py-3 whitespace-nowrap w-40">Actions</th>
             </tr>
@@ -54,9 +55,44 @@
 
                 <!-- Blog Image -->
                 <td class="px-6 py-3 text-center">
-                    @if($blog->blog_image)
+                    @php
+                    $blogImage = null;
+
+                    if ($blog->blog_image) {
+                    // ✅ If it's a YouTube link
+                    if (Str::contains($blog->blog_image, 'youtube.com/watch')) {
+                    preg_match('/v=([^&]+)/', $blog->blog_image, $matches);
+                    $videoId = $matches[1] ?? null;
+                    if ($videoId) {
+                    $blogImage = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+                    }
+                    }
+                    // ✅ If it's an external image URL
+                    elseif (Str::startsWith($blog->blog_image, ['http://', 'https://'])) {
+                    $blogImage = $blog->blog_image;
+                    }
+                    // ✅ Otherwise, it's a local upload
+                    else {
+                    $blogImage = asset($blog->blog_image);
+                    }
+                    }
+                    @endphp
+
+                    @if($blogImage)
                     <div class="flex justify-center items-center">
-                        <img src="{{ asset($blog->blog_image) }}" class="h-12 w-20 object-cover rounded shadow-sm" alt="Blog">
+                        <img src="{{ $blogImage }}" class="h-12 w-20 object-cover rounded shadow-sm border border-gray-200" alt="Blog">
+                    </div>
+                    @else
+                    <span class="text-gray-400 text-sm">No Image</span>
+                    @endif
+                </td>
+
+
+
+                <td class="px-6 py-3 text-center">
+                    @if($blog->thumbnail_image)
+                    <div class="flex justify-center items-center">
+                        <img src="{{ asset($blog->thumbnail_image) }}" class="h-12 w-20 object-cover rounded shadow-sm" alt="Blog">
                     </div>
                     @else
                     <span class="text-gray-400 text-sm">No Image</span>

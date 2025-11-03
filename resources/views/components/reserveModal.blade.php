@@ -99,7 +99,7 @@
                         </div>
 
                         <!-- Checkboxes -->
-                        <div class="mt-4 space-y-2 text-sm">
+                        <div class="mt-4 space-y-2 text-sm mb-6">
                             <label class="flex items-start space-x-2">
                                 <input type="checkbox" class="mt-1" x-model="termsAccepted">
                                 <span>I agree to the
@@ -118,6 +118,14 @@
                                 </span>
                             </label>
                             <p x-show="error.confirmation" class="text-red-500 text-sm mt-1" x-text="error.confirmation"></p>
+                        </div>
+
+                        {{-- ✅ Google reCAPTCHA --}}
+                        <div class="mb-6">
+                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
+                            @error('g-recaptcha-response')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -229,6 +237,7 @@
     </template>
 </div>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('modal', () => ({

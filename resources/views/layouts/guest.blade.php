@@ -58,6 +58,8 @@
 
     @include('partials.footer')
     @yield('data')
+
+    @stack('scripts')
 </body>
 
 <script>
@@ -84,4 +86,5 @@
         };
     }
 </script>
+
 </html>

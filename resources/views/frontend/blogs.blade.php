@@ -13,7 +13,7 @@
 
             <!-- Image -->
             <div class="relative w-full h-64 overflow-hidden">
-                <img src="{{ asset($item->blog_image) }}" alt="{{ $item->blog_title }}"
+                <img src="{{ asset($item->thumbnail_image) }}" alt="{{ $item->thumbnail_image }}"
                     class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105">
             </div>
 

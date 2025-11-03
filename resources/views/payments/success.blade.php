@@ -35,9 +35,9 @@
         </p>
         @endif
 
-        <a href="{{ route('homepage') }}"
+        <a href="{{ route('properties.show') }}"
             class="inline-block bg-green-600 text-white px-8 py-3 rounded-xl shadow-lg hover:bg-green-700 transition transform hover:-translate-y-1">
-            Return to Homepage
+            Return to Properties
         </a>
     </div>
 </div>

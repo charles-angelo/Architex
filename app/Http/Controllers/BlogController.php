@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
-use App\Models\Blogs;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -40,37 +39,49 @@ class BlogController extends Controller
                 'category_id' => 'required|exists:blog_categories,id',
                 'blog_title' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'blog_image' => 'required|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi|max:20000',
                 'blog_date' => 'required|date',
+                'blog_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi|max:20000',
+                'blog_image_link' => 'nullable|string',
+                'thumbnail_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5000',
             ]);
 
-            Log::info('Validation passed for blog store');
+            // ✅ Handle main blog image
+            $blogImagePath = null;
 
-            // Save uploaded image
-            $blogImage = $request->file('blog_image');
-            $filename = time() . '_' . uniqid() . '.' . $blogImage->getClientOriginalExtension();
-            $blogImage->move(public_path('storage/blogs'), $filename);
-            $blogImagePath = 'storage/blogs/' . $filename;
+            if ($request->hasFile('blog_image')) {
+                $blogImage = $request->file('blog_image');
+                $filename = time() . '_' . uniqid() . '.' . $blogImage->getClientOriginalExtension();
+                $blogImage->move(public_path('storage/blogs'), $filename);
+                $blogImagePath = 'storage/blogs/' . $filename;
+            } elseif (!empty($request->blog_image_link)) {
+                $blogImagePath = $request->blog_image_link;
+            } else {
+                throw new \Exception('Please provide either an image file or a link.');
+            }
 
-            // Create blog
+            // ✅ Handle thumbnail
+            $thumbnailPath = null;
+            if ($request->hasFile('thumbnail_image')) {
+                $thumb = $request->file('thumbnail_image');
+                $thumbFilename = time() . '_thumb_' . uniqid() . '.' . $thumb->getClientOriginalExtension();
+                $thumb->move(public_path('storage/blog_thumbnails'), $thumbFilename);
+                $thumbnailPath = 'storage/blog_thumbnails/' . $thumbFilename;
+            }
+
+            // ✅ Create blog record
             Blog::create([
                 'category_id' => $request->category_id,
                 'blog_title' => $request->blog_title,
                 'description' => $request->description,
                 'blog_image' => $blogImagePath,
+                'thumbnail_image' => $thumbnailPath,
                 'blog_date' => $request->blog_date,
             ]);
 
-            Log::info('Blog created successfully', ['blog_title' => $request->blog_title]);
-
             return redirect()->route('admin.blogs.index')->with('success', 'Blog created successfully!');
         } catch (\Exception $e) {
-            Log::error('Error storing blog', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return redirect()->back()->withInput()->with('error', 'Something went wrong. Please check logs.');
+            Log::error('Error storing blog', ['message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -88,53 +99,71 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        Log::info('Blog update method called', [
-            'blog_id' => $blog->id,
-            'request_data' => $request->all(),
-        ]);
+        Log::info('Blog update method called', ['blog_id' => $blog->id, 'request_data' => $request->all()]);
 
         try {
             $validated = $request->validate([
                 'category_id' => 'required|exists:blog_categories,id',
                 'blog_title' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'blog_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi|max:20000',
                 'blog_date' => 'required|date',
+                'blog_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,mov,avi|max:20000',
+                'blog_image_link' => 'nullable|string',
+                'thumbnail_image' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5000',
             ]);
 
-            // If new image uploaded
+            $blogImagePath = $blog->blog_image; // keep old by default
+
+            // ✅ If file uploaded, replace old
             if ($request->hasFile('blog_image')) {
                 if ($blog->blog_image && file_exists(public_path($blog->blog_image))) {
                     unlink(public_path($blog->blog_image));
-                    Log::info('Old blog image deleted', ['old_image' => $blog->blog_image]);
                 }
 
                 $newImage = $request->file('blog_image');
                 $filename = time() . '_' . uniqid() . '.' . $newImage->getClientOriginalExtension();
                 $newImage->move(public_path('storage/blogs'), $filename);
-
-                $validated['blog_image'] = 'storage/blogs/' . $filename;
-                Log::info('New blog image uploaded', ['path' => $validated['blog_image']]);
+                $blogImagePath = 'storage/blogs/' . $filename;
+            }
+            // ✅ If link provided (and no file uploaded), replace with new link
+            elseif (!empty($request->blog_image_link)) {
+                // If previous image is local file, delete it
+                if ($blog->blog_image && file_exists(public_path($blog->blog_image))) {
+                    unlink(public_path($blog->blog_image));
+                }
+                $blogImagePath = $request->blog_image_link;
             }
 
-            $blog->update($validated);
+            // ✅ Handle thumbnail replacement
+            $thumbnailPath = $blog->thumbnail_image;
+            if ($request->hasFile('thumbnail_image')) {
+                if ($blog->thumbnail_image && file_exists(public_path($blog->thumbnail_image))) {
+                    unlink(public_path($blog->thumbnail_image));
+                }
 
-            Log::info('Blog updated successfully', [
-                'blog_id' => $blog->id,
-                'updated_data' => $validated,
+                $thumb = $request->file('thumbnail_image');
+                $thumbName = time() . '_thumb_' . uniqid() . '.' . $thumb->getClientOriginalExtension();
+                $thumb->move(public_path('storage/blog_thumbnails'), $thumbName);
+                $thumbnailPath = 'storage/blog_thumbnails/' . $thumbName;
+            }
+
+            // ✅ Update blog record
+            $blog->update([
+                'category_id' => $request->category_id,
+                'blog_title' => $request->blog_title,
+                'description' => $request->description,
+                'blog_date' => $request->blog_date,
+                'blog_image' => $blogImagePath,
+                'thumbnail_image' => $thumbnailPath,
             ]);
 
             return redirect()->route('admin.blogs.index')->with('success', 'Blog updated successfully!');
         } catch (\Exception $e) {
-            Log::error('Error updating blog', [
-                'blog_id' => $blog->id,
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return redirect()->back()->withInput()->with('error', 'Something went wrong during update.');
+            Log::error('Error updating blog', ['message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
     }
+
 
     /**
      * Remove the specified blog from storage.
@@ -145,7 +174,10 @@ class BlogController extends Controller
 
         if ($blog->blog_image && file_exists(public_path($blog->blog_image))) {
             unlink(public_path($blog->blog_image));
-            Log::info('Blog image deleted', ['path' => $blog->blog_image]);
+        }
+
+        if ($blog->thumbnail_image && file_exists(public_path($blog->thumbnail_image))) {
+            unlink(public_path($blog->thumbnail_image));
         }
 
         $blog->delete();

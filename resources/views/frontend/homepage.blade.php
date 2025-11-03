@@ -280,7 +280,7 @@
 
                     <!-- Image -->
                     <div class="relative w-full h-64 overflow-hidden">
-                        <img src="{{ asset($item->blog_image) }}" alt="{{ $item->blog_title }}"
+                        <img src="{{ asset($item->thumbnail_image) }}" alt="{{ $item->thumbnail_image }}"
                             class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105">
                     </div>
 
@@ -309,7 +309,7 @@
                     <div class="p-5 mt-6 text-center">
                         <h3
                             class="mb-3 font-semibold text-gray-800 text-lg transition-colors duration-300 group-hover:text-[#253e16]">
-                            {{ $item->title }}
+                            {{ $item->blog_title }}
                         </h3>
                         <a href="{{ route('blogs.details', ['id' => $item->id]) }}"
                             class="inline-block mt-2 text-[#253e16] font-medium hover:text-green-600 transition border-b border-b-[#253e16]">
