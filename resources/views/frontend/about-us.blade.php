@@ -373,7 +373,7 @@
                             </p>
 
                             <!-- Learn More button -->
-                            <a href="#"
+                            <a href="https://play.google.com/store/apps/details?id=com.iecon.app.android.atx&hl=en"
                                 class="inline-block bg-[#253E16] text-white px-6 py-3 rounded-sm hover:bg-[#1e3412] transition-colors">
                                 Learn More
                             </a>

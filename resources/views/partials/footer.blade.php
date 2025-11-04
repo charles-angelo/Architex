@@ -26,7 +26,8 @@
                 <!-- Newsletter Form (AJAX version) -->
                 <form id="newsletterForm" class="flex w-full gap-1 lg:w-full">
                     @csrf
-                    <input type="email" id="newsletterEmail" name="email" placeholder="Enter your email address" required
+                    <input type="email" id="newsletterEmail" name="email" placeholder="Enter your email address"
+                        required
                         class="w-full py-4 px-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder:text-[#253e16]">
 
                     <button type="submit"
@@ -73,12 +74,18 @@
             <div>
                 <h3 class="mb-4 text-2xl font-bold text-black">QUICK LINKS</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('homepage') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Home</a></li>
-                    <li><a href="{{ route('about-us') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› About Us</a></li>
-                    <li><a href="{{ route('properties.show') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Properties</a></li>
-                    <li><a href="{{ route('services') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Services</a></li>
-                    <li><a href="{{ route('blogs.show') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Blogs</a></li>
-                    <li><a href="{{ route('contactUs') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Contact Us</a></li>
+                    <li><a href="{{ route('homepage') }}" class="flex items-center gap-2 text-lg hover:text-green-700">›
+                            Home</a></li>
+                    <li><a href="{{ route('about-us') }}" class="flex items-center gap-2 text-lg hover:text-green-700">›
+                            About Us</a></li>
+                    <li><a href="{{ route('properties.show') }}"
+                            class="flex items-center gap-2 text-lg hover:text-green-700">› Properties</a></li>
+                    <li><a href="{{ route('services') }}"
+                            class="flex items-center gap-2 text-lg hover:text-green-700">› Services</a></li>
+                    <li><a href="{{ route('blogs.show') }}"
+                            class="flex items-center gap-2 text-lg hover:text-green-700">› Blogs</a></li>
+                    <li><a href="{{ route('contactUs') }}"
+                            class="flex items-center gap-2 text-lg hover:text-green-700">› Contact Us</a></li>
                 </ul>
             </div>
 
@@ -86,7 +93,9 @@
             <div>
                 <h3 class="mb-4 text-2xl font-bold text-black">PROPERTIES</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('properties.show') }}" class="flex items-center gap-2 text-lg font-semibold hover:text-green-700">› Apo Yama Residences</a></li>
+                    <li><a href="{{ route('properties.show') }}"
+                            class="flex items-center gap-2 text-lg hover:text-green-700">› Apo Yama
+                            Residences</a></li>
                 </ul>
             </div>
 
@@ -96,18 +105,18 @@
                 <ul class="space-y-3">
                     <li class="flex items-start gap-2">
                         <img src="{{ asset('img/footer/location.png') }}" alt="Location" class="w-6 h-6 mt-1">
-                        <span class="text-lg font-semibold">
+                        <span class="text-lg ">
                             Door 7, Josie 1944 Commercial Bldg., E. Palma Gil St., Obrero, Brgy. 13-B, Davao City,
                             Philippines
                         </span>
                     </li>
                     <li class="flex items-center gap-2">
                         <img src="{{ asset('img/footer/phone.png') }}" alt="Phone" class="w-6 h-6">
-                        <span class="text-lg font-semibold">0927 725 7326</span>
+                        <span class="text-lg">0927 725 7326</span>
                     </li>
                     <li class="flex items-center gap-2">
                         <img src="{{ asset('img/footer/email.png') }}" alt="Email" class="w-6 h-6">
-                        <span class="text-lg font-semibold">info@architexphil.com</span>
+                        <span class="text-lg">info@architexphil.com</span>
                     </li>
                 </ul>
             </div>
@@ -136,46 +145,48 @@
 <!-- ✅ AJAX Script -->
 <script>
     document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+                e.preventDefault();
+                document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
 
-        const email = document.getElementById('newsletterEmail').value;
-        const csrfToken = document.querySelector('input[name="_token"]').value;
+                    const email = document.getElementById('newsletterEmail').value;
+                    const csrfToken = document.querySelector('input[name="_token"]').value;
 
-        fetch("{{ route('newsletter.store') }}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email
-                })
-            })
-            .then(response => {
-                if (response.ok) return response.json();
-                return response.text().then(text => {
-                    throw new Error(text)
+                    fetch("{{ route('newsletter.store') }}", {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email: email
+                            })
+                        })
+                        .then(response => {
+                            if (response.ok) return response.json();
+                            return response.text().then(text => {
+                                throw new Error(text)
+                            });
+                        })
+                        .then(data => {
+                            Swal.fire({
+                                title: 'Subscribed!',
+                                text: 'Your email has been successfully added to our newsletter!',
+                                icon: 'success',
+                                confirmButtonColor: '#253e16',
+                                confirmButtonText: 'OK'
+                            });
+                            document.getElementById('newsletterForm').reset();
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                title: 'Oops!',
+                                text: 'Please enter a valid email address or try again later.',
+                                icon: 'error',
+                                confirmButtonColor: '#253e16',
+                                confirmButtonText: 'Try Again'
+                            });
+                        });
                 });
-            })
-            .then(data => {
-                Swal.fire({
-                    title: 'Subscribed!',
-                    text: 'Your email has been successfully added to our newsletter!',
-                    icon: 'success',
-                    confirmButtonColor: '#253e16',
-                    confirmButtonText: 'OK'
-                });
-                document.getElementById('newsletterForm').reset();
-            })
-            .catch(error => {
-                Swal.fire({
-                    title: 'Oops!',
-                    text: 'Please enter a valid email address or try again later.',
-                    icon: 'error',
-                    confirmButtonColor: '#253e16',
-                    confirmButtonText: 'Try Again'
-                });
-            });
-    });
 </script>

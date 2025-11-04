@@ -7,12 +7,10 @@
             <!-- Main Image -->
             <div class="relative w-full h-full group">
                 <template x-for="(image, index) in images" :key="index">
-                    <img
-                        x-show="current === index"
-                        :src="image"
+                    <img x-show="current === index" :src="image"
                         class="
                             {{ $flag === 'Amenities' ? 'object-cover' : ($flag === 'FloorPlan' ? 'object-contain' : 'object-contain') }} 
-                            object-center transition-all duration-500 ease-in-out
+                            object-center w-full h-full transition-all duration-500 ease-in-out
                         ">
                 </template>
 
@@ -51,25 +49,20 @@
                 </div>
 
                 <!-- Thumbnails Overlay -->
-                <div x-show="!showThumbs"
-                    x-transition:enter="transition ease-in-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
+                <div x-show="!showThumbs" x-transition:enter="transition ease-in-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     class="absolute bottom-0 z-10 grid w-full h-full grid-cols-5 gap-3 p-4 bg-gradient-to-t from-[#002B0A] to-transparent">
 
                     <template x-for="(image, index) in images" :key="index">
-                        <div
-                            @click="current = index"
+                        <div @click="current = index"
                             class="
                                 {{ $flag === 'Amenities' ? '2xl:mt-[38rem]' : ($flag === 'FloorPlan' ? '2xl:mt-[18rem]' : '2xl:mt-[15rem]') }}
                                 overflow-hidden transition border-2 cursor-pointer h-fit hover:opacity-80
                             "
                             :class="current === index ? 'border-yellow-400' : 'border-transparent'">
-                            <img
-                                :src="image"
+                            <img :src="image"
                                 class="
                                     {{ $flag === 'Amenities' ? 'h-[10rem]' : ($flag === 'FloorPlan' ? 'h-[8rem]' : 'h-[6rem]') }}
                                     object-cover w-full aspect-square
