@@ -152,7 +152,7 @@
                 comfort, efficiency, and harmony.
             </div>
 
-            <div class="container grid w-full mx-auto mt-10 md:grid-cols-3">
+            <div class="container grid w-full mx-auto mt-10 md:grid-cols-4">
                 <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
                     <img src="{{ asset('img/architex-fun.png') }}" alt="" class="w-auto h-32">
                     <a href="https://architex.jp/portfolio/#p65" class="flex items-center gap-3" target="_blank"
@@ -192,16 +192,30 @@
                         </svg>
                     </a>
                 </div>
+                <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
+                    <img src="{{ asset('img/architex-reform.png') }}" alt="" class="w-auto h-32">
+                    <a href="https://architex.jp/portfolio/#p125" class="flex items-center gap-3" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="text-xl">
+                            Visit Website
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="M7 7h10m0 0v10m0-10L7 17" />
+                        </svg>
+                    </a>
+                </div>
             </div>
 
         </div>
     </div>
 
-    <div class="bg-[#f3f3f3] h-full pt-28">
+    <div class="bg-[#f3f3f3] h-full pt-28 overflow-hidden">
         <div class="relative z-10">
             <div class="grid h-full grid-cols-1 mx-20 md:grid-cols-3">
-                <div class="bg-[#d9d9d9] col-span-1 h-[40rem]">
-
+                <div class="grid grid-cols-1">
+                    <img src="{{ asset('img/whatwedoinjapan-img1.png') }}" alt="">
+                    <img src="{{ asset('img/whatwedoinjapan-img2.png') }}" alt="">
                 </div>
                 <div class="col-span-2">
                     <div class="max-w-5xl px-6 py-12 mx-auto text-gray-800">
@@ -273,7 +287,7 @@
         </div>
     </div>
 
-    <div class="bg-[#f3f3f3] h-full pb-20 pt-5">
+    {{-- <div class="bg-[#f3f3f3] h-full pb-20 pt-5">
         <div class="flex flex-col-reverse mx-20 md:grid md:grid-cols-3">
             <div class="relative z-10 col-span-2">
                 <div class="max-w-5xl px-6 py-12 mx-auto text-gray-800">
@@ -307,7 +321,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="bg-[#f9f9f9] h-full pt-28 pb-44">
         <div class="relative h-full">
@@ -386,8 +400,12 @@
             <div class="absolute top-0 hidden md:flex left-20">
                 <img src="{{ asset('img/our-philo-img1.png') }}" alt="">
             </div>
-            <div class="hidden md:flex absolute -bottom-[8rem] right-20">
-                <img src="{{ asset('img/our-philo-img2.png') }}" alt="">
+            <div class="absolute top-0 hidden md:flex right-20">
+                <div class="grid grid-cols-1 gap-5">
+                    <img src="{{ asset('img/philosophy-img1.png') }}" alt="" class="h-auto w-[25rem]">
+                    <img src="{{ asset('img/philosophy-img2.png') }}" alt="" class="h-auto w-[25rem]">
+                    <img src="{{ asset('img/philosophy-img3.png') }}" alt="" class="h-auto w-[25rem]">
+                </div>
             </div>
         </div>
     </div>
@@ -801,6 +819,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="md:pb-56 bg-[#1d2022]">
+        <img src="{{ asset('img/aboutus-last-tab.png') }}" alt="" class="w-full h-auto">
     </div>
 
     <style>
