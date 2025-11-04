@@ -44,9 +44,6 @@ Route::get('/properties/property-details/{id}', [PageController::class, 'propert
 Route::get('/rentals', [PageController::class, 'rentals'])->name('rentals');
 Route::get('/rentals/rental-details/{id}', [PageController::class, 'rentalDetails'])->name('rental-details');
 
-Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
-Route::post('/contact-us', [ContactUsController::class, 'store'])->name('contacts.store');
-
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
 Route::get('/payments/success', [PaymentController::class, 'success'])->name('payments.success');
 Route::get('/payments/cancel', [PaymentController::class, 'cancel'])->name('payments.cancel');
