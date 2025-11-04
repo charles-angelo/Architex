@@ -9,11 +9,11 @@
             <section class="flex py-8 text-white lg:px-10 2xl:ml-[10rem] gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
-                    <div>(082) 299 2390</div>
+                    <div>0927 725 7326</div>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="p-3 material-symbols--mail"></span>
-                    <div>architexphilinc@gmail.com</div>
+                    <div>info@architexphil.com</div>
                 </div>
             </section>
         </div>
@@ -51,7 +51,8 @@
                 <div class="flex gap-2">
                     <span class="tdesign--location-filled text-[#00721B] p-3"></span>
                     <div>
-                        Door 102, API Building, Block 8 Lot 15, Talisay St., Awhag Subd., Davao City
+                        Door 7, Josie 1944 Commercial Bldg., E. Palma Gil St., Obrero, Brgy. 13-B, Davao City,
+                        Philippines
                     </div>
                 </div>
             </section>

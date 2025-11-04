@@ -37,7 +37,7 @@
 
     <section class="relative w-full bg-[#f3f3f3] py-24 overflow-hidden">
         <div class="flex flex-col">
-            <div class="flex flex-col">
+            <div class="flex flex-col mb-20">
                 <div class="grid items-center grid-cols-2 md:grid-cols-3 mx-[5rem]">
                     <div>
                         <img src="{{ asset('img/about-us/Architex Japan Logo2.png') }}" alt="" class="h-auto w-[60%]">
@@ -223,41 +223,36 @@
 
                         <!-- 1. Custom Home Building -->
                         <div class="mb-10">
-                            <h3 class="mb-2 text-lg font-semibold md:text-xl">1. Custom Home Building (注文住宅事業)</h3>
-                            <ul class="space-y-2 text-gray-700 list-disc list-inside">
-                                <li>A team of <strong>architects, coordinators, exterior planners, and advisors</strong>
-                                    work hand-in-hand with clients to bring their dream homes to life.</li>
-                                <li>Unlike traditional approaches, Architex ensures architects lead the entire process —
-                                    from <strong>land search and financial planning to design, structure, interiors, and
-                                        garden layouts</strong> — guaranteeing a seamless and personalized home-building
-                                    journey.</li>
-                                <li>Special focus is given to <strong>simplicity and functionality</strong>, removing waste
-                                    and unnecessary cost while delivering timeless design and comfort.</li>
+                            <h3 class="mb-2 text-lg font-semibold md:text-xl">1. Custom Home Building</h3>
+                            <ul class="ml-5 space-y-2 text-gray-700 list-disc list-inside">
+                                A team of architects, coordinators, exterior planners, and advisors work hand in hand with
+                                clients to bring their dream homes to life. Unlike traditional approaches, Architex ensures
+                                that architects lead the entire process, from land search and financial planning to design,
+                                structure, interiors, and garden layouts, guaranteeing a seamless and personalized
+                                home-building journey. Special focus is given to simplicity and functionality, eliminating
+                                waste and unnecessary cost while delivering timeless design and comfort.
                             </ul>
                         </div>
 
                         <!-- 2. Renovation & Remodeling -->
                         <div class="mb-10">
-                            <h3 class="mb-2 text-lg font-semibold md:text-xl">2. Renovation & Remodeling (リフォーム・リノベーション)
+                            <h3 class="mb-2 text-lg font-semibold md:text-xl">2. Renovation & Remodeling
                             </h3>
-                            <ul class="space-y-2 text-gray-700 list-disc list-inside">
-                                <li>Architex breathes new life into existing homes through <strong>renovations, extensions,
-                                        and maintenance</strong>.</li>
-                                <li>Our goal is to ensure homes evolve with the needs of families, remaining efficient,
-                                    comfortable, and modern.</li>
+                            <ul class="ml-5 space-y-2 text-gray-700 list-disc list-inside">
+                                Architex breathes new life into existing homes through renovations, extensions, and
+                                maintenance. Our goal is to ensure homes evolve with the needs of families, remaining
+                                efficient, comfortable, and modern.
                             </ul>
                         </div>
 
                         <!-- 3. Real Estate & Development -->
                         <div class="mb-10">
-                            <h3 class="mb-2 text-lg font-semibold md:text-xl">3. Real Estate & Development
-                                (不動産・ディベロップメント事業)</h3>
-                            <ul class="space-y-2 text-gray-700 list-disc list-inside">
-                                <li>Architex develops <strong>“ARCHITEX Town”</strong> residential communities—subdivided
-                                    land projects designed with consistent architectural style and reliable infrastructure.
-                                </li>
-                                <li>We also manage <strong>rental housing, property sales, brokerage, and
-                                        consulting</strong>, helping clients maximize the value of their assets.</li>
+                            <h3 class="mb-2 text-lg font-semibold md:text-xl">3. Real Estate & Development</h3>
+                            <ul class="ml-5 space-y-2 text-gray-700 list-disc list-inside">
+                                Architex develops “ARCHITEX Town” residential communities, creating subdivided land projects
+                                with a consistent architectural style and reliable infrastructure. We also manage rental
+                                housing, property sales, brokerage, and consulting services to help clients maximize the
+                                value of their assets.
                             </ul>
                         </div>
 
