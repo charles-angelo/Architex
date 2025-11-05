@@ -299,10 +299,16 @@ class PageController extends Controller
             });
 
         $allAmenities = [
-            asset('img/park.png'),
             asset('img/pool.png'),
-            asset('img/park.png'),
             asset('img/gym.png'),
+            asset('img/amenity1.jpg'),
+            asset('img/amenity2.jpg'),
+            asset('img/amenity3.jpg'),
+            asset('img/amenity4.jpg'),
+            asset('img/amenity5.jpg'),
+            asset('img/amenity6.jpg'),
+            asset('img/amenity7.jpg'),
+            asset('img/amenity8.jpg'),
         ];
 
         return view('frontend.properties-single-page', compact('property', 'lots', 'allAmenities'));
@@ -512,10 +518,16 @@ class PageController extends Controller
             });
 
         $allAmenities = [
-            asset('img/park.png'),
             asset('img/pool.png'),
-            asset('img/park.png'),
             asset('img/gym.png'),
+            asset('img/amenity1.jpg'),
+            asset('img/amenity2.jpg'),
+            asset('img/amenity3.jpg'),
+            asset('img/amenity4.jpg'),
+            asset('img/amenity5.jpg'),
+            asset('img/amenity6.jpg'),
+            asset('img/amenity7.jpg'),
+            asset('img/amenity8.jpg'),
         ];
 
         // 🧭 Reuse the same view as the property details page
@@ -713,10 +725,16 @@ class PageController extends Controller
             });
 
         $allAmenities = [
-            asset('img/park.png'),
             asset('img/pool.png'),
-            asset('img/park.png'),
             asset('img/gym.png'),
+            asset('img/amenity1.jpg'),
+            asset('img/amenity2.jpg'),
+            asset('img/amenity3.jpg'),
+            asset('img/amenity4.jpg'),
+            asset('img/amenity5.jpg'),
+            asset('img/amenity6.jpg'),
+            asset('img/amenity7.jpg'),
+            asset('img/amenity8.jpg'),
         ];
 
         // 🧭 Reuse the same frontend view
