@@ -10,7 +10,7 @@
                     <img x-show="current === index" :src="image"
                         class="
                             {{ $flag === 'Amenities' ? 'object-cover' : ($flag === 'FloorPlan' ? 'object-contain' : 'object-contain') }} 
-                            object-center w-full h-full transition-all duration-500 ease-in-out
+                            object-center h-full transition-all duration-500 ease-in-out
                         ">
                 </template>
 
