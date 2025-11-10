@@ -46,7 +46,7 @@
     </div>
 
     <!-- Footer Content -->
-    <div class="max-w-screen-xl py-16 mx-auto mt-10 text-black">
+    <div class="max-w-screen-xl py-16 mx-3 mt-10 text-black">
 
         <!-- Logo + Socials -->
         <div class="flex flex-col items-center justify-between md:flex-row md:items-start">
