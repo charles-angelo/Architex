@@ -88,53 +88,80 @@ class PropertiesController extends Controller
     /**
      * Update the specified property in storage.
      */
-    public function update(Request $request, Properties $property)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'property_thumbnail' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
-            'property_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
+   public function update(Request $request, Properties $property)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'property_thumbnail' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
+        'property_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:5120',
+        'remove_images' => 'array',
+        'remove_images.*' => 'integer|exists:property_images,id',
+    ]);
+
+    try {
+        // ✅ Handle thumbnail update
+        if ($request->hasFile('property_thumbnail')) {
+            // Delete old thumbnail if it exists
+            if ($property->property_thumbnail && file_exists(public_path($property->property_thumbnail))) {
+                @unlink(public_path($property->property_thumbnail));
+            }
+
+            $thumbnail = $request->file('property_thumbnail');
+            $filename = time() . '_thumb.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('storage/properties'), $filename);
+            $property->property_thumbnail = 'storage/properties/' . $filename;
+        }
+
+        // ✅ Update main property fields
+        $property->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'property_thumbnail' => $property->property_thumbnail,
         ]);
 
-        try {
-            // ✅ Update thumbnail if new one is uploaded
-            if ($request->hasFile('property_thumbnail')) {
-                if ($property->property_thumbnail && file_exists(public_path($property->property_thumbnail))) {
-                    unlink(public_path($property->property_thumbnail));
-                }
-
-                $thumbnail = $request->file('property_thumbnail');
-                $filename = time() . '_thumb.' . $thumbnail->getClientOriginalExtension();
-                $thumbnail->move(public_path('storage/properties'), $filename);
-                $property->property_thumbnail = 'storage/properties/' . $filename;
-            }
-
-            $property->update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'property_thumbnail' => $property->property_thumbnail,
-            ]);
-
-            // ✅ Add new images if uploaded
-            if ($request->hasFile('property_images')) {
-                foreach ($request->file('property_images') as $image) {
-                    $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('storage/properties'), $filename);
-
-                    PropertyImage::create([
-                        'property_id' => $property->id,
-                        'image' => 'storage/properties/' . $filename,
-                    ]);
+        // ✅ Remove selected images
+        if ($request->has('remove_images')) {
+            foreach ($request->input('remove_images', []) as $imgId) {
+                $img = PropertyImage::find($imgId);
+                if ($img) {
+                    if ($img->image && file_exists(public_path($img->image))) {
+                        @unlink(public_path($img->image));
+                    }
+                    $img->delete();
                 }
             }
-
-            return redirect()->route('admin.properties.index')->with('success', 'Property updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error updating property', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Failed to update property.');
         }
+
+        // ✅ Add new images
+        if ($request->hasFile('property_images')) {
+            foreach ($request->file('property_images') as $image) {
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/properties'), $filename);
+
+                PropertyImage::create([
+                    'property_id' => $property->id,
+                    'image' => 'storage/properties/' . $filename,
+                ]);
+            }
+        }
+
+        // ✅ Force reload to clear cached relationships (optional if redirecting)
+        $property->load('images');
+
+        return redirect()->route('admin.properties.index')
+            ->with('success', 'Property updated successfully!');
+    } catch (\Exception $e) {
+        Log::error('Error updating property', [
+            'property_id' => $property->id,
+            'message' => $e->getMessage(),
+        ]);
+
+        return redirect()->back()->with('error', 'Failed to update property.');
     }
+}
+
+
 
     /**
      * Remove the specified property.

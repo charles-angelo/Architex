@@ -166,17 +166,20 @@
         newImagesContainer.classList.remove('hidden');
     });
 
-    // Remove Existing Image (send hidden input to delete in controller)
-    function removeExistingImage(id) {
-        const imgDiv = document.getElementById(`existing-image-${id}`);
-        if (imgDiv) imgDiv.remove();
+   function removeExistingImage(id) {
+    const imgDiv = document.getElementById(`existing-image-${id}`);
+    if (imgDiv) imgDiv.remove();
 
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'remove_images[]';
-        input.value = id;
-        document.querySelector('form').appendChild(input);
-    }
+    // 🔒 Append a hidden input inside the same form
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'remove_images[]';
+    input.value = id;
+
+    const form = document.querySelector('form[enctype="multipart/form-data"]');
+    if (form) form.appendChild(input);
+}
+
 </script>
 @endpush
 @endsection

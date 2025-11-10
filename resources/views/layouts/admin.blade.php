@@ -174,7 +174,7 @@
                         <!-- Dropdown Links -->
                         <ul x-show="open" x-collapse class="pl-10 mt-1 space-y-1">
                             {{-- Hidden: Properties --}}
-                            {{--
+{{--                             
                     <li>
                         <a href="{{ route('admin.properties.index') }}"
                             class="block py-2 pl-4 pr-6 rounded-lg transition
