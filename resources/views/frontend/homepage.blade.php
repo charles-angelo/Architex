@@ -10,7 +10,7 @@
     </section>
 
     <!-- Merged Card Section -->
-    <section class="bg-[#e8e8e8] py-[70px]">
+    <section class="bg-[#e8e8e8] py-[150px] lg:py-[70px]">
         <div
             class="grid max-w-screen-xl grid-cols-1 mx-auto -mt-48 overflow-hidden bg-white border border-gray-100 shadow-2xl md:grid-cols-3">
 
