@@ -14,7 +14,7 @@
                 <th class="px-6 py-3 text-center rounded-tl-lg">ID</th>
                 <th class="px-6 py-3 text-center">Lot</th>
                 <th class="px-6 py-3 text-center">Full Name</th>
-                <th class="px-6 py-3 text-center">Email</th>
+                <th class="px-6 py-3 text-center w-48">Email</th>
                 <th class="px-6 py-3 text-center">Contact</th>
                 <th class="px-6 py-3 text-center">Method</th>
                 <th class="px-6 py-3 text-center">Total Amount</th>
@@ -29,7 +29,9 @@
                 <td class="px-6 py-3 text-center">{{ $payment->id }}</td>
                 <td class="px-6 py-3 text-center">{{ $payment->lot->lot_name ?? 'N/A' }}</td>
                 <td class="px-6 py-3 text-center">{{ $payment->full_name }}</td>
-                <td class="px-6 py-3 text-center text-gray-600">{{ $payment->email }}</td>
+                <td class="px-6 py-3 text-center text-gray-600 truncate max-w-[12rem]" title="{{ $payment->email }}">
+                    {{ $payment->email }}
+                </td>
                 <td class="px-6 py-3 text-center">{{ $payment->contact_number }}</td>
                 <td class="px-6 py-3 text-center capitalize">{{ $payment->payment_method }}</td>
                 <td class="px-6 py-3 text-center font-semibold">₱{{ number_format($payment->total, 2) }}</td>
