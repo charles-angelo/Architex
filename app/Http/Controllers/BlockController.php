@@ -5,21 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\Properties;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class BlockController extends Controller
 {
     public function index()
     {
-        $blocks = Block::with('property')->latest()->paginate(10);
-        $properties = Properties::all(); // For dropdown if needed in index
-        return view('admin.blocks.index', compact('blocks', 'properties'));
-    }
+        // No pagination here since DataTables is used (you can paginate via AJAX later if needed)
+        $blocks = Block::with('property')->latest()->get();
+        $properties = Properties::all();
 
-    public function create()
-    {
-        $properties = Properties::all(); // For dropdown
-        return view('admin.blocks.create', compact('properties'));
+        return view('admin.blocks.index', compact('blocks', 'properties'));
     }
 
     public function store(Request $request)
@@ -29,15 +24,15 @@ class BlockController extends Controller
             'block_number' => 'required|string|max:255',
         ]);
 
-        Block::create($request->only('property_id', 'block_number'));
+        $block = Block::create($request->only('property_id', 'block_number'));
 
-        return redirect()->route('admin.blocks.index')->with('success', 'Block created successfully.');
-    }
-
-    public function edit(Block $block)
-    {
-        $properties = Properties::all();
-        return view('admin.blocks.edit', compact('block', 'properties'));
+        // Return JSON instead of redirect
+        return response()->json([
+            'id' => $block->id,
+            'property_id' => $block->property_id,
+            'property_name' => $block->property->name ?? 'N/A',
+            'block_number' => $block->block_number,
+        ]);
     }
 
     public function update(Request $request, Block $block)
@@ -49,12 +44,20 @@ class BlockController extends Controller
 
         $block->update($request->only('property_id', 'block_number'));
 
-        return redirect()->route('admin.blocks.index')->with('success', 'Block updated successfully.');
+        // Return JSON instead of redirect
+        return response()->json([
+            'id' => $block->id,
+            'property_id' => $block->property_id,
+            'property_name' => $block->property->name ?? 'N/A',
+            'block_number' => $block->block_number,
+        ]);
     }
 
     public function destroy(Block $block)
     {
         $block->delete();
-        return redirect()->route('admin.blocks.index')->with('success', 'Block deleted successfully.');
+
+        // Return JSON instead of redirect
+        return response()->json(['success' => true]);
     }
 }

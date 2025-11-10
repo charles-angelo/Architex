@@ -180,20 +180,20 @@
                             class="block py-2 pl-4 pr-6 rounded-lg transition
                             {{ request()->routeIs('admin.properties.*') ? 'bg-white text-[#1E4D2B] font-semibold' : 'text-white hover:bg-white/10' }}">
                             <span class="whitespace-nowrap">Properties</span>
-                        </a>
+                            </a>
                     </li>
                     --}}
 
                     {{-- Hidden: Blocks --}}
-                    {{--
-                    <li>
+
+                    <!-- <li>
                         <a href="{{ route('admin.blocks.index') }}"
-                                class="block py-2 pl-4 pr-6 rounded-lg transition
+                            class="block py-2 pl-4 pr-6 rounded-lg transition
                                 {{ request()->routeIs('admin.blocks.*') ? 'bg-white text-[#1E4D2B] font-semibold' : 'text-white hover:bg-white/10' }}">
-                                <span class="whitespace-nowrap">Blocks</span>
+                            <span class="whitespace-nowrap">Blocks</span>
                         </a>
-                    </li>
-                    --}}
+                    </li> -->
+
 
                     <li>
                         <a href="{{ route('admin.lots.index') }}"

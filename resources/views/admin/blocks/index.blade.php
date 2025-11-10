@@ -43,6 +43,12 @@
                 <td class="px-6 py-3">
                     <div class="flex justify-center items-center gap-2">
                         <button type="button"
+                            onclick="openEditModal({{ $block->id }}, '{{ $block->property_id }}', '{{ $block->block_number }}')"
+                            class="px-3 py-1 rounded text-white"
+                            style="background-color:#3B82F6;">
+                            Edit
+                        </button>
+                        <button type="button"
                             onclick="deleteBlock({{ $block->id }})"
                             class="px-3 py-1 rounded text-white"
                             style="background-color:#EF4444;">
@@ -98,6 +104,48 @@
         </form>
     </div>
 </div>
+
+<!-- Edit Block Modal -->
+<div id="edit-modal"
+    class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-3xl shadow-lg p-8 w-[600px] max-w-full">
+        <h2 class="text-lg font-semibold mb-6">EDIT BLOCK</h2>
+
+        <form id="edit-form" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" id="edit_block_id">
+
+            <div class="mb-4">
+                <label for="edit_property_id" class="block text-sm font-medium text-gray-700">Property</label>
+                <select name="property_id" id="edit_property_id" required>
+                    <option value="">-- Select Property --</option>
+                    @foreach($properties as $property)
+                    <option value="{{ $property->id }}">{{ $property->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="edit_block_number" class="block text-sm font-medium text-gray-700">Block Number</label>
+                <input type="text" name="block_number" id="edit_block_number"
+                    class="mt-1 block w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <button type="button" onclick="closeEditModal()"
+                    class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -207,6 +255,55 @@
                     });
                 }
             });
+        });
+    });
+
+    function openEditModal(id, propertyId, blockNumber) {
+        $('#edit_block_id').val(id);
+        $('#edit_property_id').val(propertyId);
+        $('#edit_block_number').val(blockNumber);
+        $('#edit-modal').removeClass('hidden');
+    }
+
+    function closeEditModal() {
+        $('#edit-modal').addClass('hidden');
+        $('#edit-form')[0].reset();
+    }
+
+    $('#edit-form').submit(function(e) {
+        e.preventDefault();
+
+        let blockId = $('#edit_block_id').val();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: `/admin/blocks/${blockId}`,
+            method: 'POST',
+            data: formData + '&_method=PUT',
+            success: function(response) {
+                // Update table row visually
+                let row = $(`#row-${blockId}`);
+                row.find('td:nth-child(2)').text(response.property_name);
+                row.find('td:nth-child(3)').text(response.block_number);
+
+                closeEditModal();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'The block has been updated successfully.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            },
+            error: function(xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: xhr.responseJSON?.message || 'Something went wrong.',
+                    confirmButtonColor: '#EF4444',
+                });
+            },
         });
     });
 </script>

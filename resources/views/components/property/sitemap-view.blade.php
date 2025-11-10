@@ -20,7 +20,7 @@
                 id: lot.id ?? null,
                 name: lot.name ?? 'Unnamed Lot',
                 address: lot.block && lot.name 
-                    ? `Block ${lot.block}, ${lot.name}`
+                    ? ` ${lot.block}, ${lot.name}`
                     : 'Address not available',
                 type: lot.type ?? 'N/A',
                 category: lot.category ?? 'N/A',
@@ -314,19 +314,40 @@
                 @endphp
 
                 <!-- 🗺️ Clickable Lots -->
+                <!-- 🗺️ Clickable Lots -->
                 <template x-for="(lot, index) in lots" :key="index">
-                    <!-- 🟢 Visible Lot Buttons -->
-                    <div class="absolute" :style="`left: ${lot.position.x}px; top: ${lot.position.y}px; transform: translate(-50%, -50%);`">
-                        <button
-                            @click="selectLot(lot)"
-                            class="flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition-all duration-300 transform hover:scale-110 hover:shadow-lg focus:outline-none"
-                            :class="{
+
+                    @if ($isForSaleOrRent)
+                    <!-- 🟢 For-Sale / For-Rent Lot Buttons -->
+                    <button
+                        @click="selectLot(lot)"
+                        class="absolute flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
+                        :style="`left: ${lot.position.x}px; top: ${lot.position.y}px; transform: translate(-50%, -50%);`"
+                        :class="{
                 'bg-green-700': lot.status === 'Available',
-                'bg-yellow-400 text-gray-900': lot.status === 'Reserved',
+                'bg-yellow-400': lot.status === 'Reserved',
                 'bg-red-500': lot.status === 'Sold',
                 'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
             }"
-                            x-text="lot.id"
+                        x-text="lot.id">
+                    </button>
+                    @else
+                    <!-- 🟤 Hidden / Transparent Lots with Tooltip -->
+                    <div class="absolute" :style="getLotStyle(lot)">
+                        <!-- Invisible Clickable Area -->
+                        <button
+                            @click="selectLot(lot)"
+                            class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
+                            :style="`
+                    width: 32px;
+                    height: 32px;
+                    background: transparent;
+                    border: none;
+                    pointer-events: auto;
+                    box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
+                    transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
+                    z-index: ${hoveredLot === lot.id ? 50 : 1};
+                `"
                             @mouseenter="hoveredLot = lot.id"
                             @mouseleave="hoveredLot = null">
                         </button>
@@ -335,9 +356,11 @@
                         <div
                             x-show="hoveredLot === lot.id"
                             class="absolute -translate-x-1/2 left-1/2 -top-7 bg-[#1E4D2B] text-white text-xs px-2 py-1 rounded-md pointer-events-none whitespace-nowrap z-50"
-                            x-text="lot.name">
+                            x-text="lot.block && lot.name ? `${lot.block}, ${lot.name}` : 'Address not available'">
                         </div>
                     </div>
+                    @endif
+
                 </template>
 
             </div>
