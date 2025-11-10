@@ -32,6 +32,9 @@ class Payment extends Model
         'total',
         'payment_method',
         'status',
+        'checkout_id',
+        'checkout_url',
+        'proof_path',
     ];
 
     /**

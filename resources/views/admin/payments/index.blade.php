@@ -42,10 +42,14 @@
                     @case('partial')
                     <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">Partial</span>
                     @break
+                    @case('pending')
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Pending</span>
+                    @break
                     @default
                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">Unpaid</span>
                     @endswitch
                 </td>
+
                 <td class="px-6 py-3 text-center">
                     <div class="flex justify-center items-center gap-2">
                         <!-- View -->
@@ -122,6 +126,15 @@
             </ul>
         </div>
 
+        <!-- 🧾 Proof of Payment -->
+        <div class="border-t border-gray-200 pt-4 mt-4">
+            <h3 class="font-semibold mb-3 text-gray-700 flex items-center gap-1">🧾 Proof of Payment</h3>
+            <div id="proof_section" class="text-center">
+                <img id="proof_image" src="" alt="Proof of Payment" class="mx-auto rounded-lg border hidden max-h-[300px]">
+                <p id="no_proof" class="text-sm text-gray-500 italic">No proof uploaded.</p>
+            </div>
+        </div>
+
         <!-- Close Button -->
         <div class="flex justify-end mt-6">
             <button type="button"
@@ -152,6 +165,18 @@
 
         // ✅ Manual /public/storage/lots support
         const firstImage = lot.images?.length ? lot.images[0].image : null;
+
+        // 🧾 Proof of Payment
+        if (payment.proof_path) {
+            $('#proof_image')
+                .attr('src', `/storage/${payment.proof_path}`)
+                .removeClass('hidden');
+            $('#no_proof').addClass('hidden');
+        } else {
+            $('#proof_image').addClass('hidden');
+            $('#no_proof').removeClass('hidden');
+        }
+
 
         if (firstImage) {
             const fullPath = `/${firstImage}`;

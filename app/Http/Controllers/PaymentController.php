@@ -21,6 +21,7 @@ class PaymentController extends Controller
             ->latest()
             ->paginate(10);
 
+
         return view('admin.payments.index', compact('payments'));
     }
 
@@ -53,14 +54,20 @@ class PaymentController extends Controller
             'email' => 'required|email|max:255',
             'contact_number' => 'required|string|max:20',
             'telephone_number' => 'nullable|string|max:20',
-            'payment_method' => 'required|string|in:gcash,paymaya,pay_later', // 🟣 added pay_later
+            'payment_method' => 'required|string|in:gcash,paymaya,pay_later,bank_transfer',
             'status' => 'required|string|in:paid,partial,pending',
+            'payment_proof' => 'required_if:payment_method,bank_transfer|image|mimes:jpg,jpeg,png|max:4096',
         ]);
 
         $lot = Lots::findOrFail($request->lot_id);
         $amount = $lot->price ?? 0;
 
-        // Determine intended payment amount
+        // ✅ Force status = "pending" for bank_transfer, regardless of user input
+        if ($request->payment_method === 'bank_transfer') {
+            $request->merge(['status' => 'pending']);
+        }
+
+        // Determine payment amount
         $paymentAmount = match ($request->status) {
             'partial' => 50000,
             'paid' => $amount,
@@ -68,8 +75,7 @@ class PaymentController extends Controller
         };
 
         /**
-         * 🟣 HANDLE "PAY LATER" OPTION
-         * This skips PayMongo and directly saves the reservation.
+         * 🟣 PAY LATER — Reservation only, no payment yet
          */
         if ($request->payment_method === 'pay_later') {
             $payment = Payment::create([
@@ -84,7 +90,6 @@ class PaymentController extends Controller
                 'status'           => 'unpaid',
             ]);
 
-            // Reserve the lot
             $lot->update(['status' => 'reserved']);
 
             return redirect()
@@ -93,7 +98,41 @@ class PaymentController extends Controller
         }
 
         /**
-         * 🟢 Normal PayMongo flow for GCash / PayMaya
+         * 🏦 BANK TRANSFER — Manual proof upload, pending verification
+         */
+        if ($request->payment_method === 'bank_transfer') {
+            $file = $request->file('payment_proof');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Save directly inside public/storage/proof_payment
+            $destination = public_path('storage/proof_payment');
+            $file->move($destination, $filename);
+
+            $path = 'proof_payment/' . $filename; // relative path for display later
+
+            $payment = Payment::create([
+                'lot_id'           => $lot->id,
+                'full_name'        => $request->full_name,
+                'email'            => $request->email,
+                'contact_number'   => $request->contact_number,
+                'telephone_number' => $request->telephone_number,
+                'total'            => $amount,
+                'amount_paid'      => 0,
+                'payment_method'   => 'bank_transfer',
+                'status'           => 'pending',
+                'proof_path'       => $path, // store only relative path
+            ]);
+
+            $lot->update(['status' => 'reserved']);
+
+            return redirect()
+                ->route('payments.success', ['lot_id' => $lot->id])
+                ->with('info', 'Your bank transfer has been submitted and is pending admin verification.');
+        }
+
+
+        /**
+         * 💳 NORMAL PayMongo Flow (GCash / PayMaya)
          */
         $payment = Payment::create([
             'lot_id'           => $lot->id,
@@ -107,7 +146,7 @@ class PaymentController extends Controller
             'status'           => Payment::STATUS_UNPAID,
         ]);
 
-        // If amount is 0 (shouldn’t happen here)
+        // Handle invalid amounts
         if ($paymentAmount <= 0) {
             return redirect()
                 ->route('payments.cancel', ['lot_id' => $lot->id])
@@ -117,7 +156,7 @@ class PaymentController extends Controller
         $successUrl = route('payments.success', ['lot_id' => $lot->id]);
         $cancelUrl  = route('payments.cancel', ['lot_id' => $lot->id]);
 
-        // Create PayMongo checkout session
+        // PayMongo Checkout Session
         $response = Http::withHeaders([
             'Content-Type'  => 'application/json',
             'Accept'        => 'application/json',
@@ -153,7 +192,6 @@ class PaymentController extends Controller
             ]
         ]);
 
-        // Handle PayMongo error
         if (!$response->successful()) {
             Log::error('PayMongo Error:', $response->json());
 
@@ -163,10 +201,11 @@ class PaymentController extends Controller
             ]);
         }
 
-        // Redirect to PayMongo checkout
         $checkoutUrl = $response->json()['data']['attributes']['checkout_url'] ?? null;
         return redirect($checkoutUrl);
     }
+
+
 
 
     /**
@@ -188,35 +227,36 @@ class PaymentController extends Controller
         }
 
         try {
-            // Determine payment type based on amount_paid
-            $paidAmount = $payment->amount_paid;
-            $status = 'partial';
+            if ($payment->payment_method !== 'bank_transfer') {
+                // Only update status for non-bank transfer payments
+                $paidAmount = $payment->amount_paid;
+                $status = 'partial';
 
-            if ($paidAmount >= $lot->price) {
-                $paidAmount = $lot->price;
-                $status = 'paid';
+                if ($paidAmount >= $lot->price) {
+                    $paidAmount = $lot->price;
+                    $status = 'paid';
+                }
+
+                $payment->update([
+                    'status' => $status,
+                    'amount_paid' => $paidAmount,
+                ]);
+
+                $lotStatus = $status === 'paid' ? 'sold' : 'reserved';
+                $lot->update(['status' => $lotStatus]);
             }
-
-            // ✅ Update payment record from unpaid → paid/partial
-            $payment->update([
-                'status' => $status,
-                'amount_paid' => $paidAmount,
-            ]);
-
-            // ✅ Update lot status
-            $lotStatus = $status === 'paid' ? 'sold' : 'reserved';
-            $lot->update(['status' => $lotStatus]);
 
             return view('payments.success', [
                 'payment' => $payment->fresh(),
                 'lot'     => $lot,
             ])->with('success', 'Payment confirmed successfully!');
         } catch (\Throwable $e) {
-            Log::error('PayMongo Payment Success Error: ' . $e->getMessage());
+            Log::error('Payment Success Error: ' . $e->getMessage());
             return view('payments.success', compact('payment', 'lot'))
                 ->with('warning', 'Payment completed, but verification failed.');
         }
     }
+
 
 
     /**

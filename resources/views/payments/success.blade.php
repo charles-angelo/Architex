@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Payment Successful')
+@section('title', 'Payment Status')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-green-100 via-green-200 to-green-50 flex items-center justify-center pt-20 pb-[50rem]">
@@ -13,7 +13,7 @@
             </svg>
         </div>
 
-        {{-- 🟢 Success Message --}}
+        {{-- 🟢 Success / Pending Messages --}}
         @if ($payment->payment_method === 'pay_later')
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Reservation Confirmed!</h1>
         <p class="text-gray-600 mb-8">
@@ -21,12 +21,21 @@
             <strong>3 days</strong> to keep your reservation. If not paid within this time,
             the reservation will be automatically cancelled.
         </p>
+
         @elseif ($payment->status === 'partial')
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Partial Payment Received!</h1>
         <p class="text-gray-600 mb-8">
             Thank you for your ₱50,000 down payment. Your lot is now <strong>reserved</strong>.
             Please complete the remaining balance to finalize your purchase.
         </p>
+
+        @elseif ($payment->payment_method === 'bank_transfer' && $payment->status === 'pending')
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Bank Transfer Submitted!</h1>
+        <p class="text-gray-600 mb-8">
+            Your bank transfer has been received and is <strong>pending verification</strong>.
+            An admin will confirm your payment shortly. Once verified, your lot will be marked as <strong>reserved</strong>.
+        </p>
+
         @else
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Payment Successful!</h1>
         <p class="text-gray-600 mb-8">

@@ -149,6 +149,7 @@
                     x-transition
                     action="{{ route('payments.store') }}"
                     method="POST"
+                    enctype="multipart/form-data"
                     class="p-6 space-y-6 overflow-y-auto max-h-[80vh]">
                     @csrf
                     <input type="hidden" name="lot_id" :value="activeLot?.id ?? ''">
@@ -158,11 +159,8 @@
                     <input type="hidden" name="telephone_number" x-model="telephoneNumber">
                     <input type="hidden" name="total" :value="activeLot?.price ?? 0">
 
-                    <!-- 👇 New hidden field for STATUS -->
-                    <input
-                        type="hidden"
-                        name="status"
-                        :value="paymentType === 'full' ? 'paid' : 'partial'">
+                    <!-- 👇 Hidden status based on payment type -->
+                    <input type="hidden" name="status" :value="paymentType === 'full' ? 'paid' : 'partial'">
 
                     <div class="bg-[#d3e3d5] text-[#1E4D2B] px-4 py-2 font-semibold rounded-md">
                         Select Payment Amount:
@@ -188,26 +186,34 @@
 
                     <div>
                         <h4 class="text-[#1E4D2B] font-semibold mb-3">Payment Method</h4>
-                        <div class="space-y-4">
-                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer">
-                                <input type="radio" name="payment_method" class="mt-1 text-[#1E4D2B]" value="gcash" checked>
+                        <div class="space-y-4" x-data="{ selectedMethod: 'gcash' }">
+                            <!-- GCash -->
+                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer"
+                                :class="selectedMethod === 'gcash' ? 'border-[#1E4D2B] bg-[#e2f1e6]' : ''">
+                                <input type="radio" name="payment_method" value="gcash"
+                                    x-model="selectedMethod" class="mt-1 text-[#1E4D2B]">
                                 <div>
                                     <p class="font-semibold text-[#1E4D2B]">GCash</p>
                                     <p class="text-sm text-gray-600">Pay easily using your GCash account.</p>
                                 </div>
                             </label>
 
-                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer">
-                                <input type="radio" name="payment_method" class="mt-1 text-[#1E4D2B]" value="paymaya">
+                            <!-- PayMaya -->
+                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer"
+                                :class="selectedMethod === 'paymaya' ? 'border-[#1E4D2B] bg-[#e2f1e6]' : ''">
+                                <input type="radio" name="payment_method" value="paymaya"
+                                    x-model="selectedMethod" class="mt-1 text-[#1E4D2B]">
                                 <div>
                                     <p class="font-semibold text-[#1E4D2B]">PayMaya</p>
                                     <p class="text-sm text-gray-600">Use your PayMaya account to complete payment.</p>
                                 </div>
                             </label>
 
-                            <!-- 🟣 NEW: Pay Later option -->
-                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer bg-yellow-50 border-yellow-300">
-                                <input type="radio" name="payment_method" class="mt-1 text-yellow-600" value="pay_later">
+                            <!-- Pay Later -->
+                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer bg-yellow-50 border-yellow-300"
+                                :class="selectedMethod === 'pay_later' ? 'border-yellow-600 bg-yellow-100' : ''">
+                                <input type="radio" name="payment_method" value="pay_later"
+                                    x-model="selectedMethod" class="mt-1 text-yellow-600">
                                 <div>
                                     <p class="font-semibold text-yellow-700">Pay Later</p>
                                     <p class="text-sm text-gray-600">
@@ -215,6 +221,29 @@
                                     </p>
                                 </div>
                             </label>
+
+                            <!-- 🏦 Bank Transfer -->
+                            <label class="flex items-start p-4 space-x-3 border rounded-md cursor-pointer bg-blue-50 border-blue-300"
+                                :class="selectedMethod === 'bank_transfer' ? 'border-blue-600 bg-blue-100' : ''">
+                                <input type="radio" name="payment_method" value="bank_transfer"
+                                    x-model="selectedMethod" class="mt-1 text-blue-600">
+                                <div>
+                                    <p class="font-semibold text-blue-700">Bank Transfer</p>
+                                    <p class="text-sm text-gray-600">
+                                        Transfer directly to our bank account and upload your proof of payment below.
+                                    </p>
+                                </div>
+                            </label>
+
+                            <!-- 👇 Show upload field only if Bank Transfer is selected -->
+                            <div x-show="selectedMethod === 'bank_transfer'" x-transition class="p-4 border border-blue-200 bg-blue-50 rounded-md">
+                                <label class="block text-sm font-semibold text-[#1E4D2B] mb-2">
+                                    Upload Proof of Payment (Image)
+                                </label>
+                                <input type="file" name="payment_proof" accept="image/*"
+                                    class="block w-full text-sm text-gray-700 border rounded-md cursor-pointer focus:outline-none bg-white">
+                                <p class="text-xs text-gray-500 mt-1">Accepted formats: JPG, JPEG, PNG, WEBP (max 5MB)</p>
+                            </div>
                         </div>
                     </div>
 

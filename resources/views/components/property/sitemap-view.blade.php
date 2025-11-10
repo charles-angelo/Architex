@@ -275,15 +275,15 @@
                                     Virtual Tours
                                 </div>
 
-                                <!-- Reserve Modal -->
-                                @include('components.reserveModal')
+                                <div x-show="activeLot && activeLot.status === 'Available'">
+                                    @include('components.reserveModal')
+                                </div>
                             </div>
 
                         </div>
 
                         <div class="flex-1">
                             <x-floor-plan-gallery :plans="[]" />
-
                         </div>
 
                         <div class="flex flex-col gap-5 text-[#253e16] pb-6">
