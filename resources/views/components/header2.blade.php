@@ -73,7 +73,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div x-show="open" x-transition class="absolute z-50 w-full bg-white md:hidden top-full drop-shadow-md">
+    <div x-show="open" x-transition class="absolute z-[9999] w-full bg-white md:hidden top-full drop-shadow-md">
         <ul class="flex flex-col items-start py-4 pb-12 mx-3 space-y-4 font-medium text-black">
             <li><a href="{{ route('homepage') }}"
                     class="block  {{ request()->routeIs('homepage') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Home</a>
