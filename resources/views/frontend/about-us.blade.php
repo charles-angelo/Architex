@@ -38,7 +38,7 @@
     <section class="relative w-full bg-[#f3f3f3] py-24 overflow-hidden">
         <div class="flex flex-col">
             <div class="flex flex-col mb-20">
-                <div class="grid items-center grid-cols-2 md:grid-cols-3 mx-[5rem]">
+                <div class="grid items-center grid-cols-2 md:grid-cols-3 mx-3 lg:mx-[5rem]">
                     <div>
                         <img src="{{ asset('img/about-us/Architex Japan Logo2.png') }}" alt="" class="h-auto w-[60%]">
                     </div>
@@ -102,20 +102,44 @@
                 </div>
             </div>
             <div class="container mx-auto">
-                <div class="bg-white p-16 border-l-[4px] border-[#253e16] w-auto mx-[5rem]">
-                    <div class="grid grid-cols-3 text-[#253e16] divide-x divide-solid divide-[#253e16]">
+                <div
+                    class="hidden lg:flex items-center justify-center bg-white p-16 border-l-[4px] border-[#253e16] w-auto mx-[5rem]">
+                    <div
+                        class="grid grid-cols-3 text-[#253e16] justify-between w-full items-center divide-x divide-[#253e16]">
 
-                        <div class="space-y-3 text-center">
+                        <div class="pt-5 space-y-3 text-center">
                             <div class="text-5xl font-semibold counter" data-target="120">0+</div>
                             <div class="text-lg">Projects Completed</div>
                         </div>
 
-                        <div class="space-y-3 text-center">
+                        <div class="pt-5 space-y-3 text-center">
                             <div class="text-5xl font-semibold counter" data-target="15">0+</div>
                             <div class="text-lg">Years of Experience</div>
                         </div>
 
-                        <div class="space-y-3 text-center">
+                        <div class="pt-5 space-y-3 text-center">
+                            <div class="text-5xl font-semibold counter" data-target="37">0+</div>
+                            <div class="text-lg">Offices</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div
+                    class="flex lg:hidden items-center justify-center bg-white p-16 border-l-[4px] border-[#253e16] w-auto  mx-5">
+                    <div
+                        class="grid grid-cols-1 text-[#253e16] justify-between w-full items-center divide-y divide-[#253e16]">
+
+                        <div class="pb-5 space-y-3 text-center">
+                            <div class="text-5xl font-semibold counter" data-target="120">0+</div>
+                            <div class="text-lg">Projects Completed</div>
+                        </div>
+
+                        <div class="pt-5 pb-5 space-y-3 text-center">
+                            <div class="text-5xl font-semibold counter" data-target="15">0+</div>
+                            <div class="text-lg">Years of Experience</div>
+                        </div>
+
+                        <div class="pt-5 space-y-3 text-center">
                             <div class="text-5xl font-semibold counter" data-target="37">0+</div>
                             <div class="text-lg">Offices</div>
                         </div>
@@ -123,6 +147,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -145,7 +170,7 @@
                 </div>
             </div>
 
-            <div class="w-[60%] text-center text-lg container mx-auto">
+            <div class="mx-5 lg:w-[60%] text-center text-lg container lg:mx-auto">
                 Architex Japan continues to redefine modern living by combining timeless Japanese craftsmanship
                 with innovative architectural solutions. With more than 37 offices across Okazaki, Nagoya, and Tokyo,
                 the company leads in designing, building, and managing sustainable communities that embody
@@ -154,10 +179,10 @@
 
             <div class="container grid w-full mx-auto mt-10 md:grid-cols-4">
                 <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
-                    <img src="{{ asset('img/architex-fun.png') }}" alt="" class="w-auto h-32">
+                    <img src="{{ asset('img/architex-fun.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p65" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
-                        <div class="text-xl">
+                        <div class="text-lg lg:text-xl">
                             Visit Website
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -167,10 +192,10 @@
                     </a>
                 </div>
                 <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
-                    <img src="{{ asset('img/architex-home.png') }}" alt="" class="w-auto h-32">
+                    <img src="{{ asset('img/architex-home.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p76" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
-                        <div class="text-xl">
+                        <div class="text-lg lg:text-xl">
                             Visit Website
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -180,10 +205,10 @@
                     </a>
                 </div>
                 <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
-                    <img src="{{ asset('img/architex-dev.png') }}" alt="" class="w-auto h-32">
+                    <img src="{{ asset('img/architex-dev.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p125" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
-                        <div class="text-xl">
+                        <div class="text-lg lg:text-xl">
                             Visit Website
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -193,10 +218,10 @@
                     </a>
                 </div>
                 <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
-                    <img src="{{ asset('img/architex-reform.png') }}" alt="" class="w-auto h-32">
+                    <img src="{{ asset('img/architex-reform.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p125" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
-                        <div class="text-xl">
+                        <div class="text-lg lg:text-xl">
                             Visit Website
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -212,7 +237,7 @@
 
     <div class="bg-[#f3f3f3] h-full pt-28 overflow-hidden">
         <div class="relative z-10">
-            <div class="grid h-full grid-cols-1 mx-20 md:grid-cols-3">
+            <div class="grid h-full grid-cols-1 mx-3 lg:mx-20 md:grid-cols-3">
                 <div class="grid grid-cols-1">
                     <img src="{{ asset('img/whatwedoinjapan-img1.png') }}" alt="">
                     <img src="{{ asset('img/whatwedoinjapan-img2.png') }}" alt="">
@@ -323,13 +348,13 @@
             <div class="container flex flex-col items-center justify-center mx-auto">
                 <div class="md:w-[60%]">
                     <div class="relative flex items-center justify-center w-auto text-[#253e16] container mx-auto mb-3">
-                        <div class="text-[#253e16]/10 -top-5 text-7xl select-none text-outline opacity-20">
+                        <div class="text-[#253e16]/10 text-center -top-5 text-7xl select-none text-outline opacity-20">
                             Our Philosophy
                         </div>
 
                         <div class="absolute inset-0">
                             <div class="flex flex-col items-center justify-center w-full gap-3">
-                                <div class="text-lg font-semibold text-[#3d9251]">
+                                <div class="text-lg text-center font-semibold text-[#3d9251]">
                                     Our Philosophy
                                 </div>
                                 <div class="text-4xl font-medium uppercase">
@@ -662,14 +687,14 @@
         </div>
 
         <!-- Foreground mission image (right side, visible on top) -->
-        <div class="absolute inset-0 flex items-center justify-end border">
+        <div class="absolute inset-0 items-center justify-end hidden border lg:flex">
             <img src="{{ asset('img/about-us/mission.png') }}" alt="" class="w-auto h-full">
         </div>
 
         <!-- Content -->
         <div class="relative z-0 px-6 mx-auto py-28 max-w-screen-2xl">
             <!-- Heading -->
-            <div class="container relative mx-auto mb-20 ml-[5rem]">
+            <div class="container relative lg:mx-auto mb-20 mx-5 lg:ml-[5rem]">
                 <!-- Background Outline Text -->
                 <h1
                     class="absolute inset-0 z-10 flex items-start justify-start text-6xl font-bold pointer-events-none select-none md:text-6xl stroke-text ">
@@ -685,7 +710,7 @@
 
 
             <!-- Mission and Vision Cards -->
-            <div class="relative z-20 grid w-full grid-cols-2 gap-8 md:flex">
+            <div class="relative z-20 grid w-full grid-cols-1 gap-8 lg:grid-cols-2 md:flex">
                 <!-- Mission -->
                 <div class="bg-white text-gray-900  relative border-b-[6px] border-[#ffe350] pt-10 pb-5 px-10 md:w-[30%]">
                     <div class="absolute -top-8 left-8 bg-[#00721b] p-5 ">
@@ -743,7 +768,7 @@
 
         <div class="absolute inset-0">
             <div class="flex items-center justify-center w-full h-full text-center ">
-                <div class="container grid grid-cols-2 mx-auto md:grid-cols-3 gap-y-20">
+                <div class="container grid grid-cols-2 mx-auto mt-24 lg:mt-0 md:grid-cols-3 gap-y-20">
                     <div class="flex flex-col items-center justify-center gap-5">
                         <div>
                             <img src="{{ asset('img/ico/expertise.png') }}" alt="">
@@ -816,8 +841,8 @@
         </div>
     </div>
 
-    <div class="md:pb-56 bg-[#1d2022]">
-        <img src="{{ asset('img/aboutus-last-tab.png') }}" alt="" class="w-full h-auto">
+    <div class="pb-56 bg-[#1d2022] h-full">
+        <img src="{{ asset('img/aboutus-last-tab.png') }}" alt="" class="w-full h-full">
     </div>
 
     <style>

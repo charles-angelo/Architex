@@ -46,81 +46,85 @@
     </div>
 
     <!-- Footer Content -->
-    <div class="max-w-screen-xl py-16 mx-3 mt-10 text-black">
+    <div class="flex items-center justify-center w-full">
+        <div class="max-w-screen-xl px-3 py-16 mx-auto mt-10 text-black">
 
-        <!-- Logo + Socials -->
-        <div class="flex flex-col items-center justify-between md:flex-row md:items-start">
-            <img src="{{ asset('img/footer/logo.png') }}" alt="Logo" class="h-10 mb-6 md:mb-0">
-            <div class="flex space-x-4">
-                <a href="#" class="transition hover:opacity-80">
-                    <img src="{{ asset('img/footer/fb.png') }}" alt="Facebook" class="w-10 h-10">
-                </a>
-                <a href="#" class="transition hover:opacity-80">
-                    <img src="{{ asset('img/footer/insta.png') }}" alt="Instagram" class="w-10 h-10">
-                </a>
-                <a href="#" class="transition hover:opacity-80">
-                    <img src="{{ asset('img/footer/tiktok.png') }}" alt="TikTok" class="w-10 h-10">
-                </a>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="border-t-2 border-[#00721b] my-8"></div>
-
-        <!-- Quick Links / Properties / Contact -->
-        <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
-
-            <!-- Quick Links -->
-            <div>
-                <h3 class="mb-4 text-2xl font-bold text-black">QUICK LINKS</h3>
-                <ul class="space-y-2">
-                    <li><a href="{{ route('homepage') }}" class="flex items-center gap-2 text-lg hover:text-green-700">›
-                            Home</a></li>
-                    <li><a href="{{ route('about-us') }}" class="flex items-center gap-2 text-lg hover:text-green-700">›
-                            About Us</a></li>
-                    <li><a href="{{ route('properties.show') }}"
-                            class="flex items-center gap-2 text-lg hover:text-green-700">› Properties</a></li>
-                    <li><a href="{{ route('services') }}"
-                            class="flex items-center gap-2 text-lg hover:text-green-700">› Services</a></li>
-                    <li><a href="{{ route('blogs.show') }}"
-                            class="flex items-center gap-2 text-lg hover:text-green-700">› Blogs</a></li>
-                    <li><a href="{{ route('contactUs') }}"
-                            class="flex items-center gap-2 text-lg hover:text-green-700">› Contact Us</a></li>
-                </ul>
+            <!-- Logo + Socials -->
+            <div class="flex flex-col items-center justify-between md:flex-row md:items-start">
+                <img src="{{ asset('img/footer/logo.png') }}" alt="Logo" class="h-10 mb-6 md:mb-0">
+                <div class="flex space-x-4">
+                    <a href="#" class="transition hover:opacity-80">
+                        <img src="{{ asset('img/footer/fb.png') }}" alt="Facebook" class="w-10 h-10">
+                    </a>
+                    {{-- <a href="#" class="transition hover:opacity-80">
+                        <img src="{{ asset('img/footer/insta.png') }}" alt="Instagram" class="w-10 h-10">
+                    </a>
+                    <a href="#" class="transition hover:opacity-80">
+                        <img src="{{ asset('img/footer/tiktok.png') }}" alt="TikTok" class="w-10 h-10">
+                    </a> --}}
+                </div>
             </div>
 
-            <!-- Properties -->
-            <div>
-                <h3 class="mb-4 text-2xl font-bold text-black">PROPERTIES</h3>
-                <ul class="space-y-2">
-                    <li><a href="{{ route('properties.show') }}"
-                            class="flex items-center gap-2 text-lg hover:text-green-700">› Apo Yama
-                            Residences</a></li>
-                </ul>
-            </div>
+            <!-- Divider -->
+            <div class="border-t-2 border-[#00721b] my-8"></div>
 
-            <!-- Contact Info -->
-            <div>
-                <h3 class="mb-4 text-2xl font-bold text-black">CONTACT US</h3>
-                <ul class="space-y-3">
-                    <li class="flex items-start gap-2">
-                        <img src="{{ asset('img/footer/location.png') }}" alt="Location" class="w-6 h-6 mt-1">
-                        <span class="text-lg ">
-                            Door 7, Josie 1944 Commercial Bldg., E. Palma Gil St., Obrero, Brgy. 13-B, Davao City,
-                            Philippines
-                        </span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <img src="{{ asset('img/footer/phone.png') }}" alt="Phone" class="w-6 h-6">
-                        <span class="text-lg">0927 725 7326</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <img src="{{ asset('img/footer/email.png') }}" alt="Email" class="w-6 h-6">
-                        <span class="text-lg">info@architexphil.com</span>
-                    </li>
-                </ul>
-            </div>
+            <!-- Quick Links / Properties / Contact -->
+            <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
 
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="mb-4 text-2xl font-bold text-black">QUICK LINKS</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ route('homepage') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">›
+                                Home</a></li>
+                        <li><a href="{{ route('about-us') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">›
+                                About Us</a></li>
+                        <li><a href="{{ route('properties.show') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">› Properties</a></li>
+                        <li><a href="{{ route('services') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">› Services</a></li>
+                        <li><a href="{{ route('blogs.show') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">› Blogs</a></li>
+                        <li><a href="{{ route('contactUs') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">› Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Properties -->
+                <div>
+                    <h3 class="mb-4 text-2xl font-bold text-black">PROPERTIES</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ route('properties.show') }}"
+                                class="flex items-center gap-2 text-lg hover:text-green-700">› Apo Yama
+                                Residences</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="mb-4 text-2xl font-bold text-black">CONTACT US</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2">
+                            <img src="{{ asset('img/footer/location.png') }}" alt="Location" class="w-6 h-6 mt-1">
+                            <span class="text-lg ">
+                                Door 7, Josie 1944 Commercial Bldg., E. Palma Gil St., Obrero, Brgy. 13-B, Davao City,
+                                Philippines
+                            </span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <img src="{{ asset('img/footer/phone.png') }}" alt="Phone" class="w-6 h-6">
+                            <span class="text-lg">0927 725 7326</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <img src="{{ asset('img/footer/email.png') }}" alt="Email" class="w-6 h-6">
+                            <span class="text-lg">info@architexphil.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </div>
 
