@@ -73,32 +73,31 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div x-show="open" x-transition class="absolute z-50 w-full bg-white md:hidden top-full">
-        <ul class="flex flex-col items-start px-6 py-4 pb-12 space-y-4 font-medium text-black">
+    <div x-show="open" x-transition class="absolute z-50 w-full bg-white md:hidden top-full drop-shadow-md">
+        <ul class="flex flex-col items-start py-4 pb-12 mx-3 space-y-4 font-medium text-black">
             <li><a href="{{ route('homepage') }}"
-                    class="block w-full {{ request()->routeIs('homepage') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Home</a>
+                    class="block  {{ request()->routeIs('homepage') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Home</a>
             </li>
             <li><a href="{{ route('about-us') }}"
-                    class="block w-full {{ request()->routeIs('about-us') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">About
+                    class="block  {{ request()->routeIs('about-us') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">About
                     Us</a></li>
             <li><a href="{{ route('properties.show') }}"
-                    class="block w-full {{ request()->routeIs('properties.*') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Properties</a>
+                    class="block  {{ request()->routeIs('properties.*') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Properties</a>
             </li>
             <li><a href="{{ route('services') }}"
-                    class="block w-full {{ request()->routeIs('services') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Services</a>
+                    class="block  {{ request()->routeIs('services') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Services</a>
             </li>
             <li><a href="{{ route('blogs.show') }}"
-                    class="block w-full {{ request()->routeIs('blogs.*') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Blogs</a>
+                    class="block  {{ request()->routeIs('blogs.*') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Blogs</a>
             </li>
-            <li class="w-full">
+            <li class="">
                 <a href="{{ route('contactUs') }}"
-                    class="block w-full px-5 py-2 font-medium text-center text-white transition-all bg-green-900 rounded hover:bg-green-700">
+                    class="block w-full px-10 py-2 font-medium text-center text-white transition-all bg-green-900 rounded hover:bg-green-700">
                     Contact Us
                 </a>
             </li>
             <li>
-                <div
-                    class="absolute 2xl:grid items-center justify-center flex 2xl:grid-cols-1 2xl:top-[30%] gap-10 px-10 w-full">
+                <div class="absolute 2xl:grid items-center justify-center flex 2xl:grid-cols-1 2xl:top-[30%] gap-10">
                     <div class="flex flex-col items-center gap-10">
                         <span
                             class="text-sm tracking-widest rotate-0 2xl:-rotate-90 text-black 2xl:text-white origin-center transform scale-y-[1]">
@@ -113,14 +112,14 @@
                             class="flex items-center justify-center w-10 h-10 text-[#00C52F] hover:text-green-800 hover:bg-yellow-400 bg-green-800 rounded-full transition duration-300">
                             <i class="p-3 ri--facebook-fill"></i>
                         </a>
-                        <a href="#"
+                        {{-- <a href="#"
                             class="flex items-center justify-center w-10 h-10 bg-green-800 text-[#00C52F] rounded-full hover:text-green-800 hover:bg-yellow-400 transition duration-300">
                             <i class="p-3 mingcute--instagram-fill "></i>
                         </a>
                         <a href="#"
                             class="flex items-center justify-center w-10 h-10 bg-green-900 text-[#00C52F] rounded-full hover:text-green-800 hover:bg-yellow-400 transition duration-300">
                             <i class="p-3 ic--baseline-tiktok "></i>
-                        </a>
+                        </a> --}}
                         <span class="w-px h-6 rotate-90 bg-green-900"></span>
                     </div>
                 </div>

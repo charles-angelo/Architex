@@ -1,15 +1,15 @@
 <section class="relative grid h-full grid-cols-2">
 
-    <div class="relative bg-[#253e16] h-full 2xl:pb-0 2xl:h-auto py-[20rem] lg:py-5">
+    <div class="relative bg-[#253e16] h-full 2xl:pb-0 2xl:h-auto py-[15rem] lg:py-5">
         <div>
             <img src="{{ asset('img/homepage/bg-1.png') }}" class="hidden 2xl:flex mt-36 mix-blend-multiply"
                 alt="Background">
         </div>
         <div class="absolute inset-0">
-            <section class="flex py-8 text-white lg:px-10 2xl:ml-[10rem] gap-20 2xl:gap-52">
+            <section class="hidden lg:flex py-8 text-white lg:px-10 2xl:ml-[10rem] gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
-                    <div>0927 725 7326</div>
+                    <div>82 240 6031</div>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="p-3 material-symbols--mail"></span>
@@ -45,8 +45,8 @@
         </div>
     </div>
 
-    <div class="relative h-full px-2 bg-white py-[20rem] lg:py-5">
-        <div class="absolute inset-0 xl:block top-5">
+    <div class="relative h-full px-2 bg-white py-[15rem] lg:py-5">
+        <div class="absolute inset-0 hidden lg:flex xl:block top-5">
             <section class="px-10 py-2">
                 <div class="flex gap-2">
                     <span class="tdesign--location-filled text-[#00721B] p-3"></span>
