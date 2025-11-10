@@ -9,7 +9,7 @@
             <section class="hidden lg:flex py-8 text-white lg:px-10 2xl:ml-[10rem] gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
-                    <div>82 240 6031</div>
+                    <div>(082) 240 6031</div>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="p-3 material-symbols--mail"></span>

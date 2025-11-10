@@ -14,7 +14,7 @@
                 <section class="2xl:ml-[9rem] flex gap-10 py-8 text-white lg:px-10 2xl:gap-52">
                     <div class="flex items-center gap-2 lg:gap-5 ">
                         <span class="p-3 ic--baseline-phone"></span>
-                        <div>0927 725 7326</div>
+                        <div>(082) 240 6031</div>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="p-3 material-symbols--mail"></span>

@@ -5,7 +5,7 @@
         ?
         'bg-white shadow-md top-0 left-0 w-full fixed transition-all duration-300 py-8' :
         'bg-transparent 2xl:static border-b-2 border-[#717171]/30  2xl:container 2xl:mx-auto'"
-    class="fixed min-w-full 2xl:min-w-fit">
+    class="fixed min-w-full 2xl:min-w-fit z-[9999]">
     <div class="flex justify-between py-4 2xl:container 2xl:mx-auto ">
         <!-- Logo -->
         <div class="flex items-center px-3">

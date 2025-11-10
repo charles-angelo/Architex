@@ -47,7 +47,7 @@
 
                             {{-- ✅ Description (without <p> tag issue) --}}
                             @if (!empty($hero['description']))
-                                <div class="w-1/2 mt-4 text-base text-green-900 lg:text-xl">
+                                <div class="w-[80%] lg:w-1/2 mt-4 text-base text-green-900 lg:text-xl">
                                     {!! strip_tags($hero['description'], '<br><strong><em><b><i>') !!}
                                 </div>
                             @endif
