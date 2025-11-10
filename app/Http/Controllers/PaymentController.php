@@ -227,8 +227,9 @@ class PaymentController extends Controller
         }
 
         try {
-            if ($payment->payment_method !== 'bank_transfer') {
-                // Only update status for non-bank transfer payments
+            // ✅ Only update status for PayMongo (gcash / paymaya)
+            if (!in_array($payment->payment_method, ['bank_transfer', 'pay_later'])) {
+
                 $paidAmount = $payment->amount_paid;
                 $status = 'partial';
 
@@ -246,6 +247,7 @@ class PaymentController extends Controller
                 $lot->update(['status' => $lotStatus]);
             }
 
+            // ✅ Keep pay_later and bank_transfer statuses untouched
             return view('payments.success', [
                 'payment' => $payment->fresh(),
                 'lot'     => $lot,

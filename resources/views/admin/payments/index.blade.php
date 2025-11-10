@@ -12,6 +12,7 @@
         <thead>
             <tr class="bg-black text-white text-sm font-semibold">
                 <th class="px-6 py-3 text-center rounded-tl-lg">ID</th>
+                <th class="px-6 py-3 text-center rounded-tl-lg">Block</th>
                 <th class="px-6 py-3 text-center">Lot</th>
                 <th class="px-6 py-3 text-center">Full Name</th>
                 <th class="px-6 py-3 text-center w-48">Email</th>
@@ -27,6 +28,9 @@
             @forelse($payments as $payment)
             <tr class="border-t" id="row-{{ $payment->id }}">
                 <td class="px-6 py-3 text-center">{{ $payment->id }}</td>
+                <td class="px-6 py-3 text-center">
+                    {{ $payment->lot->block->block_number ?? 'N/A' }}
+                </td>
                 <td class="px-6 py-3 text-center">{{ $payment->lot->lot_name ?? 'N/A' }}</td>
                 <td class="px-6 py-3 text-center">{{ $payment->full_name }}</td>
                 <td class="px-6 py-3 text-center text-gray-600 truncate max-w-[12rem]" title="{{ $payment->email }}">
