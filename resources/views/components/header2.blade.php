@@ -5,7 +5,7 @@
         ?
         'bg-white shadow-md top-0 left-0 w-full fixed transition-all duration-300 py-8' :
         'bg-transparent 2xl:static border-b-2 border-[#717171]/30  2xl:container 2xl:mx-auto'"
-    class="fixed min-w-full 2xl:min-w-fit">
+    class="fixed min-w-full 2xl:min-w-fit z-[9999]">
     <div class="flex justify-between py-4 2xl:container 2xl:mx-auto ">
         <!-- Logo -->
         <div class="flex items-center px-3">
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div x-show="open" x-transition class="absolute z-[9999] w-full bg-white md:hidden top-full drop-shadow-md">
+    <div x-show="open" x-transition class="absolute z-50 w-full bg-white md:hidden top-full drop-shadow-md">
         <ul class="flex flex-col items-start py-4 pb-12 mx-3 space-y-4 font-medium text-black">
             <li><a href="{{ route('homepage') }}"
                     class="block  {{ request()->routeIs('homepage') ? 'text-[#00721B]' : 'hover:text-[#00721B]' }}">Home</a>
