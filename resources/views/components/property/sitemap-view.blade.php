@@ -314,7 +314,6 @@
                 @endphp
 
                 <!-- 🗺️ Clickable Lots -->
-                <!-- 🗺️ Clickable Lots -->
                 <template x-for="(lot, index) in lots" :key="index">
 
                     @if ($isForSaleOrRent)
@@ -324,30 +323,48 @@
                         class="absolute flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
                         :style="`left: ${lot.position.x}px; top: ${lot.position.y}px; transform: translate(-50%, -50%);`"
                         :class="{
-                'bg-green-700': lot.status === 'Available',
-                'bg-yellow-400': lot.status === 'Reserved',
-                'bg-red-500': lot.status === 'Sold',
-                'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
-            }"
+            'bg-green-700': lot.status === 'Available',
+            'bg-yellow-400': lot.status === 'Reserved',
+            'bg-red-500': lot.status === 'Sold',
+            'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
+        }"
                         x-text="lot.id">
                     </button>
+
                     @else
-                    <!-- 🟤 Hidden / Transparent Lots with Tooltip -->
+                    <!-- 🟤 Hidden / Transparent Lots with SOLD Indicator and Tooltip -->
                     <div class="absolute" :style="getLotStyle(lot)">
+
+                        <!-- 🔴 SOLD Label (only if sold) -->
+                        <template x-if="lot.status === 'Sold'">
+                            <div
+                                class="absolute flex items-center justify-center text-[5px] font-bold text-white bg-red-600 rounded-md px-2 py-[2px] uppercase shadow-md"
+                                :style="`
+            left: 50%;
+            top: -12px;
+            transform: translate(-50%, -0%) rotate(-15deg);
+            opacity: 0.7;
+            z-index: 50;
+        `">
+                                SOLD
+                            </div>
+                        </template>
+
+
                         <!-- Invisible Clickable Area -->
                         <button
                             @click="selectLot(lot)"
                             class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
                             :style="`
-                    width: 32px;
-                    height: 32px;
-                    background: transparent;
-                    border: none;
-                    pointer-events: auto;
-                    box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
-                    transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
-                    z-index: ${hoveredLot === lot.id ? 50 : 1};
-                `"
+                width: 32px;
+                height: 32px;
+                background: transparent;
+                border: none;
+                pointer-events: auto;
+                box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
+                transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
+                z-index: ${hoveredLot === lot.id ? 50 : 1};
+            `"
                             @mouseenter="hoveredLot = lot.id"
                             @mouseleave="hoveredLot = null">
                         </button>
@@ -360,9 +377,7 @@
                         </div>
                     </div>
                     @endif
-
                 </template>
-
             </div>
         </div>
     </div>
