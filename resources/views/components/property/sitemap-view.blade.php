@@ -300,86 +300,147 @@
                 </div>
             </div>
 
-            <div class="relative overflow-hidden"
-                x-data="{ hoveredLot: null, mapWidth: 800, mapHeight: 900 }">
+           <div class="relative overflow-hidden w-full h-[900px]" 
+     x-data="{
+        hoveredLot: null,
+        mapWidth: 800,
+        mapHeight: 900,
+        zoom: 1,
+        minZoom: 0.5,
+        maxZoom: 2,
+        scaleStep: 0.1,
+        offsetX: 0,
+        offsetY: 0,
+        dragging: false,
+        startX: 0,
+        startY: 0,
 
-                <img
-                    src="{{ asset('img/properties/sitemap3.svg') }}"
-                    alt="Sitemap"
-                    class="object-contain w-full h-auto sitemap-image pointer-events-none select-none">
+        zoomIn() { this.zoom = Math.min(this.zoom + this.scaleStep, this.maxZoom) },
+        zoomOut() { this.zoom = Math.max(this.zoom - this.scaleStep, this.minZoom) },
 
-                @php
-                $isForSaleOrRent =
-                str_contains(request()->path(), '/for-sale') ||
-                str_contains(request()->path(), '/for-rent');
-                @endphp
+        startDrag(e) {
+            this.dragging = true;
+            this.startX = e.clientX - this.offsetX;
+            this.startY = e.clientY - this.offsetY;
+        },
+        drag(e) {
+            if(this.dragging){
+                this.offsetX = e.clientX - this.startX;
+                this.offsetY = e.clientY - this.startY;
+            }
+        },
+        endDrag() { this.dragging = false; },
 
-                <template x-for="(lot, index) in lots" :key="index">
+        wheelZoom(e) {
+            e.preventDefault();
+            const delta = e.deltaY < 0 ? this.scaleStep : -this.scaleStep;
+            const newZoom = Math.min(Math.max(this.zoom + delta, this.minZoom), this.maxZoom);
 
-    @if ($isForSaleOrRent)
-    <!-- 🟢 For-Sale / For-Rent Lot Buttons -->
-    <button
-        @click="selectLot(lot)"
-        class="absolute flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
-        :style="`left: ${(lot.position.x / mapWidth) * 100}%; top: ${(lot.position.y / mapHeight) * 100}%; transform: translate(-50%, -50%);`"
-        :class="{
-            'bg-green-700': lot.status === 'Available',
-            'bg-yellow-400 text-gray-900': lot.status === 'Reserved',
-            'bg-red-500': lot.status === 'Sold',
-            'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
-        }"
-        x-text="lot.id">
-    </button>
+            // Optional: adjust pan to zoom relative to mouse position
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+            this.offsetX -= (mx - this.offsetX) * (newZoom / this.zoom - 1);
+            this.offsetY -= (my - this.offsetY) * (newZoom / this.zoom - 1);
 
-    @else
-    <!-- 🟤 Hidden / Transparent Lots with SOLD Indicator and Tooltip -->
-    <div class="absolute" 
-         :style="`left: ${(lot.position.x / mapWidth) * 100}%; top: ${(lot.position.y / mapHeight) * 100}%; transform: translate(-50%, -50%);`">
+            this.zoom = newZoom;
+        }
+     }"
+     @mousemove.window="drag"
+     @mouseup.window="endDrag"
+     @wheel.prevent="wheelZoom($event)"
+     style="user-select: none;">
 
-        <!-- 🔴 SOLD Label -->
-        <template x-if="lot.status === 'Sold'">
-            <div
-                class="absolute flex items-center justify-center text-[5px] font-bold text-white bg-red-600 rounded-md px-2 py-[2px] uppercase shadow-md"
-                :style="`
-                    left: 50%;
-                    top: -12px;
-                    transform: translate(-50%, -0%) rotate(-15deg);
-                    opacity: 0.7;
-                    z-index: 50;
-                `">
-                SOLD
-            </div>
-        </template>
-
-        <!-- Invisible Clickable Area -->
-        <button
-            @click="selectLot(lot)"
-            class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
-            :style="`
-                width: 32px;
-                height: 32px;
-                background: transparent;
-                border: none;
-                pointer-events: auto;
-                box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
-                transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
-                z-index: ${hoveredLot === lot.id ? 50 : 1};
-            `"
-            @mouseenter="hoveredLot = lot.id"
-            @mouseleave="hoveredLot = null">
-        </button>
-
-        <!-- Tooltip -->
-        <div
-            x-show="hoveredLot === lot.id"
-            class="absolute -translate-x-1/2 left-1/2 -top-7 bg-[#1E4D2B] text-white text-xs px-2 py-1 rounded-md pointer-events-none whitespace-nowrap z-50"
-            x-text="lot.block && lot.name ? `${lot.block}, ${lot.name}` : 'Address not available'">
-        </div>
+    <!-- Zoom Controls -->
+    <div class="absolute top-2 right-2 z-50 flex gap-2">
+        <button @click="zoomIn" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">+</button>
+        <button @click="zoomOut" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">-</button>
     </div>
-    @endif
-</template>
 
+    <!-- Zoomable & Draggable Map Container -->
+    <div class="relative origin-top-left cursor-grab"
+         :class="{'cursor-grabbing': dragging}"
+         @mousedown="startDrag($event)"
+         :style="`transform: translate(${offsetX}px, ${offsetY}px) scale(${zoom}); transform-origin: 0 0; width: ${mapWidth}px; height: ${mapHeight}px;`">
+
+        <img
+            src="{{ asset('img/properties/sitemap3.svg') }}"
+            alt="Sitemap"
+            class="object-contain w-full h-auto pointer-events-none select-none">
+
+        @php
+        $isForSaleOrRent =
+            str_contains(request()->path(), '/for-sale') ||
+            str_contains(request()->path(), '/for-rent');
+        @endphp
+
+        <template x-for="(lot, index) in lots" :key="index">
+
+            @if ($isForSaleOrRent)
+            <!-- 🟢 For-Sale / For-Rent Lot Buttons -->
+            <button
+                @click="selectLot(lot)"
+                class="absolute flex items-center justify-center w-6 h-6 text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
+                :style="`left: ${(lot.position.x / mapWidth) * 100}%; top: ${(lot.position.y / mapHeight) * 100}%; transform: translate(-50%, -50%);`"
+                :class="{
+                    'bg-green-700': lot.status === 'Available',
+                    'bg-yellow-400 text-gray-900': lot.status === 'Reserved',
+                    'bg-red-500': lot.status === 'Sold',
+                    'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
+                }"
+                x-text="lot.id">
+            </button>
+
+            @else
+            <!-- 🟤 Hidden / Transparent Lots with SOLD Indicator and Tooltip -->
+            <div class="absolute" 
+                 :style="`left: ${(lot.position.x / mapWidth) * 100}%; top: ${(lot.position.y / mapHeight) * 100}%; transform: translate(-50%, -50%);`">
+
+                <!-- 🔴 SOLD Label -->
+                <template x-if="lot.status === 'Sold'">
+                    <div
+                        class="absolute flex items-center justify-center text-[5px] font-bold text-white bg-red-600 rounded-md px-2 py-[2px] uppercase shadow-md"
+                        :style="`
+                            left: 50%;
+                            top: -12px;
+                            transform: translate(-50%, -0%) rotate(-15deg);
+                            opacity: 0.7;
+                            z-index: 50;
+                        `">
+                        SOLD
+                    </div>
+                </template>
+
+                <!-- Invisible Clickable Area -->
+                <button
+                    @click="selectLot(lot)"
+                    class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
+                    :style="`
+                        width: 32px;
+                        height: 32px;
+                        background: transparent;
+                        border: none;
+                        pointer-events: auto;
+                        box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
+                        transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
+                        z-index: ${hoveredLot === lot.id ? 50 : 1};
+                    `"
+                    @mouseenter="hoveredLot = lot.id"
+                    @mouseleave="hoveredLot = null">
+                </button>
+
+                <!-- Tooltip -->
+                <div
+                    x-show="hoveredLot === lot.id"
+                    class="absolute -translate-x-1/2 left-1/2 -top-7 bg-[#1E4D2B] text-white text-xs px-2 py-1 rounded-md pointer-events-none whitespace-nowrap z-50"
+                    x-text="lot.block && lot.name ? `${lot.block}, ${lot.name}` : 'Address not available'">
+                </div>
             </div>
+            @endif
+        </template>
+    </div>
+</div>
+
 
         </div>
     </div>
