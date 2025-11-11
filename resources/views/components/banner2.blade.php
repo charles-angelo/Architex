@@ -11,7 +11,7 @@
     <div class="flex flex-col">
         <div class="grid grid-cols-2">
             <div class="bg-[#253E16] lg:flex hidden">
-                <section class="xl:ml-[9rem] flex gap-10 py-8 text-white lg:px-10 xl:gap-32 2xl:gap-52">
+                <section class="xl:ml-[5rem] flex gap-10 py-8 text-white lg:px-10 xl:gap-24 2xl:gap-52">
                     <div class="flex items-center gap-2 lg:gap-5 ">
                         <span class="p-3 ic--baseline-phone"></span>
                         <div class="text-nowrap">(082) 240 6031</div>

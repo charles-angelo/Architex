@@ -6,7 +6,7 @@
             img="{{ asset('img/blog-banner.png') }}" />
     </div>
 
-    <section class="w-full bg-[#f3f3f3] pt-20 pb-[20rem]">
+    <section class="w-full bg-[#f3f3f3] pt-20 pb-[35rem]">
         <div class="container mx-auto">
             <div class="container grid grid-cols-1 gap-20 px-6 mx-auto lg:grid-cols-3">
 

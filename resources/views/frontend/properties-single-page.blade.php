@@ -34,7 +34,7 @@
 
 
         <!-- 🟢 Tabs Section -->
-        <section class="pt-10 pb-[20rem] px-4 sm:px-6 lg:px-8" x-data="{
+        <section class="pt-10 pb-[35rem] px-4 sm:px-6 lg:px-8" x-data="{
             tabs: @js($tabs),
             activeTab: 'Overview',
         }">

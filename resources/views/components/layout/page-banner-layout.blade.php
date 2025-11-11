@@ -7,7 +7,7 @@
         </div>
         <div class="absolute hidden md:-top-3 lg:-top-5 xl:top-2 md:flex xl:block">
             <section
-                class="md:text-xs xl:text-base flex py-8 text-white lg:px-10 xl:ml-[6rem] 2xl:ml-[10rem] gap-20 xl:gap-52">
+                class="md:text-xs xl:text-base flex py-8 text-white lg:px-10 xl:ml-[8rem] 2xl:ml-[10rem] gap-20 xl:gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
                     <div class="text-nowrap">(082) 240 6031</div>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="relative h-full px-2 bg-white py-[15rem] lg:py-5">
-        <div class="absolute inset-0 hidden md:flex 2xl:block md:-top-1 lg:-top-1 xl:top-2 2xl:top-6">
+        <div class="absolute inset-0 hidden md:flex 2xl:block md:-top-0 lg:-top-1 xl:top-4 2xl:top-7">
             <section class="px-10 py-2">
                 <div class="flex gap-2">
                     <span class="tdesign--location-filled text-[#00721B] p-3"></span>

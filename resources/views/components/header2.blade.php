@@ -3,7 +3,7 @@
 })"
     :class="scrolled
         ?
-        'bg-white shadow-md top-0 left-0 w-full fixed transition-all duration-300 py-8' :
+        'bg-white shadow-md top-0 left-0 w-full fixed transition-all duration-300 py-8 z-[9999]' :
         'bg-transparent lg:static border-b-2 border-[#717171]/30  lg:container lg:mx-auto'"
     class="fixed min-w-full lg:min-w-fit z-[9999]">
     <div class="flex justify-between py-4 lg:container lg:mx-auto ">
