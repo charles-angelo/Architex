@@ -386,23 +386,32 @@
 
                     <template x-for="(lot, index) in lots" :key="index">
                         <div
-                            :style="`position:absolute; left:${(lot.position.x / mapWidth) * 100}%; top:${(lot.position.y / mapHeight) * 100}%; transform: translate(-50%, -50%);`">
+                            :style="`
+            position: absolute;
+            left: ${(lot.position.x / mapWidth) * 100}%;
+            top: ${(lot.position.y / mapHeight) * 100}%;
+            transform: translate(-50%, -50%);
+        `">
 
                             @if ($isForSaleOrRent)
                             <!-- For Sale / Rent Lot -->
-                            <button @click="selectLot(lot)"
-                                class="absolute w-6 h-6 flex items-center justify-center text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
+                            <button
+                                @click="selectLot(lot)"
+                                class="w-6 h-6 flex items-center justify-center text-xs font-semibold text-white rounded-full transition transform hover:scale-110 hover:shadow-lg focus:outline-none"
                                 :class="{
-                            'bg-green-700': lot.status === 'Available',
-                            'bg-yellow-400 text-gray-900': lot.status === 'Reserved',
-                            'bg-red-500': lot.status === 'Sold',
-                            'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
-                        }"
-                                x-text="lot.id">
+                'bg-green-700': lot.status === 'Available',
+                'bg-yellow-400 text-gray-900': lot.status === 'Reserved',
+                'bg-red-500': lot.status === 'Sold',
+                'bg-gray-400': !['Available','Reserved','Sold'].includes(lot.status)
+            }"
+                                x-text="lot.id"
+                                @mouseenter="hoveredLot = lot.id"
+                                @mouseleave="hoveredLot = null"
+                                @touchstart="hoveredLot = lot.id"
+                                @touchend="hoveredLot = null">
                             </button>
-
                             @else
-                            <!-- SOLD Indicator Lot -->
+                            <!-- SOLD Indicator -->
                             <template x-if="lot.status === 'Sold'">
                                 <div class="absolute text-[5px] font-bold text-white bg-red-600 rounded-md px-2 py-[2px] uppercase shadow-md"
                                     style="left:50%; top:-12px; transform: translate(-50%,0) rotate(-15deg); opacity:0.7; z-index:50;">
@@ -415,15 +424,15 @@
                                 @click="selectLot(lot)"
                                 class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 rounded-full"
                                 :style="`
-        width: 32px;
-        height: 32px;
-        background: transparent;
-        border: none;
-        pointer-events: auto;
-        box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
-        transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
-        z-index: ${hoveredLot === lot.id ? 50 : 1};
-    `"
+                width: 32px;
+                height: 32px;
+                background: transparent;
+                border: none;
+                pointer-events: auto;
+                box-shadow: ${hoveredLot === lot.id ? '0 0 20px 8px rgba(130,180,80,0.9)' : 'none'};
+                transform: translate(-50%, -50%) scale(${hoveredLot === lot.id ? 1.2 : 1});
+                z-index: ${hoveredLot === lot.id ? 50 : 1};
+            `"
                                 @mouseenter="hoveredLot = lot.id"
                                 @mouseleave="hoveredLot = null"
                                 @touchstart="hoveredLot = lot.id"
@@ -437,12 +446,11 @@
                                 class="absolute -translate-x-1/2 left-1/2 -top-7 bg-[#1E4D2B] text-white text-xs px-2 py-1 rounded-md pointer-events-none whitespace-nowrap z-50"
                                 x-text="lot.block && lot.name ? `${lot.block}, ${lot.name}` : 'Address not available'">
                             </div>
-
-
                             @endif
 
                         </div>
                     </template>
+
                 </div>
             </div>
 
