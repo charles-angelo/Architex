@@ -47,7 +47,7 @@
     </div>
 
     <div class="relative h-full px-2 bg-white py-[15rem] lg:py-5">
-        <div class="absolute inset-0 hidden md:flex 2xl:block md:-top-1 lg:-top-1 xl:top-2 2xl:top-6">
+        <div class="absolute inset-0 hidden md:flex 2xl:block md:-top-0 lg:-top-1 xl:top-4 2xl:top-7">
             <section class="px-10 py-2">
                 <div class="flex gap-2">
                     <span class="tdesign--location-filled text-[#00721B] p-3"></span>

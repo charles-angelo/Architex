@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-[#e8e8e8] border-t border-gray-200 relative z-10">
+<footer class="bg-[#e8e8e8] border-t border-gray-200 relative">
 
     <!-- Background Image Left -->
     <div class="absolute top-0 left-0 z-0 pointer-events-none mix-blend-multiply">
@@ -7,40 +7,42 @@
     </div>
 
     <!-- Background Image Right -->
-    <div class="absolute top-0 right-0 pointer-events-none -z-10 mix-blend-multiply">
+    <div class="absolute top-0 right-0 z-0 pointer-events-none mix-blend-multiply">
         <img src="{{ asset('img/footer/second.png') }}" alt="" class="object-contain w-full h-full">
     </div>
 
     <!-- Newsletter -->
-    <div class="max-w-screen-xl mx-auto -mt-52">
-        <div
-            class="bg-[#253e16] text-white shadow-lg flex flex-col-reverse md:grid md:grid-cols-2 gap-0 items-stretch overflow-hidden">
-            <!-- Text -->
-            <div class="flex flex-col justify-center p-10">
-                <h2 class="mb-6 text-4xl font-semibold">Subscribe to Newsletter!</h2>
-                <p class="mb-6 text-gray-200">
-                    From project highlights and innovative solutions to company news and industry trends,
-                    our newsletter keeps you updated on everything that shapes the future of modern spaces.
-                </p>
+    <div class="flex items-center justify-center w-full">
+        <div class="lg:absolute -top-[8rem] max-w-screen-xl mx-auto -mt-52">
+            <div
+                class="bg-[#253e16] text-white shadow-lg flex flex-col-reverse md:grid md:grid-cols-2 gap-0 items-stretch overflow-hidden">
+                <!-- Text -->
+                <div class="flex flex-col justify-center p-10">
+                    <h2 class="mb-6 text-4xl font-semibold">Subscribe to Newsletter!</h2>
+                    <p class="mb-6 text-gray-200">
+                        From project highlights and innovative solutions to company news and industry trends,
+                        our newsletter keeps you updated on everything that shapes the future of modern spaces.
+                    </p>
 
-                <!-- Newsletter Form (AJAX version) -->
-                <form id="newsletterForm" class="flex w-full gap-1 lg:w-full">
-                    @csrf
-                    <input type="email" id="newsletterEmail" name="email" placeholder="Enter your email address"
-                        required
-                        class="w-full py-4 px-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder:text-[#253e16]">
+                    <!-- Newsletter Form (AJAX version) -->
+                    <form id="newsletterForm" class="flex w-full gap-1 lg:w-full">
+                        @csrf
+                        <input type="email" id="newsletterEmail" name="email" placeholder="Enter your email address"
+                            required
+                            class="w-full py-4 px-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder:text-[#253e16]">
 
-                    <button type="submit"
-                        class="text-nowrap px-6 py-3 bg-[#ffd601] hover:bg-yellow-500 text-[#253e16] rounded-md transition">
-                        Subscribe Now
-                    </button>
-                </form>
-            </div>
+                        <button type="submit"
+                            class="text-nowrap px-6 py-3 bg-[#ffd601] hover:bg-yellow-500 text-[#253e16] rounded-md transition">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
 
-            <!-- Full Image -->
-            <div class="flex items-end justify-end max-h-[25rem]">
-                <img src="{{ asset('img/footer/newsletter.png') }}" alt="Newsletter"
-                    class="object-cover object-right w-full h-auto md:w-100">
+                <!-- Full Image -->
+                <div class="flex items-end justify-end max-h-[25rem]">
+                    <img src="{{ asset('img/footer/newsletter.png') }}" alt="Newsletter"
+                        class="object-cover object-right w-full h-auto md:w-100">
+                </div>
             </div>
         </div>
     </div>
