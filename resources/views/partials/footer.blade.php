@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-[#e8e8e8] border-t border-gray-200 relative z-0">
+<footer class="bg-[#e8e8e8] border-t border-gray-200 relative z-10">
 
     <!-- Background Image Left -->
     <div class="absolute top-0 left-0 z-0 pointer-events-none mix-blend-multiply">
@@ -7,7 +7,7 @@
     </div>
 
     <!-- Background Image Right -->
-    <div class="absolute top-0 right-0 z-0 pointer-events-none mix-blend-multiply">
+    <div class="absolute top-0 right-0 pointer-events-none -z-10 mix-blend-multiply">
         <img src="{{ asset('img/footer/second.png') }}" alt="" class="object-contain w-full h-full">
     </div>
 
