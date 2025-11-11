@@ -1,5 +1,5 @@
 {{-- <nav x-data="{ open: false }" class="relative bg-transparent">
-    <div class="flex items-center justify-between py-4 2xl:mr-[15rem] border-b-2 border-[#717171]/30">
+    <div class="flex items-center justify-between py-4 lg:mr-[15rem] border-b-2 border-[#717171]/30">
         <!-- Logo -->
         <div class="flex items-center">
             <a href="{{ route('homepage') }}">

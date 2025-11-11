@@ -58,7 +58,7 @@
                     <template x-for="(image, index) in images" :key="index">
                         <div @click="current = index"
                             class="
-                                {{ $flag === 'Amenities' ? '2xl:mt-[38rem]' : ($flag === 'FloorPlan' ? '2xl:mt-[18rem]' : '2xl:mt-[15rem]') }}
+                                {{ $flag === 'Amenities' ? 'lg:mt-[38rem]' : ($flag === 'FloorPlan' ? 'lg:mt-[18rem]' : 'lg:mt-[15rem]') }}
                                 overflow-hidden transition border-2 cursor-pointer h-fit hover:opacity-80
                             "
                             :class="current === index ? 'border-yellow-400' : 'border-transparent'">

@@ -5,9 +5,9 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
-<section class="w-full mt-16 2xl:mt-0">
+<section class="w-full mt-16 lg:mt-0 md:h-[90%] xl:h-[85%] overflow-hidden">
     <div>
-        <div class="relative w-auto h-full 2xl:w-full swiper">
+        <div class="relative w-auto h-full lg:w-full swiper">
             <div class="absolute z-50 w-full">
                 <div class="container mx-auto">
                     <x-header2 />
@@ -24,10 +24,10 @@
                         }
                     @endphp
 
-                    <div class="relative w-auto 2xl:h-full 2xl:w-full swiper-slide">
+                    <div class="relative w-auto lg:h-full lg:w-full swiper-slide">
                         {{-- 🎬 VIDEO --}}
                         @if (!empty($hero['video']))
-                            <video autoplay loop muted playsinline class="object-cover w-full h-[30rem] 2xl:h-[55rem]">
+                            <video autoplay loop muted playsinline class="object-cover w-full h-[30rem] lg:h-[55rem]">
                                 <source src="{{ asset($hero['video']) }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -35,13 +35,13 @@
                             {{-- 🌀 GIF or 🖼 IMAGE --}}
                         @elseif(!empty($hero['fallback_image']))
                             <img src="{{ asset($hero['fallback_image']) }}"
-                                class="object-cover w-full h-[30rem] 2xl:h-[55rem]" alt="Banner Image">
+                                class="object-cover w-full h-[30rem] lg:h-[55rem]" alt="Banner Image">
                         @endif
 
                         {{-- 🧠 Overlay Content --}}
                         <div
                             class="absolute inset-0 z-50 flex flex-col justify-center h-full px-4 mx-auto space-y-5 max-w-screen-2xl sm:px-6 lg:px-8">
-                            <h1 class="text-3xl font-bold leading-tight text-green-900 lg:text-5xl 2xl:text-7xl">
+                            <h1 class="text-3xl font-bold leading-tight text-green-900 lg:text-5xl lg:text-7xl">
                                 {!! $title !!}
                             </h1>
 

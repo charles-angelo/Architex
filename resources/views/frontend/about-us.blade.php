@@ -38,7 +38,7 @@
     <section class="relative w-full bg-[#f3f3f3] py-24 overflow-hidden">
         <div class="flex flex-col">
             <div class="flex flex-col mb-20">
-                <div class="grid items-center grid-cols-2 md:grid-cols-3 mx-3 lg:mx-[5rem]">
+                <div class="grid items-center grid-cols-2 xl:grid-cols-3 mx-3 lg:mx-[5rem]">
                     <div>
                         <img src="{{ asset('img/about-us/Architex Japan Logo2.png') }}" alt="" class="h-auto w-[60%]">
                     </div>
@@ -50,7 +50,7 @@
                             alt="Sanderiana Two Storey Single Detached" class="object-cover w-[80%] h-auto">
                     </div>
 
-                    <div class="col-span-3 space-y-6 md:col-span-1">
+                    <div class="col-span-3 space-y-6 xl:col-span-1">
                         <div>
                             <p class="text-[#00721B] font-bold tracking-wide text-lg">Who We Are</p>
                             <h2 class="text-3xl md:text-4xl font-semibold text-[#253e16] relative">
@@ -154,7 +154,7 @@
     <div class="h-full bg-[#f3f3f3]">
         <div class="flex flex-col items-center justify-center gap-10 ">
             <div class="relative flex items-center justify-center w-auto text-[#253e16] container mx-auto">
-                <div class="text-[#253e16]/10 -top-5 text-7xl select-none text-outline opacity-20">
+                <div class="text-[#253e16]/10 -top-5 text-6xl select-none text-outline opacity-20">
                     Highlighting
                 </div>
 
@@ -237,7 +237,7 @@
 
     <div class="bg-[#f3f3f3] h-full pt-28 overflow-hidden">
         <div class="relative z-10">
-            <div class="grid h-full grid-cols-1 mx-3 lg:mx-20 md:grid-cols-3">
+            <div class="grid h-full grid-cols-1 mx-3 lg:mx-20 xl:grid-cols-3">
                 <div class="grid grid-cols-1">
                     <img src="{{ asset('img/whatwedoinjapan-img1.png') }}" alt="">
                     <img src="{{ asset('img/whatwedoinjapan-img2.png') }}" alt="">
@@ -346,7 +346,7 @@
     <div class="bg-[#f9f9f9] h-full pt-28 pb-44">
         <div class="relative h-full">
             <div class="container flex flex-col items-center justify-center mx-auto">
-                <div class="md:w-[60%]">
+                <div class="xl:w-[60%]">
                     <div class="relative flex items-center justify-center w-auto text-[#253e16] container mx-auto mb-3">
                         <div class="text-[#253e16]/10 text-center -top-5 text-7xl select-none text-outline opacity-20">
                             Our Philosophy
@@ -417,14 +417,17 @@
                 </div>
             </div>
 
-            <div class="absolute top-0 hidden md:flex left-20">
+            <div class="absolute top-0 hidden xl:flex xl:left-5 2xl:left-20">
                 <img src="{{ asset('img/our-philo-img1.png') }}" alt="">
             </div>
-            <div class="absolute top-0 hidden md:flex right-20">
+            <div class="absolute top-0 hidden xl:flex xl:right-[50px] 2xl:right-20">
                 <div class="grid grid-cols-1 gap-5">
-                    <img src="{{ asset('img/philosophy-img1.png') }}" alt="" class="h-auto w-[25rem]">
-                    <img src="{{ asset('img/philosophy-img2.png') }}" alt="" class="h-auto w-[25rem]">
-                    <img src="{{ asset('img/philosophy-img3.png') }}" alt="" class="h-auto w-[25rem]">
+                    <img src="{{ asset('img/philosophy-img1.png') }}" alt=""
+                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
+                    <img src="{{ asset('img/philosophy-img2.png') }}" alt=""
+                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
+                    <img src="{{ asset('img/philosophy-img3.png') }}" alt=""
+                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
                 </div>
             </div>
         </div>
@@ -687,12 +690,12 @@
         </div>
 
         <!-- Foreground mission image (right side, visible on top) -->
-        <div class="absolute inset-0 items-center justify-end hidden border lg:flex">
+        <div class="absolute inset-0 items-center justify-end hidden border border-black lg:flex">
             <img src="{{ asset('img/about-us/mission.png') }}" alt="" class="w-auto h-full">
         </div>
 
         <!-- Content -->
-        <div class="relative z-0 px-6 mx-auto py-28 max-w-screen-2xl">
+        <div class="relative z-0 px-6 py-16 mx-auto xl:py-28 max-w-screen-2xl">
             <!-- Heading -->
             <div class="container relative lg:mx-auto mb-20 mx-5 lg:ml-[5rem]">
                 <!-- Background Outline Text -->
@@ -710,9 +713,9 @@
 
 
             <!-- Mission and Vision Cards -->
-            <div class="relative z-20 grid w-full grid-cols-1 gap-8 lg:grid-cols-2 md:flex">
+            <div class="relative z-20 grid w-full grid-cols-1 gap-8 xl:grid-cols-2 md:flex">
                 <!-- Mission -->
-                <div class="bg-white text-gray-900  relative border-b-[6px] border-[#ffe350] pt-10 pb-5 px-10 md:w-[30%]">
+                <div class="bg-white text-gray-900  relative border-b-[6px] border-[#ffe350] pt-10 pb-5 px-10 xl:w-[30%]">
                     <div class="absolute -top-8 left-8 bg-[#00721b] p-5 ">
                         <img src="{{ asset('img/ico/mission-icon.png') }}" alt="Check Icon"
                             class="object-contain w-5 h-5">
@@ -725,7 +728,7 @@
                 </div>
 
                 <!-- Vision -->
-                <div class="bg-white text-gray-900 relative border-b-[6px] border-[#ffe350] pt-10 pb-5 px-10 md:w-[30%]">
+                <div class="bg-white text-gray-900 relative border-b-[6px] border-[#ffe350] pt-10 pb-5 px-10 xl:w-[30%]">
                     <div class="absolute -top-8 left-8 bg-[#00721b] p-5">
                         <img src="{{ asset('img/ico/vision-icon.png') }}" alt="Check Icon"
                             class="object-contain w-5 h-5">

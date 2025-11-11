@@ -7,9 +7,7 @@
             <!-- Main Image -->
             <div class="relative w-full h-full group">
                 <template x-for="(image, index) in images" :key="index">
-                    <img
-                        x-show="current === index"
-                        :src="image"
+                    <img x-show="current === index" :src="image"
                         class="object-cover object-center w-full h-full transition-all duration-500 ease-in-out">
                 </template>
 
@@ -37,14 +35,12 @@
                         <!-- Down arrow -->
                         <svg x-show="!showThumbs" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
                         </svg>
                         <!-- Up arrow -->
                         <svg x-show="showThumbs" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                d="M5 15l7-7 7 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7" />
                         </svg>
                         <span x-show="showThumbs">Hide All</span>
                         <span x-show="!showThumbs">Show All</span>
@@ -52,23 +48,17 @@
                 </div>
 
                 <!-- Thumbnails -->
-                <div x-show="!showThumbs"
-                    x-transition:enter="transition ease-in-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
+                <div x-show="!showThumbs" x-transition:enter="transition ease-in-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
-                    class="absolute bottom-0 z-10 grid w-full grid-cols-5 gap-3 p-4 bg-gradient-to-t from-[#002B0A] to-transparent 2xl:mt-[38rem]">
+                    class="absolute bottom-0 z-10 grid w-full grid-cols-5 gap-3 p-4 bg-gradient-to-t from-[#002B0A] to-transparent lg:mt-[38rem]">
 
                     <template x-for="(image, index) in images" :key="index">
-                        <div
-                            @click="current = index"
+                        <div @click="current = index"
                             class="overflow-hidden transition border-2 cursor-pointer h-fit hover:opacity-80"
                             :class="current === index ? 'border-yellow-400' : 'border-transparent'">
-                            <img
-                                :src="image"
-                                class="h-[10rem] object-cover w-full aspect-square">
+                            <img :src="image" class="h-[10rem] object-cover w-full aspect-square">
                         </div>
                     </template>
                 </div>

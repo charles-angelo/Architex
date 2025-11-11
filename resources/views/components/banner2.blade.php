@@ -11,10 +11,10 @@
     <div class="flex flex-col">
         <div class="grid grid-cols-2">
             <div class="bg-[#253E16] lg:flex hidden">
-                <section class="2xl:ml-[9rem] flex gap-10 py-8 text-white lg:px-10 2xl:gap-52">
+                <section class="xl:ml-[9rem] flex gap-10 py-8 text-white lg:px-10 xl:gap-32 2xl:gap-52">
                     <div class="flex items-center gap-2 lg:gap-5 ">
                         <span class="p-3 ic--baseline-phone"></span>
-                        <div>(082) 240 6031</div>
+                        <div class="text-nowrap">(082) 240 6031</div>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="p-3 material-symbols--mail"></span>
@@ -23,7 +23,7 @@
                 </section>
             </div>
             <div class="flex items-center justify-end hidden bg-white lg:flex">
-                <section class="px-10 py-2 2xl:mr-[9rem]">
+                <section class="px-10 py-2 xl:mr-[9rem]">
                     <div class="flex gap-2">
                         <span class="tdesign--location-filled text-[#00721B] p-3"></span>
                         <div>
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div class="absolute top-0 z-20 flex w-full 2xl:justify-center">
+            <div class="absolute top-0 z-20 flex w-full lg:justify-center">
                 <div class="w-full">
                     <x-header2 />
                 </div>

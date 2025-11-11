@@ -115,7 +115,7 @@
                 class="object-contain w-full h-full mix-blend-multiply opacity-80">
         </div>
 
-        <div class="relative grid items-center max-w-screen-xl grid-cols-1 gap-16 mx-auto md:grid-cols-2">
+        <div class="relative grid items-center max-w-screen-xl grid-cols-1 gap-16 mx-auto xl:grid-cols-2">
 
             <!-- Left Content -->
             <div class="relative group">
@@ -264,7 +264,7 @@
 
             <!-- Blog Cards -->
             <section class="bg-transparent pt-20 lg:pb-[10rem]">
-                <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-6 mx-auto md:grid-cols-3">
+                <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-6 mx-auto xl:grid-cols-3">
                     @forelse ($blogs as $item)
                         <div
                             class="group bg-white rounded-sm shadow-sm hover:shadow-md transition overflow-visible border-b-4 border-transparent hover:border-[#253e16] duration-300">

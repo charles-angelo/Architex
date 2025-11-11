@@ -97,7 +97,7 @@
                                 class="absolute bottom-0 z-10 grid w-full h-full grid-cols-5 gap-3 p-4 bg-gradient-to-t from-[#002B0A] to-transparent">
                                 <template x-for="(image, index) in images" :key="index">
                                     <div @click="current = index"
-                                        class="2xl:mt-[19rem] overflow-hidden transition border-2 border-yellow-400 cursor-pointer h-fit hover:opacity-80"
+                                        class="lg:mt-[19rem] overflow-hidden transition border-2 border-yellow-400 cursor-pointer h-fit hover:opacity-80"
                                         :class="current === index ? 'border-yellow-400' : 'border-transparent'">
                                         <img :src="'{{ asset('') }}' + image"
                                             class="object-cover w-full h-[6rem] aspect-square">

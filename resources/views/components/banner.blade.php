@@ -10,7 +10,7 @@
     @include('components.layout.page-banner-layout')
 
     {{-- Overlay Hero Content --}}
-    <section class="absolute inset-0 mb-16 2xl:ml-[10rem] flex items-center justify-center">
+    <section class="absolute inset-0 mb-16 lg:ml-[10rem] flex items-center justify-center">
         @include('components.cards.banner-card', ['heroes' => $heroes])
     </section>
 
