@@ -418,16 +418,16 @@
             </div>
 
             <div class="absolute top-0 hidden 2xl:flex xl:left-5 2xl:left-5">
-                <img src="{{ asset('img/our-philo-img1.png') }}" alt="">
+                <img src="{{ asset('img/our-philo-img1.png') }}" alt="" class="w-auto h-[40rem]">
             </div>
             <div class="absolute top-0 hidden 2xl:flex xl:right-[50px] 2xl:right-5">
                 <div class="grid grid-cols-1 gap-5">
                     <img src="{{ asset('img/philosophy-img1.png') }}" alt=""
-                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[19rem]">
                     <img src="{{ asset('img/philosophy-img2.png') }}" alt=""
-                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[19rem]">
                     <img src="{{ asset('img/philosophy-img3.png') }}" alt=""
-                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[19rem]">
                 </div>
             </div>
         </div>
