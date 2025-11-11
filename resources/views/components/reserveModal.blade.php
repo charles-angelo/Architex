@@ -99,10 +99,12 @@
                         </div>
 
                         <!-- Checkboxes -->
-                        <div class="mt-4 space-y-2 text-sm mb-6">
-                            <label class="flex items-start space-x-2">
-                                <input type="checkbox" class="mt-1" x-model="termsAccepted">
-                                <span>I agree to the
+                        <div class="mt-4 space-y-2 text-sm mb-6" x-data="{ showTermsModal: false, canAgree: false }">
+                            <!-- Terms & Privacy Checkbox -->
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="mt-1" x-model="termsAccepted" @click.prevent="showTermsModal = true">
+                                <span>
+                                    I agree to the
                                     <a href="#" class="text-[#1E4D2B] underline">Terms & Conditions</a>
                                     and the
                                     <a href="#" class="text-[#1E4D2B] underline">Privacy Policy</a>.
@@ -110,6 +112,7 @@
                             </label>
                             <p x-show="error.terms" class="text-red-500 text-sm mt-1" x-text="error.terms"></p>
 
+                            <!-- Confirmation Checkbox -->
                             <label class="flex items-start space-x-2">
                                 <input type="checkbox" class="mt-1" x-model="confirmationAccepted">
                                 <span>
@@ -118,14 +121,379 @@
                                 </span>
                             </label>
                             <p x-show="error.confirmation" class="text-red-500 text-sm mt-1" x-text="error.confirmation"></p>
-                        </div>
 
-                        {{-- ✅ Google reCAPTCHA --}}
-                        <div class="mb-6">
-                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
-                            @error('g-recaptcha-response')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+                            <!-- Terms Modal -->
+                            <div x-show="showTermsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" x-transition>
+                                <div class="bg-white w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-hidden p-6 rounded-lg shadow-lg relative">
+
+                                    <!-- Close Button -->
+                                    <button @click="showTermsModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+
+                                    <!-- Scrollable Terms & Privacy -->
+                                    <div class="overflow-y-auto max-h-[65vh] pr-2" @scroll="canAgree = ($event.target.scrollTop + $event.target.clientHeight) >= $event.target.scrollHeight">
+                                        <!-- Terms & Conditions -->
+                                        <h2 class="font-bold mb-4 text-2xl">Terms & Conditions</h2>
+                                        <p><strong>Effective Date:</strong> </p>
+
+                                        <p class="mt-4">
+                                            Welcome to Architex Phil., Inc. These Terms and Conditions outline the rules and regulations for the use of
+                                            our
+                                            website at <em>https://architex.rwebserver.com/</em>. By accessing or using this Website, you agree to be
+                                            bound by these Terms and
+                                            Conditions in full. If you do not agree with any part of these terms, please refrain from using our Website.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">1. Acceptance of Terms</h2>
+                                        <p>
+                                            By accessing and using this Website, you agree to comply with these Terms and Conditions and all applicable
+                                            laws
+                                            and regulations in the Republic of the Philippines, including the Data Privacy Act of 2012 (Republic Act No.
+                                            10173).
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">2. Use of the Website</h2>
+                                        <p>You agree to use this Website only for lawful and legitimate purposes related to Architex Phil., Inc.’s
+                                            business operations. You must not:</p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Violate any applicable Philippine or international laws.</li>
+                                            <li>Interfere with or disrupt the proper functioning of the Website.</li>
+                                            <li>Attempt to access restricted, private, or unauthorized areas of the Website.</li>
+                                            <li>Submit false, misleading, or fraudulent information through any form or transaction.</li>
+                                        </ul>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">3. Intellectual Property Rights</h2>
+                                        <p>
+                                            All content on this Website—including but not limited to text, images, property renderings, architectural
+                                            designs,
+                                            graphics, and logos—is the intellectual property of Architex Phil., Inc. and is protected under Philippine
+                                            copyright
+                                            and intellectual property laws.
+                                        </p>
+                                        <p class="mt-2">
+                                            You may not reproduce, copy, distribute, modify, or use any content from this Website without our prior
+                                            written consent.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">4. Property Information and Pricing</h2>
+                                        <p>
+                                            We strive to provide accurate and updated information on all properties, project details, pricing, and
+                                            availability.
+                                            However, Architex Phil., Inc. does not guarantee that all information on the Website is always complete,
+                                            accurate, or up to date.
+                                        </p>
+                                        <p class="mt-2">
+                                            Prices, availability, terms, and property features may change without prior notice.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">5. Reservations, Rentals, and Transactions</h2>
+                                        <p>All reservations, payments, or service requests made through the Website are subject to confirmation and
+                                            availability. By proceeding with a reservation or transaction, you agree to:</p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Provide accurate and complete information.</li>
+                                            <li>Authorize Architex Phil., Inc. and its payment partners (PayMongo or Dragonpay) to process payments
+                                                securely.</li>
+                                            <li>Acknowledge that any reservation fee or payment made may be subject to company terms, including
+                                                non-refundable policies where applicable.</li>
+                                        </ul>
+                                        <p class="mt-2">
+                                            We reserve the right to refuse, cancel, or modify any transaction at our discretion if suspicious,
+                                            unauthorized,
+                                            or inconsistent information is detected.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">6. Data Privacy and Protection</h2>
+                                        <p>
+                                            We collect and process personal data in compliance with the Data Privacy Act of 2012 and its Implementing
+                                            Rules and
+                                            Regulations. By using this Website and submitting your personal information, you consent to the collection,
+                                            use,
+                                            storage, and processing of your data for legitimate business purposes such as:
+                                        </p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Handling inquiries and client communication</li>
+                                            <li>Processing reservations, rentals, and payments</li>
+                                            <li>Managing customer relations and CRM records</li>
+                                            <li>Sending updates, newsletters, and promotional materials (if you have opted in)</li>
+                                            <li>Improving our Website and services</li>
+                                        </ul>
+
+                                        <p class="mt-4">
+                                            We take reasonable measures to protect your personal data from unauthorized access or disclosure.
+                                            For more details, please refer to our
+                                            <a href="{{ route('privacy') }}" class="font-medium text-green-700 underline hover:text-green-900">Privacy
+                                                Policy</a>.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">7. Cookies</h2>
+                                        <p>
+                                            Our Website may use cookies and similar technologies to enhance user experience and analyze site traffic.
+                                            By continuing to browse our Website, you consent to the use of cookies in accordance with our Cookie Policy.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">8. Third-Party Links and Services</h2>
+                                        <p>
+                                            Our Website may include links to our official social media accounts such as Facebook, Instagram, YouTube,
+                                            TikTok,
+                                            and LinkedIn, as well as external platforms like PayMongo and Dragonpay for secure payment processing.
+                                        </p>
+                                        <p class="mt-2">
+                                            These third-party sites and services operate under their own privacy policies and data handling practices.
+                                            Architex Phil., Inc.
+                                            is not responsible for the content, security, or practices of these external platforms.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">9. Limitation of Liability</h2>
+                                        <p>
+                                            To the fullest extent permitted by law, Architex Phil., Inc. shall not be held liable for any loss, damage,
+                                            or inconvenience
+                                            arising from your use or inability to use this Website, including reliance on any information, delays, or
+                                            technical errors.
+                                            Use of the Website and participation in any transaction are at your own risk.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">10. Changes to Terms</h2>
+                                        <p>
+                                            Architex Phil., Inc. may update or modify these Terms and Conditions at any time without prior notice.
+                                            Changes will take effect once posted on this page. Continued use of the Website after updates are posted
+                                            constitutes your acceptance
+                                            of the revised Terms.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">11. Governing Law</h2>
+                                        <p>
+                                            These Terms and Conditions shall be governed and interpreted under the laws of the Republic of the
+                                            Philippines.
+                                            Any disputes shall be resolved in the appropriate courts located in Davao City, Philippines.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">12. Contact Information</h2>
+                                        <p>
+                                            For questions, feedback, or concerns regarding these Terms and Conditions or our data practices, please
+                                            contact us at:
+                                        </p>
+                                        <p class="mt-4">
+                                            <strong>Architex Phil., Inc.</strong><br>
+                                            Website: <em>[insert website URL]</em><br>
+                                            Email: <a href="mailto:info@architexphil.com" class="text-green-700 underline">info@architexphil.com</a><br>
+                                            Phone: <strong>0927 725 7326</strong>
+                                        </p>
+                                        <hr class="my-4">
+
+                                        <!-- Privacy Policy -->
+                                        <h2 class="font-bold mb-4 text-2xl">Privacy Policy</h2>
+                                        <p><strong>Effective Date:</strong> </p>
+
+                                        <p class="mt-4">
+                                            Welcome to Architex Phil., Inc. These Terms and Conditions outline the rules and regulations for the use of
+                                            our
+                                            website at <em>https://architex.rwebserver.com/</em>. By accessing or using this Website, you agree to be
+                                            bound by these Terms and
+                                            Conditions in full. If you do not agree with any part of these terms, please refrain from using our Website.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">1. Acceptance of Terms</h2>
+                                        <p>
+                                            By accessing and using this Website, you agree to comply with these Terms and Conditions and all applicable
+                                            laws
+                                            and regulations in the Republic of the Philippines, including the Data Privacy Act of 2012 (Republic Act No.
+                                            10173).
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">2. Use of the Website</h2>
+                                        <p>You agree to use this Website only for lawful and legitimate purposes related to Architex Phil., Inc.’s
+                                            business operations. You must not:</p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Violate any applicable Philippine or international laws.</li>
+                                            <li>Interfere with or disrupt the proper functioning of the Website.</li>
+                                            <li>Attempt to access restricted, private, or unauthorized areas of the Website.</li>
+                                            <li>Submit false, misleading, or fraudulent information through any form or transaction.</li>
+                                        </ul>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">3. Intellectual Property Rights</h2>
+                                        <p>
+                                            All content on this Website—including but not limited to text, images, property renderings, architectural
+                                            designs,
+                                            graphics, and logos—is the intellectual property of Architex Phil., Inc. and is protected under Philippine
+                                            copyright
+                                            and intellectual property laws.
+                                        </p>
+                                        <p class="mt-2">
+                                            You may not reproduce, copy, distribute, modify, or use any content from this Website without our prior
+                                            written consent.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">4. Property Information and Pricing</h2>
+                                        <p>
+                                            We strive to provide accurate and updated information on all properties, project details, pricing, and
+                                            availability.
+                                            However, Architex Phil., Inc. does not guarantee that all information on the Website is always complete,
+                                            accurate, or up to date.
+                                        </p>
+                                        <p class="mt-2">
+                                            Prices, availability, terms, and property features may change without prior notice.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">5. Reservations, Rentals, and Transactions</h2>
+                                        <p>All reservations, payments, or service requests made through the Website are subject to confirmation and
+                                            availability. By proceeding with a reservation or transaction, you agree to:</p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Provide accurate and complete information.</li>
+                                            <li>Authorize Architex Phil., Inc. and its payment partners (PayMongo or Dragonpay) to process payments
+                                                securely.</li>
+                                            <li>Acknowledge that any reservation fee or payment made may be subject to company terms, including
+                                                non-refundable policies where applicable.</li>
+                                        </ul>
+                                        <p class="mt-2">
+                                            We reserve the right to refuse, cancel, or modify any transaction at our discretion if suspicious,
+                                            unauthorized,
+                                            or inconsistent information is detected.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">6. Data Privacy and Protection</h2>
+                                        <p>
+                                            We collect and process personal data in compliance with the Data Privacy Act of 2012 and its Implementing
+                                            Rules and
+                                            Regulations. By using this Website and submitting your personal information, you consent to the collection,
+                                            use,
+                                            storage, and processing of your data for legitimate business purposes such as:
+                                        </p>
+                                        <ul class="mt-2 ml-6 list-disc">
+                                            <li>Handling inquiries and client communication</li>
+                                            <li>Processing reservations, rentals, and payments</li>
+                                            <li>Managing customer relations and CRM records</li>
+                                            <li>Sending updates, newsletters, and promotional materials (if you have opted in)</li>
+                                            <li>Improving our Website and services</li>
+                                        </ul>
+
+                                        <p class="mt-4">
+                                            We take reasonable measures to protect your personal data from unauthorized access or disclosure.
+                                            For more details, please refer to our
+                                            <a href="{{ route('privacy') }}" class="font-medium text-green-700 underline hover:text-green-900">Privacy
+                                                Policy</a>.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">7. Cookies</h2>
+                                        <p>
+                                            Our Website may use cookies and similar technologies to enhance user experience and analyze site traffic.
+                                            By continuing to browse our Website, you consent to the use of cookies in accordance with our Cookie Policy.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">8. Third-Party Links and Services</h2>
+                                        <p>
+                                            Our Website may include links to our official social media accounts such as Facebook, Instagram, YouTube,
+                                            TikTok,
+                                            and LinkedIn, as well as external platforms like PayMongo and Dragonpay for secure payment processing.
+                                        </p>
+                                        <p class="mt-2">
+                                            These third-party sites and services operate under their own privacy policies and data handling practices.
+                                            Architex Phil., Inc.
+                                            is not responsible for the content, security, or practices of these external platforms.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">9. Limitation of Liability</h2>
+                                        <p>
+                                            To the fullest extent permitted by law, Architex Phil., Inc. shall not be held liable for any loss, damage,
+                                            or inconvenience
+                                            arising from your use or inability to use this Website, including reliance on any information, delays, or
+                                            technical errors.
+                                            Use of the Website and participation in any transaction are at your own risk.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">10. Changes to Terms</h2>
+                                        <p>
+                                            Architex Phil., Inc. may update or modify these Terms and Conditions at any time without prior notice.
+                                            Changes will take effect once posted on this page. Continued use of the Website after updates are posted
+                                            constitutes your acceptance
+                                            of the revised Terms.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">11. Governing Law</h2>
+                                        <p>
+                                            These Terms and Conditions shall be governed and interpreted under the laws of the Republic of the
+                                            Philippines.
+                                            Any disputes shall be resolved in the appropriate courts located in Davao City, Philippines.
+                                        </p>
+
+                                        <hr class="my-8 border-gray-300">
+
+                                        <h2 class="mt-8 mb-4 text-2xl font-semibold">12. Contact Information</h2>
+                                        <p>
+                                            For questions, feedback, or concerns regarding these Terms and Conditions or our data practices, please
+                                            contact us at:
+                                        </p>
+                                        <p class="mt-4">
+                                            <strong>Architex Phil., Inc.</strong><br>
+                                            Website: <em>[insert website URL]</em><br>
+                                            Email: <a href="mailto:info@architexphil.com" class="text-green-700 underline">info@architexphil.com</a><br>
+                                            Phone: <strong>0927 725 7326</strong>
+                                        </p>
+                                    </div>
+
+                                    <!-- Accept Button -->
+                                    <div class="text-right mt-4">
+                                        <button
+                                            :disabled="!canAgree"
+                                            @click="termsAccepted = true; showTermsModal = false"
+                                            :class="{'bg-gray-400 cursor-not-allowed': !canAgree, 'bg-[#1E4D2B] hover:bg-[#163a1b] text-white': canAgree}"
+                                            class="px-4 py-2 rounded">
+                                            I Agree
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- ✅ Google reCAPTCHA --}}
+                            <div class="mb-6">
+                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
+                                @error('g-recaptcha-response')
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
