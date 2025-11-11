@@ -178,8 +178,8 @@
             </div>
 
             <div class="container grid w-full mx-auto mt-10 md:grid-cols-4">
-                <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
-                    <img src="{{ asset('img/architex-fun.png') }}" alt="" class="w-auto h-20 lg:h-32">
+                <div class="flex flex-row items-center justify-between w-full gap-16 md:flex-col">
+                    <img src="{{ asset('img/architex-fun.png') }}" alt="" class="w-auto h-14 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p65" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
                         <div class="text-lg lg:text-xl">
@@ -191,7 +191,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
+                <div class="flex flex-row items-center justify-between w-full gap-16 md:flex-col">
                     <img src="{{ asset('img/architex-home.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p76" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
@@ -204,7 +204,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
+                <div class="flex flex-row items-center justify-between w-full gap-16 md:flex-col">
                     <img src="{{ asset('img/architex-dev.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p125" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
@@ -217,7 +217,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="flex flex-row items-center justify-center w-full gap-16 md:flex-col">
+                <div class="flex flex-row items-center justify-between w-full gap-16 md:flex-col">
                     <img src="{{ asset('img/architex-reform.png') }}" alt="" class="w-auto h-20 lg:h-32">
                     <a href="https://architex.jp/portfolio/#p125" class="flex items-center gap-3" target="_blank"
                         rel="noopener noreferrer">
@@ -346,7 +346,7 @@
     <div class="bg-[#f9f9f9] h-full pt-28 pb-44">
         <div class="relative h-full">
             <div class="container flex flex-col items-center justify-center mx-auto">
-                <div class="xl:w-[60%]">
+                <div class="xl:w-[100%] 2xl:w-[60%]">
                     <div class="relative flex items-center justify-center w-auto text-[#253e16] container mx-auto mb-3">
                         <div class="text-[#253e16]/10 text-center -top-5 text-7xl select-none text-outline opacity-20">
                             Our Philosophy
@@ -365,7 +365,7 @@
                     </div>
 
                     <div>
-                        <div class="max-w-5xl px-6 py-12 mx-auto text-lg leading-relaxed text-justify text-gray-800">
+                        <div class="px-6 py-12 text-lg leading-relaxed text-justify text-gray-800">
                             <!-- Intro paragraph -->
                             <p class="mb-8">
                                 At Architex, we believe in more than just building houses — we build
@@ -417,17 +417,17 @@
                 </div>
             </div>
 
-            <div class="absolute top-0 hidden xl:flex xl:left-5 2xl:left-20">
+            <div class="absolute top-0 hidden 2xl:flex xl:left-5 2xl:left-5">
                 <img src="{{ asset('img/our-philo-img1.png') }}" alt="">
             </div>
-            <div class="absolute top-0 hidden xl:flex xl:right-[50px] 2xl:right-20">
+            <div class="absolute top-0 hidden 2xl:flex xl:right-[50px] 2xl:right-5">
                 <div class="grid grid-cols-1 gap-5">
                     <img src="{{ asset('img/philosophy-img1.png') }}" alt=""
-                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
                     <img src="{{ asset('img/philosophy-img2.png') }}" alt=""
-                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
                     <img src="{{ asset('img/philosophy-img3.png') }}" alt=""
-                        class="h-auto xl:w-[18rem] 2xl:w-[25rem]">
+                        class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[20rem]">
                 </div>
             </div>
         </div>
@@ -690,7 +690,7 @@
         </div>
 
         <!-- Foreground mission image (right side, visible on top) -->
-        <div class="absolute inset-0 items-center justify-end hidden border border-black lg:flex">
+        <div class="absolute inset-0 items-center justify-end hidden lg:flex">
             <img src="{{ asset('img/about-us/mission.png') }}" alt="" class="w-auto h-full">
         </div>
 

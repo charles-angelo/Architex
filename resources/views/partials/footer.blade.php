@@ -119,7 +119,7 @@
                         </li>
                         <li class="flex items-center gap-2">
                             <img src="{{ asset('img/footer/email.png') }}" alt="Email" class="w-6 h-6">
-                            <span class="text-lg">info@architexphil.com</span>
+                            <span class="text-lg text-wrap">info@architexphil.com</span>
                         </li>
                     </ul>
                 </div>
