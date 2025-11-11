@@ -130,7 +130,16 @@
                                     <button @click="showTermsModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
 
                                     <!-- Scrollable Terms & Privacy -->
-                                    <div class="overflow-y-auto max-h-[65vh] pr-2" @scroll="canAgree = ($event.target.scrollTop + $event.target.clientHeight) >= $event.target.scrollHeight">
+                                    <div
+                                        class="overflow-y-auto max-h-[65vh] pr-2"
+                                        @scroll="
+        const scrollTop = $event.target.scrollTop;
+        const scrollHeight = $event.target.scrollHeight;
+        const clientHeight = $event.target.clientHeight;
+
+        const scrolledPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        canAgree = scrolledPercent >= 95; // set to true if scrolled 95% or more
+    ">
                                         <!-- Terms & Conditions -->
                                         <h2 class="font-bold mb-4 text-2xl">Terms & Conditions</h2>
                                         <p><strong>Effective Date:</strong> </p>
