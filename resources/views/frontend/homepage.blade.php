@@ -263,7 +263,7 @@
             </div>
 
             <!-- Blog Cards -->
-            <section class="bg-transparent pt-20 pb-[10rem]">
+            <section class="bg-transparent pt-20 lg:pb-[10rem]">
                 <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-6 mx-auto md:grid-cols-3">
                     @forelse ($blogs as $item)
                         <div
