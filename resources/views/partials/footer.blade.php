@@ -135,7 +135,7 @@
                 <a href="{{ route('terms') }}" class="hover:underline">Terms & Conditions</a>
                 <a href="{{ route('privacy') }}" class="hover:underline">Privacy Policy</a>
             </div>
-            <a href="https://rwebsolutions.com.ph/" class="mt-2 md:mt-0">
+            <a href="https://rwebsolutions.com.ph/" class="mt-2 text-center md:mt-0">
                 © Architex Phil, Inc. 2025. Designed and Developed by
                 <span class="text-[#ff6200] font-semibold">R Web Solutions Corp.</span>
             </a>
