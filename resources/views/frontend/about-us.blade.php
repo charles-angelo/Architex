@@ -346,7 +346,7 @@
     <div class="bg-[#f9f9f9] h-full pt-28 pb-44">
         <div class="relative h-full">
             <div class="container flex flex-col items-center justify-center mx-auto">
-                <div class="xl:w-[100%] 2xl:w-[60%]">
+                <div class="xl:w-[60%]">
                     <div class="relative flex items-center justify-center w-auto text-[#253e16] container mx-auto mb-3">
                         <div class="text-[#253e16]/10 text-center -top-5 text-7xl select-none text-outline opacity-20">
                             Our Philosophy
@@ -417,10 +417,10 @@
                 </div>
             </div>
 
-            <div class="absolute top-0 hidden 2xl:flex xl:left-5 2xl:left-5">
+            <div class="absolute top-0 hidden xl:flex xl:left-5 2xl:left-5">
                 <img src="{{ asset('img/our-philo-img1.png') }}" alt="" class="w-auto h-[40rem]">
             </div>
-            <div class="absolute top-0 hidden 2xl:flex xl:right-[50px] 2xl:right-5">
+            <div class="absolute top-0 hidden xl:flex xl:right-[50px] 2xl:right-5">
                 <div class="grid grid-cols-1 gap-5">
                     <img src="{{ asset('img/philosophy-img1.png') }}" alt=""
                         class="h-auto md:w-[10rem] xl:w-[18rem] 2xl:w-[19rem]">
