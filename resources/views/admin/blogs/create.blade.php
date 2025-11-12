@@ -124,6 +124,13 @@
             @enderror
         </div>
 
+        {{-- 🖼️ Thumbnail Preview --}}
+        <div id="thumbnail-preview-container" class="hidden mt-4">
+            <p class="font-semibold mb-2">Thumbnail Preview</p>
+            <div id="thumbnail-preview" class="relative inline-block"></div>
+        </div>
+
+
         {{-- Buttons --}}
         <div class="flex justify-between">
             <a href="{{ route('admin.blogs.index') }}"
@@ -184,6 +191,28 @@
                 preview.appendChild(el);
             };
             reader.readAsDataURL(file);
+        }
+    });
+
+    // 🖼️ Thumbnail preview
+    document.getElementById('thumbnail_image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const previewContainer = document.getElementById('thumbnail-preview-container');
+        const preview = document.getElementById('thumbnail-preview');
+        preview.innerHTML = '';
+
+        if (file) {
+            previewContainer.classList.remove('hidden');
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const img = document.createElement('img');
+                img.src = ev.target.result;
+                img.className = 'w-32 h-32 object-cover rounded shadow border';
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.classList.add('hidden');
         }
     });
 </script>
