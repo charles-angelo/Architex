@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrator Login | Architex</title>
-    @vite('resources/css/app.css')
+    <script src={{ asset('cdn/TAILWINDCSS.js') }}></script>
 </head>
 
 <body class="h-screen w-screen bg-[#e8e8e8] flex items-center justify-center">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full h-full">
+    <div class="grid w-full h-full grid-cols-1 md:grid-cols-2">
 
         <!-- Left Side -->
         <div class="hidden md:flex bg-[#1E4D2B] items-center justify-center relative overflow-hidden">
@@ -18,12 +18,13 @@
             <div class="absolute w-[500px] h-[500px] bg-[#256738]/30 rounded-full blur-3xl"></div>
 
             <!-- Logo + Text -->
-            <div class="flex flex-col items-center text-center relative z-10 transform hover:scale-105 transition-transform duration-500">
+            <div
+                class="relative z-10 flex flex-col items-center text-center transition-transform duration-500 transform hover:scale-105">
                 <img src="{{ asset('img/homepage/logo.png') }}" alt="Architex System Inc. Logo"
                     class="h-28 mb-6 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
 
                 <div>
-                    <h1 class="text-4xl font-extrabold text-white tracking-wide drop-shadow-lg">ARCHITEX</h1>
+                    <h1 class="text-4xl font-extrabold tracking-wide text-white drop-shadow-lg">ARCHITEX</h1>
                     <p class="text-sm text-white/80 tracking-[0.3em] drop-shadow">SYSTEM INC.</p>
                 </div>
             </div>
@@ -41,17 +42,18 @@
                 </h2>
 
                 <!-- Success Message -->
-                @if(session('success'))
-                <div class="bg-green-100 text-green-700 p-2 rounded mb-4 text-center text-sm font-medium shadow-inner">
-                    {{ session('success') }}
-                </div>
+                @if (session('success'))
+                    <div
+                        class="p-2 mb-4 text-sm font-medium text-center text-green-700 bg-green-100 rounded shadow-inner">
+                        {{ session('success') }}
+                    </div>
                 @endif
 
                 <!-- Error Message -->
-                @if($errors->any())
-                <div class="bg-red-100 text-red-700 p-2 rounded mb-4 text-center text-sm font-medium shadow-inner">
-                    {{ $errors->first() }}
-                </div>
+                @if ($errors->any())
+                    <div class="p-2 mb-4 text-sm font-medium text-center text-red-700 bg-red-100 rounded shadow-inner">
+                        {{ $errors->first() }}
+                    </div>
                 @endif
 
                 <!-- Login Form -->
@@ -60,7 +62,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-gray-600 mb-1 font-medium">Email Address</label>
+                        <label class="block mb-1 font-medium text-gray-600">Email Address</label>
                         <input type="email" name="email" value="{{ old('email') }}"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-[#1E4D2B] focus:ring-2 focus:ring-[#1E4D2B]/40 shadow-sm"
                             placeholder="Enter your email" required autofocus>
@@ -68,7 +70,7 @@
 
                     <!-- Password -->
                     <div>
-                        <label class="block text-gray-600 mb-1 font-medium">Password</label>
+                        <label class="block mb-1 font-medium text-gray-600">Password</label>
                         <input type="password" name="password"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-[#1E4D2B] focus:ring-2 focus:ring-[#1E4D2B]/40 shadow-sm"
                             placeholder="Enter your password" required>
@@ -84,4 +86,5 @@
         </div>
     </div>
 </body>
+
 </html>
