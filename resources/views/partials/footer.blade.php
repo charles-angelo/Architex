@@ -2,12 +2,12 @@
 <footer class="bg-[#e8e8e8] border-t border-gray-200 relative">
 
     <!-- Background Image Left -->
-    <div class="absolute top-0 left-0 z-0 pointer-events-none mix-blend-multiply">
+    <div class="absolute top-0 left-0 z-0 hidden pointer-events-none xl:flex mix-blend-multiply">
         <img src="{{ asset('img/footer/first.png') }}" alt="" class="object-contain w-full h-full">
     </div>
 
     <!-- Background Image Right -->
-    <div class="absolute top-0 right-0 z-0 pointer-events-none mix-blend-multiply">
+    <div class="absolute top-0 right-0 z-0 hidden pointer-events-none xl:flex mix-blend-multiply">
         <img src="{{ asset('img/footer/second.png') }}" alt="" class="object-contain w-full h-full">
     </div>
 
@@ -25,7 +25,7 @@
                     </p>
 
                     <!-- Newsletter Form (AJAX version) -->
-                    <form id="newsletterForm" class="flex w-full gap-1 lg:w-full">
+                    <form id="newsletterForm" class="grid w-full grid-cols-1 gap-1 lg:flex lg:w-full">
                         @csrf
                         <input type="email" id="newsletterEmail" name="email" placeholder="Enter your email address"
                             required
@@ -39,9 +39,9 @@
                 </div>
 
                 <!-- Full Image -->
-                <div class="flex items-end justify-end max-h-[25rem]">
+                <div class="flex items-end justify-end h-full">
                     <img src="{{ asset('img/footer/newsletter.png') }}" alt="Newsletter"
-                        class="object-cover object-right w-full h-auto md:w-100">
+                        class="object-cover w-full h-full lg:object-right md:w-100">
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
 
     <!-- Footer Content -->
     <div class="flex items-center justify-center w-full">
-        <div class="max-w-screen-xl px-3 py-16 mx-auto mt-10 text-black">
+        <div class="max-w-screen-xl px-3 pb-16 mx-auto mt-10 text-black pt-28">
 
             <!-- Logo + Socials -->
             <div class="flex flex-col items-center justify-between md:flex-row md:items-start">

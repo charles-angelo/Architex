@@ -7,7 +7,7 @@
         </div>
         <div class="absolute hidden md:-top-3 lg:-top-5 xl:top-2 md:flex xl:block">
             <section
-                class="md:text-xs xl:text-base flex py-8 text-white lg:px-10 xl:ml-[8rem] 2xl:ml-[10rem] gap-20 xl:gap-20 2xl:gap-52">
+                class="md:text-xs lg:text-lg xl:text-sm flex py-8 text-white lg:px-10 xl:ml-[8rem] 2xl:ml-[10rem] gap-20 xl:gap-20 2xl:gap-52">
                 <div class="flex items-center gap-2 lg:gap-5 ">
                     <span class="p-3 ic--baseline-phone"></span>
                     <div class="text-nowrap">(082) 240 6031</div>
@@ -51,7 +51,7 @@
             <section class="px-10 py-2">
                 <div class="flex gap-2">
                     <span class="tdesign--location-filled text-[#00721B] p-3"></span>
-                    <div class="md:text-xs xl:text-base">
+                    <div class="md:text-xs lg:text-lg xl:text-sm">
                         Door 7, Josie 1944 Commercial Bldg., E. Palma Gil St., Obrero, Brgy. 13-B, Davao City,
                         Philippines
                     </div>
@@ -60,3 +60,11 @@
         </div>
     </div>
 </section>
+
+<style>
+    @media screen and (max-width: 1536px) and (max-height: 864px) {
+        .top-text {
+            top:
+        }
+    }
+</style>

@@ -6,7 +6,7 @@
     </div>
 
     <section class="bg-[#e8e8e8] pt-20 pb-[35rem]">
-        <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-6 mx-auto sm:grid-cols-2 md:grid-cols-3">
+        <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-6 mx-auto md:grid-cols-2 lg:grid-cols-3">
             @forelse ($blogs as $item)
                 <div
                     class="group bg-white rounded-sm shadow-sm hover:shadow-md transition overflow-visible border-b-4 border-transparent hover:border-[#253e16] duration-300">

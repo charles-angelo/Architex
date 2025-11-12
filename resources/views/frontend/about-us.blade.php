@@ -352,7 +352,7 @@
                             Our Philosophy
                         </div>
 
-                        <div class="absolute inset-0">
+                        <div class="absolute inset-0 text-center">
                             <div class="flex flex-col items-center justify-center w-full gap-3">
                                 <div class="text-lg text-center font-semibold text-[#3d9251]">
                                     Our Philosophy
@@ -743,8 +743,8 @@
         </div>
     </section>
 
-    <div class="relative bg-[#f3f3f3] h-full pb-[20rem] pt-[10rem] md:pb-0 md:pt-0">
-        <div class="flex items-center justify-center w-full">
+    <div class="relative z-10 bg-[#f3f3f3] h-full pb-[20rem] pt-[10rem] md:pb-0 md:pt-0">
+        <div class="absolute inset-0 items-center justify-center hidden w-full -z-10 lg:flex">
             <div>
                 <img src="{{ asset('img/about-us/Architex Japan Logo.png') }}" alt=""
                     class="object-cover object-left w-full h-screen ">
@@ -769,7 +769,7 @@
             </div>
         </div>
 
-        <div class="absolute inset-0">
+        <div class="pt-[10rem] pb-20 lg:pt-[13rem] xl:py-[20rem]">
             <div class="flex items-center justify-center w-full h-full text-center ">
                 <div class="container grid grid-cols-2 mx-auto mt-24 lg:mt-0 md:grid-cols-3 gap-y-20">
                     <div class="flex flex-col items-center justify-center gap-5">

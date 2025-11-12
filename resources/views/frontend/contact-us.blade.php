@@ -25,7 +25,7 @@
         <x-banner2 page="Contact Us" breadcrumb="Contact Us" img="img/contact-us/page-header.png" />
     </div>
 
-    <section class="bg-gray-100 pt-20 pb-[20rem] px-4 sm:px-6 lg:px-8 relative">
+    <section class="bg-gray-100 pt-20 pb-[30rem] px-4 sm:px-6 lg:px-8 relative">
         <div class="max-w-screen-xl mx-auto">
 
             {{-- SECTION HEADING --}}

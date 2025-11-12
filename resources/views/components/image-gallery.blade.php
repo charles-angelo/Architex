@@ -49,28 +49,69 @@
                 </div>
 
                 <!-- Thumbnails Overlay -->
-                <div x-show="!showThumbs" x-transition:enter="transition ease-in-out duration-300"
+                <!-- Thumbnails Swiper Overlay -->
+                <div x-show="showThumbs" x-transition:enter="transition ease-in-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
-                    class="absolute bottom-0 z-10 grid w-full h-full grid-cols-5 gap-3 p-4 bg-gradient-to-t from-[#002B0A] to-transparent">
+                    class="absolute bottom-0 z-10 w-full p-4 bg-gradient-to-t from-[#002B0A] to-transparent">
 
-                    <template x-for="(image, index) in images" :key="index">
-                        <div @click="current = index"
-                            class="
-                                {{ $flag === 'Amenities' ? 'lg:mt-[38rem]' : ($flag === 'FloorPlan' ? 'lg:mt-[18rem]' : 'lg:mt-[15rem]') }}
-                                overflow-hidden transition border-2 cursor-pointer h-fit hover:opacity-80
-                            "
-                            :class="current === index ? 'border-yellow-400' : 'border-transparent'">
-                            <img :src="image"
-                                class="
-                                    {{ $flag === 'Amenities' ? 'h-[10rem]' : ($flag === 'FloorPlan' ? 'h-[8rem]' : 'h-[6rem]') }}
-                                    object-cover w-full aspect-square
-                                ">
+                    <div class="swiper thumbnailSwiper">
+                        <div class="swiper-wrapper">
+                            <template x-for="(image, index) in images" :key="index">
+                                <div class="swiper-slide">
+                                    <div @click="current = index"
+                                        class="overflow-hidden transition border-2 cursor-pointer hover:opacity-80"
+                                        :class="current === index ? 'border-yellow-400' : 'border-transparent'">
+                                        <img :src="image"
+                                            class="object-cover w-full aspect-square 
+                                {{ $flag === 'Amenities' ? 'h-[10rem]' : ($flag === 'FloorPlan' ? 'h-[8rem]' : 'h-[6rem]') }}">
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('gallery', (images) => ({
+            images,
+            current: 0,
+            showThumbs: false,
+
+            init() {
+                // Watch Alpine reactivity for when thumbnails are shown
+                this.$watch('showThumbs', (value) => {
+                    if (!value) {
+                        // Timeout to ensure DOM is ready
+                        setTimeout(() => {
+                            new Swiper('.thumbnailSwiper', {
+                                slidesPerView: 5,
+                                spaceBetween: 10,
+                                navigation: {
+                                    nextEl: '.swiper-button-next',
+                                    prevEl: '.swiper-button-prev',
+                                },
+                                loop: false,
+                                observer: true,
+                                observeParents: true,
+                            });
+                        }, 200);
+                    }
+                });
+            },
+
+            next() {
+                this.current = (this.current + 1) % this.images.length;
+            },
+            prev() {
+                this.current = (this.current - 1 + this.images.length) % this.images.length;
+            }
+        }));
+    });
+</script>
