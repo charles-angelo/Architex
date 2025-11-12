@@ -160,18 +160,30 @@
                         <!-- Dropdown Links -->
                         <ul x-show="open" x-collapse class="pl-10 mt-1 space-y-1">
                             {{-- Hidden: Properties --}}
+<<<<<<< HEAD
                             {{--                             
                     <li>
                         <a href="{{ route('admin.properties.index') }}"
                             class="block py-2 pl-4 pr-6 rounded-lg transition
+=======
+
+                            <!-- <li>
+                                <a href="{{ route('admin.properties.index') }}"
+                                    class="block py-2 pl-4 pr-6 rounded-lg transition
+>>>>>>> fb9881d (MODIFY)
                             {{ request()->routeIs('admin.properties.*') ? 'bg-white text-[#1E4D2B] font-semibold' : 'text-white hover:bg-white/10' }}">
-                            <span class="whitespace-nowrap">Properties</span>
-                            </a>
-                    </li>
-                    --}}
+                                    <span class="whitespace-nowrap">Properties</span>
+                                </a>
+                            </li> -->
+
+<<<<<<< HEAD
+                            {{-- Hidden: Blocks --}}
+
+=======
 
                             {{-- Hidden: Blocks --}}
 
+>>>>>>> fb9881d (MODIFY)
                             <!-- <li>
                         <a href="{{ route('admin.blocks.index') }}"
                             class="block py-2 pl-4 pr-6 rounded-lg transition
@@ -214,7 +226,11 @@
                             :class="{ 'justify-center': !sidebarOpen, 'justify-start': sidebarOpen }">
 
                             <!-- 💳 Credit Card Icon -->
+<<<<<<< HEAD
                             <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+=======
+                            <svg class="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+>>>>>>> fb9881d (MODIFY)
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 8.25h19.5M2.25 6A1.5 1.5 0 013.75 4.5h16.5A1.5 1.5 0 0121.75 6v12a1.5 1.5 0 01-1.5 1.5H3.75A1.5 1.5 0 012.25 18V6zM5.25 13.5h3m4.5 0h6" />
@@ -232,7 +248,11 @@
                             :class="{ 'justify-center': !sidebarOpen, 'justify-start': sidebarOpen }">
 
                             <!-- ✉️ Mail Icon -->
+<<<<<<< HEAD
                             <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+=======
+                            <svg class="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+>>>>>>> fb9881d (MODIFY)
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M3 8l9 6 9-6m-18 8h18V6H3v10z" />
@@ -250,7 +270,11 @@
                             :class="{ 'justify-center': !sidebarOpen, 'justify-start': sidebarOpen }">
 
                             <!-- 📞 Phone/Contact Icon -->
+<<<<<<< HEAD
                             <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+=======
+                            <svg class="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+>>>>>>> fb9881d (MODIFY)
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2 4.5C2 3.12 3.12 2 4.5 2h3A1.5 1.5 0 019 3.5v3A1.5 1.5 0 017.5 8H7a11 11 0 0010 10v-.5A1.5 1.5 0 0118.5 16h3A1.5 1.5 0 0123 17.5v3A1.5 1.5 0 0121.5 22C11.28 22 2 12.72 2 2.5V4.5z" />

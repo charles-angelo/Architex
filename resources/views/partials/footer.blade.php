@@ -150,49 +150,61 @@
 
 <!-- ✅ AJAX Script -->
 <script>
-    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('newsletterForm');
+        const emailInput = document.getElementById('newsletterEmail');
 
-                    const email = document.getElementById('newsletterEmail').value;
-                    const csrfToken = document.querySelector('input[name="_token"]').value;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-                    fetch("{{ route('newsletter.store') }}", {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                email: email
-                            })
-                        })
-                        .then(response => {
-                            if (response.ok) return response.json();
-                            return response.text().then(text => {
-                                throw new Error(text)
-                            });
-                        })
-                        .then(data => {
-                            Swal.fire({
-                                title: 'Subscribed!',
-                                text: 'Your email has been successfully added to our newsletter!',
-                                icon: 'success',
-                                confirmButtonColor: '#253e16',
-                                confirmButtonText: 'OK'
-                            });
-                            document.getElementById('newsletterForm').reset();
-                        })
-                        .catch(error => {
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Please enter a valid email address or try again later.',
-                                icon: 'error',
-                                confirmButtonColor: '#253e16',
-                                confirmButtonText: 'Try Again'
-                            });
-                        });
+            const email = emailInput.value.trim();
+            const csrfToken = document.querySelector('input[name="_token"]').value;
+
+            if (!email) {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Please enter your email address.',
+                    icon: 'warning',
+                    confirmButtonColor: '#253e16',
                 });
+                return;
+            }
+
+            fetch("{{ route('newsletter.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email
+                    })
+                })
+                .then(async (response) => {
+                    if (response.ok) {
+                        const data = await response.json();
+                        Swal.fire({
+                            title: 'Subscribed!',
+                            text: data.message || 'Your email has been successfully added to our newsletter!',
+                            icon: 'success',
+                            confirmButtonColor: '#253e16',
+                        });
+                        form.reset();
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(errorText);
+                    }
+                })
+                .catch(() => {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: 'Please enter a valid email address or try again later.',
+                        icon: 'error',
+                        confirmButtonColor: '#253e16',
+                        confirmButtonText: 'Try Again'
+                    });
+                });
+        });
+    });
 </script>

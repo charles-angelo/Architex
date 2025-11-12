@@ -185,64 +185,66 @@
 <script>
     ClassicEditor.create(document.querySelector('#description')).catch(console.error);
 
-    // Lot Images Preview
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+
+    function handleFileInput(inputElement, previewContainer) {
+        previewContainer.innerHTML = '';
+        Array.from(inputElement.files).forEach(file => {
+            // File size check
+            if (file.size > MAX_FILE_SIZE) {
+                const errorDiv = document.createElement('div');
+                errorDiv.classList.add('text-red-600', 'text-sm', 'mt-1');
+                errorDiv.textContent = `File "${file.name}" exceeds the maximum size of 2MB.`;
+                previewContainer.appendChild(errorDiv);
+                return; // skip preview for this file
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const div = document.createElement('div');
+                div.classList.add('relative', 'inline-block');
+                div.innerHTML = `
+                    <img src="${ev.target.result}" class="w-40 h-28 object-cover rounded shadow">
+                    <button type="button" class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg shadow-lg hover:bg-red-700 transition">✖</button>`;
+                div.querySelector('button').addEventListener('click', () => div.remove());
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        if (inputElement.files.length > 0) {
+            previewContainer.classList.remove('hidden');
+        }
+    }
+
+    // Lot Images
     const lotImagesInput = document.getElementById('lot_images');
     const newImagesContainer = document.getElementById('new-images-container');
-    lotImagesInput?.addEventListener('change', function(e) {
-        newImagesContainer.innerHTML = '';
-        Array.from(e.target.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                const div = document.createElement('div');
-                div.classList.add('relative', 'inline-block');
-                div.innerHTML = `<img src="${ev.target.result}" class="w-40 h-28 object-cover rounded shadow">
-                <button type="button" class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg shadow-lg hover:bg-red-700 transition">✖</button>`;
-                div.querySelector('button').addEventListener('click', () => div.remove());
-                newImagesContainer.appendChild(div);
-            }
-            reader.readAsDataURL(file);
-        });
-        newImagesContainer.classList.remove('hidden');
+    lotImagesInput?.addEventListener('change', function() {
+        handleFileInput(lotImagesInput, newImagesContainer);
     });
 
-    // Floor Plan Preview
+    // Floor Plan Images
     const floorPlanInput = document.getElementById('floor_plan');
     const floorPlanContainer = document.getElementById('floorplan-preview-container');
-    floorPlanInput?.addEventListener('change', function(e) {
-        floorPlanContainer.innerHTML = '';
-        Array.from(e.target.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                const div = document.createElement('div');
-                div.classList.add('relative', 'inline-block');
-                div.innerHTML = `<img src="${ev.target.result}" class="w-40 h-28 object-cover rounded shadow">
-                <button type="button" class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg shadow-lg hover:bg-red-700 transition">✖</button>`;
-                div.querySelector('button').addEventListener('click', () => div.remove());
-                floorPlanContainer.appendChild(div);
-            }
-            reader.readAsDataURL(file);
-        });
-        floorPlanContainer.classList.remove('hidden');
+    floorPlanInput?.addEventListener('change', function() {
+        handleFileInput(floorPlanInput, floorPlanContainer);
     });
 
+    // Remove existing images
     function removeExistingImage(id) {
         const imgDiv = document.getElementById(`existing-image-${id}`);
         if (imgDiv) imgDiv.remove();
 
-        // Make sure we're appending to the correct form
         const form = document.querySelector('form[action*="lots"]');
-        if (!form) {
-            console.error('Lot edit form not found');
-            return;
-        }
+        if (!form) return;
 
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'remove_images[]';
         input.value = id;
         form.appendChild(input);
-
-        console.log('Marked image for removal:', id);
     }
 
     // Remove existing floor plans
@@ -250,20 +252,14 @@
         const div = document.getElementById(`existing-floorplan-${id}`);
         if (div) div.remove();
 
-        // Ensure we append to the same correct form
         const form = document.querySelector('form[action*="lots"]');
-        if (!form) {
-            console.error('Lot edit form not found');
-            return;
-        }
+        if (!form) return;
 
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'remove_floorplans[]';
         input.value = id;
         form.appendChild(input);
-
-        console.log('Marked floor plan for removal:', id);
     }
 </script>
 @endpush

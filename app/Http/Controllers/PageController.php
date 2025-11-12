@@ -35,7 +35,7 @@ class PageController extends Controller
                 'fallback_image' => !$isVideo ? $banner->image : null,
                 'is_gif' => $isGif,
                 'button_text' => 'Learn More', // optional
-                'button_link' => '#', // optional
+                'button_link' => 'about-us', // optional
             ];
         });
 
