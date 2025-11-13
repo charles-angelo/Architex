@@ -2,10 +2,12 @@
 
 <div>
     <div x-data="gallery({{ json_encode($images) }})" class="relative z-10 lg:col-span-7">
+
         <!-- Main Image Container -->
         <div class="relative w-full overflow-hidden bg-gray-200 aspect-video">
-            <!-- Main Image -->
             <div class="relative w-full h-full group">
+
+                <!-- Main Image -->
                 <template x-for="(image, index) in images" :key="index">
                     <img x-show="current === index" :src="image"
                         class="object-cover object-center w-full h-full transition-all duration-500 ease-in-out">
@@ -29,7 +31,7 @@
                     </button>
                 </div>
 
-                <!-- Hide/Show Button -->
+                <!-- Show/Hide Thumbnails Button -->
                 <div
                     class="absolute bottom-0 z-20 transition ease-in-out transform -translate-x-1/2 translate-y-11 left-1/2 group-hover:-translate-y-[2px]">
                     <button @click="showThumbs = !showThumbs"
@@ -49,14 +51,27 @@
                     </button>
                 </div>
 
-                <!-- Thumbnails Overlay as Swiper -->
-                <div x-show="showThumbs" x-transition:enter="transition ease-in-out duration-300"
+                <!-- Loader -->
+                <div x-show="loading" x-transition:enter="transition ease-in-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    class="absolute bottom-0 z-10 w-full p-6 text-center bg-gradient-to-t from-[#002B0A] to-transparent">
+                    <div class="flex items-center justify-center space-x-2 text-yellow-400">
+                        <svg class="w-6 h-6 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        <span>Loading thumbnails...</span>
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div x-cloak x-show="!showThumbs && !loading" x-transition:enter="transition ease-in-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     class="absolute bottom-0 z-10 w-full p-4 bg-gradient-to-t from-[#002B0A] to-transparent lg:mt-[38rem]">
-
-                    <!-- Swiper Container -->
                     <div class="swiper thumbnailSwiper">
                         <div class="swiper-wrapper">
                             <template x-for="(image, index) in images" :key="index">
@@ -64,7 +79,8 @@
                                     <div @click="current = index"
                                         class="overflow-hidden transition border-2 cursor-pointer h-fit hover:opacity-80"
                                         :class="current === index ? 'border-yellow-400' : 'border-transparent'">
-                                        <img :src="image" class="h-[10rem] object-cover w-full aspect-square">
+                                        <img :src="image"
+                                            class="h-auto xl:h-[10rem] object-cover w-full aspect-square">
                                     </div>
                                 </div>
                             </template>
@@ -79,35 +95,44 @@
 
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('gallery', (images) => ({
-            images,
+        Alpine.data('gallery', (initialImages) => ({
+            images: [],
             current: 0,
             showThumbs: false,
+            loading: true,
+            thumbSwiper: null,
 
             init() {
-                this.$watch('showThumbs', (value) => {
-                    if (!value) {
-                        // Wait a bit to ensure DOM renders
-                        setTimeout(() => {
-                            // Destroy previous swiper if exists
-                            if (this.thumbSwiper) {
-                                this.thumbSwiper.destroy(true, true);
-                            }
+                // Simulate async load
+                setTimeout(() => {
+                    this.images = initialImages;
+                    this.loading = false;
+                    this.showThumbs = true;
+                    this.initThumbSwiper();
+                }, 1000);
 
-                            // Initialize Swiper for thumbnails
-                            this.thumbSwiper = new Swiper('.thumbnailSwiper', {
-                                slidesPerView: 5,
-                                spaceBetween: 10,
-                                navigation: {
-                                    nextEl: '.amenities-button-next',
-                                    prevEl: '.amenities-button-prev',
-                                },
-                                loop: true,
-                                observer: true,
-                                observeParents: true,
-                            });
-                        }, 200);
+                // Watch visibility
+                this.$watch('showThumbs', (value) => {
+                    if (value && !this.loading) {
+                        setTimeout(() => this.initThumbSwiper(), 200);
                     }
+                });
+            },
+
+            initThumbSwiper() {
+                if (this.thumbSwiper) {
+                    this.thumbSwiper.destroy(true, true);
+                }
+                this.thumbSwiper = new Swiper('.thumbnailSwiper', {
+                    slidesPerView: 5,
+                    spaceBetween: 10,
+                    navigation: {
+                        nextEl: '.amenities-button-next',
+                        prevEl: '.amenities-button-prev',
+                    },
+                    loop: true,
+                    observer: true,
+                    observeParents: true,
                 });
             },
 

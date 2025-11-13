@@ -9,7 +9,7 @@
                 <template x-for="(image, index) in images" :key="index">
                     <img x-show="current === index" :src="image"
                         class="
-                            {{ $flag === 'Amenities' ? 'object-cover' : ($flag === 'FloorPlan' ? 'object-contain' : 'object-contain') }} 
+                            {{ $flag === 'Amenities' ? 'object-cover' : ($flag === 'FloorPlan' ? 'object-contain' : 'object-cover') }} 
                             object-center h-full transition-all duration-500 ease-in-out
                         ">
                 </template>
@@ -50,7 +50,7 @@
 
                 <!-- Thumbnails Overlay -->
                 <!-- Thumbnails Swiper Overlay -->
-                <div x-show="showThumbs" x-transition:enter="transition ease-in-out duration-300"
+                <div x-show="!showThumbs" x-transition:enter="transition ease-in-out duration-300"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
@@ -65,7 +65,7 @@
                                         :class="current === index ? 'border-yellow-400' : 'border-transparent'">
                                         <img :src="image"
                                             class="object-cover w-full aspect-square 
-                                {{ $flag === 'Amenities' ? 'h-[10rem]' : ($flag === 'FloorPlan' ? 'h-[8rem]' : 'h-[6rem]') }}">
+                                {{ $flag === 'Amenities' ? 'h-auto xl:h-[10rem]' : ($flag === 'FloorPlan' ? 'h-auto xl:h-[8rem]' : 'h-auto xl:h-[6rem]') }}">
                                     </div>
                                 </div>
                             </template>

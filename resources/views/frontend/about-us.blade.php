@@ -769,9 +769,9 @@
             </div>
         </div>
 
-        <div class="pt-[10rem] pb-20 lg:pt-[13rem] xl:py-[20rem]">
+        <div class="pt-[7rem] pb-10 lg:pt-[13rem] xl:py-[20rem]">
             <div class="flex items-center justify-center w-full h-full text-center ">
-                <div class="container grid grid-cols-2 mx-auto mt-24 lg:mt-0 md:grid-cols-3 gap-y-20">
+                <div class="container grid grid-cols-1 mx-auto mt-24 sm:grid-cols-2 lg:mt-0 xl:grid-cols-3 gap-y-20">
                     <div class="flex flex-col items-center justify-center gap-5">
                         <div>
                             <img src="{{ asset('img/ico/expertise.png') }}" alt="">
