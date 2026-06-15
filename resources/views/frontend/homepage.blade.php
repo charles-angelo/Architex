@@ -36,7 +36,7 @@
             <div class="flex items-start justify-between">
                 <h3
                     class="font-semibold text-2xl text-gray-900 mt-6 transition-colors duration-300 group-hover:text-[#1E4D2B]">
-                    Architectural Design
+                    Architectural Designsssss
                 </h3>
             </div>
 
