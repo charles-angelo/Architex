@@ -20,7 +20,7 @@
         <!-- Tabs -->
         <div class="flex justify-center mb-12 border-b border-gray-300">
             <div class="px-4 pb-3 text-lg font-semibold text-green-900 transition duration-300 border-b-2 border-green-700">
-                Overviewssss
+                Overviewssssssssss
             </div>
         </div>
 
