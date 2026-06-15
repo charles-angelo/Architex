@@ -63,7 +63,7 @@
                                 <h1 class="text-4xl font-bold text-[#537746] mb-6">{{ $property['name'] }}</h1>
                                 <p class="mb-6 text-lg leading-relaxed text-gray-700">{!! $property['description'] !!}</p>
                                 <button class="bg-[#253e16] px-5 py-3 mt-5 text-white w-fit" @click="activeTab = 'Sitemap'">
-                                    Reserve Now
+                                    Reserve Nowssss
                                 </button>
                             </div>
 
