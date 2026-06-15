@@ -14,7 +14,7 @@
             <p class="mt-4">
                 Architex Phil., Inc. ("Architex Phil", "we", "us", or "our") values your privacy and is committed to
                 protecting
-                the personal information you share with us through our websitesssssss
+                the personal information you share with us through our websitessssssssssss
                 <em>[insert website URL]</em> ("the Site").
             </p>
 
