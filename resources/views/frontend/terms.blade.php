@@ -13,7 +13,7 @@
 
             <p class="mt-4">
                 Welcome to Architex Phil., Inc. These Terms and Conditions outline the rules and regulations for the use of
-                our
+                oursssssss
                 website at <em>https://architex.rwebserver.com/</em>. By accessing or using this Website, you agree to be
                 bound by these Terms and
                 Conditions in full. If you do not agree with any part of these terms, please refrain from using our Website.
