@@ -25,7 +25,7 @@
 
                 <div
                     class="absolute text-9xl top-[8rem] right-10 font-bold text-white select-none -mt-10 outlined-number transition-colors duration-300 group-hover:text-[#1E4D2B]">
-                    01111111111111111111111
+                    0111111111111111111111111111
                 </div>
 
                 <div
